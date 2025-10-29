@@ -1,1 +1,22 @@
-".env" 
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Environment
+.env
+
+# Virtual environment
+venv/
+env/
+
+# Uploads and local data
+uploads/
+*.pdf
+*.sqlite3
+
+# OS files
+.DS_Store
+Thumbs.db
+ 
