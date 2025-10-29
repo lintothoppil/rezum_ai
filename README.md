@@ -109,6 +109,3 @@ rezum_ai/
 👤 **Developer:** [Linto Joy Thoppil](https://github.com/lintothoppil)
 💼 **Project:** RezumAI — Smart Resume & Job Role Assistant
 📩 **Email:** [lintojoythoppil@gmail.com](mailto:lintojoythoppil@gmail.com)
-
-
-If you say “yes,” I can generate the **ready-to-upload markdown file** and even give you the command to add and push it to your repo.
