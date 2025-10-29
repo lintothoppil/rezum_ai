@@ -1,0 +1,1552 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Resume Builder') }} - Rezum.Ai{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="brand-gradient">{{ _('ATS-Friendly Resume Builder') }}</h2>
+            <p class="text-muted">{{ _('Create a professional resume optimized for Applicant Tracking Systems') }}</p>
+        </div>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="progress-steps">
+                        <div class="step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">{{ _('User Type') }}</div>
+                        </div>
+                        <div class="step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">{{ _('Personal Info') }}</div>
+                        </div>
+                        <div class="step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">{{ _('Education') }}</div>
+                        </div>
+                        <div class="step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-label">{{ _('Skills') }}</div>
+                        </div>
+                        <div class="step" data-step="5">
+                            <div class="step-number">5</div>
+                            <div class="step-label">{{ _('Experience') }}</div>
+                        </div>
+                        <div class="step" data-step="6">
+                            <div class="step-number">6</div>
+                            <div class="step-label">{{ _('Projects') }}</div>
+                        </div>
+                        <div class="step" data-step="7">
+                            <div class="step-number">7</div>
+                            <div class="step-label">{{ _('Certifications') }}</div>
+                        </div>
+                        <div class="step" data-step="8">
+                            <div class="step-number">8</div>
+                            <div class="step-label">{{ _('Review') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resume Builder Form -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form id="resumeBuilderForm">
+                        <!-- Step 1: User Type Selection -->
+                        <div class="form-step active" data-step="1">
+                            <h4 class="mb-4">{{ _('Are you a fresher or an experienced professional?') }}</h4>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="user-type-option card h-100" data-type="fresher">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-graduation-cap fa-3x mb-3 text-primary"></i>
+                                            <h5>{{ _('Fresher') }}</h5>
+                                            <p class="text-muted">{{ _('Hide Experience section, emphasize Education, Projects, and Skills') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="user-type-option card h-100" data-type="experienced">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-briefcase fa-3x mb-3 text-primary"></i>
+                                            <h5>{{ _('Experienced Professional') }}</h5>
+                                            <p class="text-muted">{{ _('Include Experience section and all relevant details') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button type="button" class="btn btn-primary next-step" data-next="2">{{ _('Next') }} <i class="fas fa-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Personal Information -->
+                        <div class="form-step" data-step="2">
+                            <h4 class="mb-4">{{ _('Personal Information') }}</h4>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="fullName" class="form-label">{{ _('Full Name') }} *</label>
+                                    <input type="text" class="form-control" id="fullName" name="fullName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">{{ _('Email') }} *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">{{ _('Phone') }}</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="location" class="form-label">{{ _('Location') }}</label>
+                                    <input type="text" class="form-control" id="location" name="location">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="linkedin" class="form-label">{{ _('LinkedIn Profile') }}</label>
+                                    <input type="url" class="form-control" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/username">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="github" class="form-label">{{ _('GitHub Profile') }}</label>
+                                    <input type="url" class="form-control" id="github" name="github" placeholder="https://github.com/username">
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary prev-step" data-prev="1"><i class="fas fa-arrow-left me-2"></i> {{ _('Previous') }}</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="3">{{ _('Next') }} <i class="fas fa-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Education -->
+                        <div class="form-step" data-step="3">
+                            <h4 class="mb-4">{{ _('Education') }}</h4>
+                            <div class="education-entries">
+                                <div class="education-entry mb-4">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="degree" class="form-label">{{ _('Degree/Course Name') }} *</label>
+                                            <select class="form-control degree-select" name="degree">
+                                                <option value="">{{ _('Select Degree') }}</option>
+                                                <option value="X">{{ _('X (10th Grade)') }}</option>
+                                                <option value="XII">{{ _('XII (12th Grade)') }}</option>
+                                                <option value="BCA">BCA</option>
+                                                <option value="BSc CS">BSc CS</option>
+                                                <option value="B.Tech">B.Tech</option>
+                                                <option value="M.Tech">M.Tech</option>
+                                                <option value="MCA">MCA</option>
+                                                <option value="MBA">MBA</option>
+                                                <option value="BBA">BBA</option>
+                                                <option value="B.Com">B.Com</option>
+                                                <option value="Diploma">Diploma</option>
+                                                <option value="Other">{{ _('Other (Specify)') }}</option>
+                                            </select>
+                                            <input type="text" class="form-control mt-2 other-degree-input" placeholder="{{ _('Specify degree') }}" style="display: none;">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="institution" class="form-label">{{ _('Institution Name') }} *</label>
+                                            <input type="text" class="form-control" name="institution" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="eduLocation" class="form-label">{{ _('Location') }}</label>
+                                            <input type="text" class="form-control" name="eduLocation">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="eduStartDate" class="form-label">{{ _('Start Date') }} *</label>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <select class="form-control edu-start-month" name="eduStartMonth" required>
+                                                        <option value="">{{ _('Month') }}</option>
+                                                        <option value="01">{{ _('Jan') }}</option>
+                                                        <option value="02">{{ _('Feb') }}</option>
+                                                        <option value="03">{{ _('Mar') }}</option>
+                                                        <option value="04">{{ _('Apr') }}</option>
+                                                        <option value="05">{{ _('May') }}</option>
+                                                        <option value="06">{{ _('Jun') }}</option>
+                                                        <option value="07">{{ _('Jul') }}</option>
+                                                        <option value="08">{{ _('Aug') }}</option>
+                                                        <option value="09">{{ _('Sep') }}</option>
+                                                        <option value="10">{{ _('Oct') }}</option>
+                                                        <option value="11">{{ _('Nov') }}</option>
+                                                        <option value="12">{{ _('Dec') }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <select class="form-control edu-start-year" name="eduStartYear" required>
+                                                        <option value="">{{ _('Year') }}</option>
+                                                        <!-- Years from 1990 to 2029 -->
+                                                        <option value="1990">1990</option>
+                                                        <option value="1991">1991</option>
+                                                        <option value="1992">1992</option>
+                                                        <option value="1993">1993</option>
+                                                        <option value="1994">1994</option>
+                                                        <option value="1995">1995</option>
+                                                        <option value="1996">1996</option>
+                                                        <option value="1997">1997</option>
+                                                        <option value="1998">1998</option>
+                                                        <option value="1999">1999</option>
+                                                        <option value="2000">2000</option>
+                                                        <option value="2001">2001</option>
+                                                        <option value="2002">2002</option>
+                                                        <option value="2003">2003</option>
+                                                        <option value="2004">2004</option>
+                                                        <option value="2005">2005</option>
+                                                        <option value="2006">2006</option>
+                                                        <option value="2007">2007</option>
+                                                        <option value="2008">2008</option>
+                                                        <option value="2009">2009</option>
+                                                        <option value="2010">2010</option>
+                                                        <option value="2011">2011</option>
+                                                        <option value="2012">2012</option>
+                                                        <option value="2013">2013</option>
+                                                        <option value="2014">2014</option>
+                                                        <option value="2015">2015</option>
+                                                        <option value="2016">2016</option>
+                                                        <option value="2017">2017</option>
+                                                        <option value="2018">2018</option>
+                                                        <option value="2019">2019</option>
+                                                        <option value="2020">2020</option>
+                                                        <option value="2021">2021</option>
+                                                        <option value="2022">2022</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2024">2024</option>
+                                                        <option value="2025">2025</option>
+                                                        <option value="2026">2026</option>
+                                                        <option value="2027">2027</option>
+                                                        <option value="2028">2028</option>
+                                                        <option value="2029">2029</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" class="edu-start-date" name="eduStartDate">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="eduEndDate" class="form-label">{{ _('End Date') }}</label>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <select class="form-control edu-end-month" name="eduEndMonth">
+                                                        <option value="">{{ _('Month') }}</option>
+                                                        <option value="01">{{ _('Jan') }}</option>
+                                                        <option value="02">{{ _('Feb') }}</option>
+                                                        <option value="03">{{ _('Mar') }}</option>
+                                                        <option value="04">{{ _('Apr') }}</option>
+                                                        <option value="05">{{ _('May') }}</option>
+                                                        <option value="06">{{ _('Jun') }}</option>
+                                                        <option value="07">{{ _('Jul') }}</option>
+                                                        <option value="08">{{ _('Aug') }}</option>
+                                                        <option value="09">{{ _('Sep') }}</option>
+                                                        <option value="10">{{ _('Oct') }}</option>
+                                                        <option value="11">{{ _('Nov') }}</option>
+                                                        <option value="12">{{ _('Dec') }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <select class="form-control edu-end-year" name="eduEndYear">
+                                                        <option value="">{{ _('Year') }}</option>
+                                                        <!-- Years from 1990 to 2029 -->
+                                                        <option value="1990">1990</option>
+                                                        <option value="1991">1991</option>
+                                                        <option value="1992">1992</option>
+                                                        <option value="1993">1993</option>
+                                                        <option value="1994">1994</option>
+                                                        <option value="1995">1995</option>
+                                                        <option value="1996">1996</option>
+                                                        <option value="1997">1997</option>
+                                                        <option value="1998">1998</option>
+                                                        <option value="1999">1999</option>
+                                                        <option value="2000">2000</option>
+                                                        <option value="2001">2001</option>
+                                                        <option value="2002">2002</option>
+                                                        <option value="2003">2003</option>
+                                                        <option value="2004">2004</option>
+                                                        <option value="2005">2005</option>
+                                                        <option value="2006">2006</option>
+                                                        <option value="2007">2007</option>
+                                                        <option value="2008">2008</option>
+                                                        <option value="2009">2009</option>
+                                                        <option value="2010">2010</option>
+                                                        <option value="2011">2011</option>
+                                                        <option value="2012">2012</option>
+                                                        <option value="2013">2013</option>
+                                                        <option value="2014">2014</option>
+                                                        <option value="2015">2015</option>
+                                                        <option value="2016">2016</option>
+                                                        <option value="2017">2017</option>
+                                                        <option value="2018">2018</option>
+                                                        <option value="2019">2019</option>
+                                                        <option value="2020">2020</option>
+                                                        <option value="2021">2021</option>
+                                                        <option value="2022">2022</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2024">2024</option>
+                                                        <option value="2025">2025</option>
+                                                        <option value="2026">2026</option>
+                                                        <option value="2027">2027</option>
+                                                        <option value="2028">2028</option>
+                                                        <option value="2029">2029</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" class="edu-end-date" name="eduEndDate">
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input currently-studying" type="checkbox" name="currentlyStudying">
+                                                <label class="form-check-label" for="currentlyStudying">{{ _('Currently Studying') }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary mb-4" id="addEducation">
+                                <i class="fas fa-plus me-2"></i>{{ _('Add Another Education') }}
+                            </button>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary prev-step" data-prev="2"><i class="fas fa-arrow-left me-2"></i> {{ _('Previous') }}</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="4">{{ _('Next') }} <i class="fas fa-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Skills -->
+                        <div class="form-step" data-step="4">
+                            <h4 class="mb-4">{{ _('Skills') }}</h4>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="programmingLanguages" class="form-label">{{ _('Programming Languages') }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="programmingLanguages" name="programmingLanguages" placeholder="Start typing to see suggestions...">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select</button>
+                                        <ul class="dropdown-menu dropdown-menu-end skills-dropdown">
+                                            <li><a class="dropdown-item" href="#" data-skill="Python">Python</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Java">Java</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="JavaScript">JavaScript</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="C++">C++</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="C#">C#</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="PHP">PHP</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Ruby">Ruby</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Go">Go</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Swift">Swift</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Kotlin">Kotlin</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Rust">Rust</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="TypeScript">TypeScript</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Scala">Scala</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="R">R</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="MATLAB">MATLAB</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="SQL">SQL</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="HTML5">HTML5</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="CSS3">CSS3</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="JSON">JSON</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="XML">XML</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="frameworks" class="form-label">{{ _('Frameworks & Libraries') }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="frameworks" name="frameworks" placeholder="Start typing to see suggestions...">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select</button>
+                                        <ul class="dropdown-menu dropdown-menu-end skills-dropdown">
+                                            <li><a class="dropdown-item" href="#" data-skill="React">React</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Angular">Angular</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Vue.js">Vue.js</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Django">Django</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Flask">Flask</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Spring">Spring</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Express">Express</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Laravel">Laravel</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="ASP.NET">ASP.NET</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="TensorFlow">TensorFlow</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="PyTorch">PyTorch</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Node.js">Node.js</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Next.js">Next.js</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Nuxt.js">Nuxt.js</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="FastAPI">FastAPI</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Ruby on Rails">Ruby on Rails</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Flutter">Flutter</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="React Native">React Native</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Bootstrap">Bootstrap</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="jQuery">jQuery</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Redux">Redux</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Vuex">Vuex</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="databases" class="form-label">{{ _('Databases') }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="databases" name="databases" placeholder="Start typing to see suggestions...">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select</button>
+                                        <ul class="dropdown-menu dropdown-menu-end skills-dropdown">
+                                            <li><a class="dropdown-item" href="#" data-skill="MySQL">MySQL</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="PostgreSQL">PostgreSQL</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="MongoDB">MongoDB</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Oracle">Oracle</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="SQL Server">SQL Server</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="SQLite">SQLite</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Redis">Redis</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Firebase">Firebase</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Cassandra">Cassandra</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Elasticsearch">Elasticsearch</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="DynamoDB">DynamoDB</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="MariaDB">MariaDB</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Neo4j">Neo4j</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="CouchDB">CouchDB</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="cloudTechnologies" class="form-label">{{ _('Cloud Technologies') }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="cloudTechnologies" name="cloudTechnologies" placeholder="Start typing to see suggestions...">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select</button>
+                                        <ul class="dropdown-menu dropdown-menu-end skills-dropdown">
+                                            <li><a class="dropdown-item" href="#" data-skill="AWS">AWS</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Azure">Azure</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Google Cloud">Google Cloud</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Docker">Docker</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Kubernetes">Kubernetes</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Terraform">Terraform</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="OpenStack">OpenStack</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Jenkins">Jenkins</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="GitHub Actions">GitHub Actions</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="GitLab CI">GitLab CI</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="CircleCI">CircleCI</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Travis CI">Travis CI</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Heroku">Heroku</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Netlify">Netlify</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Vercel">Vercel</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="devopsTools" class="form-label">{{ _('DevOps Tools') }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="devopsTools" name="devopsTools" placeholder="Start typing to see suggestions...">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select</button>
+                                        <ul class="dropdown-menu dropdown-menu-end skills-dropdown">
+                                            <li><a class="dropdown-item" href="#" data-skill="Git">Git</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Jenkins">Jenkins</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="GitHub Actions">GitHub Actions</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="GitLab CI">GitLab CI</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Ansible">Ansible</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Puppet">Puppet</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Chef">Chef</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Prometheus">Prometheus</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Grafana">Grafana</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Nagios">Nagios</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Splunk">Splunk</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="ELK Stack">ELK Stack</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Bash">Bash</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="PowerShell">PowerShell</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="otherTechnicalSkills" class="form-label">{{ _('Other Technical Skills') }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="otherTechnicalSkills" name="otherTechnicalSkills" placeholder="Start typing to see suggestions...">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select</button>
+                                        <ul class="dropdown-menu dropdown-menu-end skills-dropdown">
+                                            <li><a class="dropdown-item" href="#" data-skill="Linux">Linux</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="REST APIs">REST APIs</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="GraphQL">GraphQL</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Microservices">Microservices</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Agile">Agile</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Scrum">Scrum</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="JIRA">JIRA</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Confluence">Confluence</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Trello">Trello</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Slack">Slack</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Microsoft Office">Microsoft Office</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Tableau">Tableau</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Power BI">Power BI</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Machine Learning">Machine Learning</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Deep Learning">Deep Learning</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Computer Vision">Computer Vision</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="NLP">NLP</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Data Analysis">Data Analysis</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Data Visualization">Data Visualization</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="softSkills" class="form-label">{{ _('Soft Skills') }}</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="softSkills" name="softSkills" placeholder="Start typing to see suggestions...">
+                                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select</button>
+                                        <ul class="dropdown-menu dropdown-menu-end skills-dropdown">
+                                            <li><a class="dropdown-item" href="#" data-skill="Communication">Communication</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Teamwork">Teamwork</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Leadership">Leadership</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Problem Solving">Problem Solving</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Time Management">Time Management</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Adaptability">Adaptability</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Critical Thinking">Critical Thinking</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Creativity">Creativity</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Attention to Detail">Attention to Detail</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Decision Making">Decision Making</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Conflict Resolution">Conflict Resolution</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Emotional Intelligence">Emotional Intelligence</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Negotiation">Negotiation</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Project Management">Project Management</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Public Speaking">Public Speaking</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Networking">Networking</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Strategic Planning">Strategic Planning</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Research & Exploration">Research & Exploration</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Fast Learning">Fast Learning</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Customer Service">Customer Service</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Cross-Functional Teamwork">Cross-Functional Teamwork</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Multitasking">Multitasking</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Empathy">Empathy</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Professionalism">Professionalism</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Continuous Learning">Continuous Learning</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Innovation & Ideation">Innovation & Ideation</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Initiative Taking">Initiative Taking</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Curiosity">Curiosity</a></li>
+                                            <li><a class="dropdown-item" href="#" data-skill="Open-Mindedness">Open-Mindedness</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ai-recommendations mt-4">
+                                <h5>{{ _('AI Skill Recommendations') }}</h5>
+                                <div class="alert alert-info">
+                                    <p>{{ _('Based on your education, our AI recommends the following skills. Click to add them to your resume:') }}</p>
+                                    <div class="recommended-skills">
+                                        <span class="badge bg-secondary me-2 mb-2 skill-badge" data-skill="Python">Python</span>
+                                        <span class="badge bg-secondary me-2 mb-2 skill-badge" data-skill="SQL">SQL</span>
+                                        <span class="badge bg-secondary me-2 mb-2 skill-badge" data-skill="HTML/CSS">HTML/CSS</span>
+                                        <span class="badge bg-secondary me-2 mb-2 skill-badge" data-skill="JavaScript">JavaScript</span>
+                                        <span class="badge bg-secondary me-2 mb-2 skill-badge" data-skill="Git">Git</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary prev-step" data-prev="3"><i class="fas fa-arrow-left me-2"></i> {{ _('Previous') }}</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="5">{{ _('Next') }} <i class="fas fa-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Work Experience (Hidden for Freshers) -->
+                        <div class="form-step" data-step="5" id="experienceStep">
+                            <h4 class="mb-4">{{ _('Work Experience') }}</h4>
+                            <div class="experience-entries">
+                                <div class="experience-entry mb-4">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="jobTitle" class="form-label">{{ _('Job Title') }}</label>
+                                            <input type="text" class="form-control" name="jobTitle">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="company" class="form-label">{{ _('Company') }}</label>
+                                            <input type="text" class="form-control" name="company">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="expLocation" class="form-label">{{ _('Location') }}</label>
+                                            <input type="text" class="form-control" name="expLocation">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="startDate" class="form-label">{{ _('Start Date') }}</label>
+                                            <input type="month" class="form-control exp-start-date" name="startDate">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="endDate" class="form-label">{{ _('End Date') }}</label>
+                                            <input type="month" class="form-control exp-end-date" name="endDate">
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input currently-working" type="checkbox" name="currentlyWorking">
+                                                <label class="form-check-label" for="currentlyWorking">{{ _('Currently Working') }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="jobDescription" class="form-label">{{ _('Description') }}</label>
+                                            <textarea class="form-control" name="jobDescription" rows="4" placeholder="{{ _('Describe your responsibilities and achievements...') }}"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary mb-4" id="addExperience">
+                                <i class="fas fa-plus me-2"></i>{{ _('Add Another Experience') }}
+                            </button>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary prev-step" data-prev="4"><i class="fas fa-arrow-left me-2"></i> {{ _('Previous') }}</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="6">{{ _('Next') }} <i class="fas fa-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 6: Projects -->
+                        <div class="form-step" data-step="6">
+                            <h4 class="mb-4">{{ _('Projects') }}</h4>
+                            <div class="project-entries">
+                                <div class="project-entry mb-4">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="projectName" class="form-label">{{ _('Project Name') }}</label>
+                                            <input type="text" class="form-control" name="projectName">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="technologiesUsed" class="form-label">{{ _('Technologies Used') }}</label>
+                                            <input type="text" class="form-control" name="technologiesUsed" placeholder="React, Node.js, MongoDB...">
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="projectDescription" class="form-label">{{ _('Description') }}</label>
+                                            <textarea class="form-control" name="projectDescription" rows="3" placeholder="{{ _('Briefly describe the project...') }}"></textarea>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="githubLink" class="form-label">{{ _('GitHub Link') }}</label>
+                                            <input type="url" class="form-control" name="githubLink" placeholder="https://github.com/username/project">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="demoLink" class="form-label">{{ _('Demo Link') }}</label>
+                                            <input type="url" class="form-control" name="demoLink" placeholder="https://project-demo.com">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary mb-4" id="addProject">
+                                <i class="fas fa-plus me-2"></i>{{ _('Add Another Project') }}
+                            </button>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary prev-step" data-prev="5"><i class="fas fa-arrow-left me-2"></i> {{ _('Previous') }}</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="7">{{ _('Next') }} <i class="fas fa-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 7: Certifications -->
+                        <div class="form-step" data-step="7">
+                            <h4 class="mb-4">{{ _('Certifications') }}</h4>
+                            <div class="certification-entries">
+                                <div class="certification-entry mb-4">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="certificationName" class="form-label">{{ _('Certification Name') }}</label>
+                                            <input type="text" class="form-control" name="certificationName" placeholder="e.g., AWS Certified Solutions Architect">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="organization" class="form-label">{{ _('Organization') }}</label>
+                                            <input type="text" class="form-control" name="organization" placeholder="e.g., Amazon Web Services">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="certStartDate" class="form-label">{{ _('Start Date') }}</label>
+                                            <input type="month" class="form-control" name="certStartDate">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="certEndDate" class="form-label">{{ _('End Date') }}</label>
+                                            <input type="month" class="form-control" name="certEndDate">
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input currently-valid" type="checkbox" name="currentlyValid">
+                                                <label class="form-check-label" for="currentlyValid">{{ _('Currently Valid') }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="certificationId" class="form-label">{{ _('Certification ID (Optional)') }}</label>
+                                            <input type="text" class="form-control" name="certificationId" placeholder="e.g., XXXXX-XXXXX-XXXXX">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary mb-4" id="addCertification">
+                                <i class="fas fa-plus me-2"></i>{{ _('Add Another Certification') }}
+                            </button>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary prev-step" data-prev="6"><i class="fas fa-arrow-left me-2"></i> {{ _('Previous') }}</button>
+                                <button type="button" class="btn btn-primary next-step" data-next="8">{{ _('Next') }} <i class="fas fa-arrow-right ms-2"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Step 8: Review and Generate -->
+                        <div class="form-step" data-step="8">
+                            <h4 class="mb-4">{{ _('Review Your Resume') }}</h4>
+                            <div class="review-content">
+                                <div class="alert alert-info">
+                                    <h5>{{ _('AI-Generated Professional Summary') }}</h5>
+                                    <p id="generatedSummary">{{ _('Your professional summary will appear here after you complete the form...') }}</p>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h5>{{ _('Template Selection') }}</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="template-option card h-100" data-template="classic">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-file-alt fa-3x mb-3 text-primary"></i>
+                                                    <h5>{{ _('Classic Single Column') }}</h5>
+                                                    <p class="text-muted">{{ _('Clean layout, bold headings, no graphics') }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="template-option card h-100" data-template="modern">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-columns fa-3x mb-3 text-primary"></i>
+                                                    <h5>{{ _('Modern Two-Column') }}</h5>
+                                                    <p class="text-muted">{{ _('Subtle accent color, sidebar for skills') }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-outline-secondary prev-step" data-prev="7"><i class="fas fa-arrow-left me-2"></i> {{ _('Previous') }}</button>
+                                <button type="button" class="btn btn-success" id="generateResume">
+                                    <i class="fas fa-file-pdf me-2"></i>{{ _('Generate PDF Resume') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Live Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ _('Live Preview') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-container">
+                    <iframe id="resumePreview" style="width: 100%; height: 600px; border: none;"></iframe>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Close') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Global variables
+    let userType = null;
+    let selectedTemplate = 'classic';
+    
+    // Step navigation
+    document.querySelectorAll('.next-step').forEach(button => {
+        button.addEventListener('click', function() {
+            const nextStep = this.getAttribute('data-next');
+            if (validateStep(nextStep - 1)) {
+                // For freshers, skip experience section (step 5)
+                if (userType === 'fresher' && nextStep == '5') {
+                    showStep('6'); // Skip to projects
+                } else {
+                    showStep(nextStep);
+                }
+            }
+        });
+    });
+
+    document.querySelectorAll('.prev-step').forEach(button => {
+        button.addEventListener('click', function() {
+            const prevStep = this.getAttribute('data-prev');
+            // For freshers, skip experience section (step 5) when going backwards
+            if (userType === 'fresher' && prevStep == '5') {
+                showStep('4'); // Go back to skills
+            } else {
+                showStep(prevStep);
+            }
+        });
+    });
+
+    function showStep(stepNumber) {
+        // Hide all steps
+        document.querySelectorAll('.form-step').forEach(step => {
+            step.classList.remove('active');
+        });
+        
+        // Show current step
+        document.querySelector(`.form-step[data-step="${stepNumber}"]`).classList.add('active');
+        
+        // Update progress steps
+        document.querySelectorAll('.step').forEach(step => {
+            step.classList.remove('active', 'completed');
+            const stepNum = step.getAttribute('data-step');
+            if (stepNum < stepNumber) {
+                step.classList.add('completed');
+            } else if (stepNum == stepNumber) {
+                step.classList.add('active');
+            }
+        });
+    }
+
+    // Validation function
+    function validateStep(stepNumber) {
+        const step = document.querySelector(`.form-step[data-step="${stepNumber}"]`);
+        const requiredFields = step.querySelectorAll('[required]');
+        let isValid = true;
+        
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+        
+        // Special validation for education - ensure end date is not smaller than start date
+        if (stepNumber === 3) {
+            const educationEntries = document.querySelectorAll('.education-entry');
+            educationEntries.forEach(entry => {
+                const startMonth = entry.querySelector('.edu-start-month');
+                const startYear = entry.querySelector('.edu-start-year');
+                const endMonth = entry.querySelector('.edu-end-month');
+                const endYear = entry.querySelector('.edu-end-year');
+                const currentlyStudying = entry.querySelector('.currently-studying');
+                const startDateHidden = entry.querySelector('.edu-start-date');
+                const endDateHidden = entry.querySelector('.edu-end-date');
+                
+                // Remove any previous error messages
+                const errorDiv = entry.querySelector('.end-date-error');
+                if (errorDiv) {
+                    errorDiv.remove();
+                }
+                
+                // Update hidden inputs
+                if (startMonth.value && startYear.value) {
+                    startDateHidden.value = startYear.value + '-' + startMonth.value;
+                } else {
+                    startDateHidden.value = '';
+                }
+                
+                if (endMonth.value && endYear.value) {
+                    endDateHidden.value = endYear.value + '-' + endMonth.value;
+                } else {
+                    endDateHidden.value = '';
+                }
+                
+                // Validate end date range (up to 2029)
+                if (endYear.value) {
+                    const endYearValue = parseInt(endYear.value);
+                    if (endYearValue > 2029) {
+                        endYear.classList.add('is-invalid');
+                        isValid = false;
+                        // Show error message
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback end-date-error';
+                        errorDiv.textContent = 'End year cannot be later than 2029.';
+                        endYear.parentNode.appendChild(errorDiv);
+                    } else {
+                        endYear.classList.remove('is-invalid');
+                    }
+                }
+                
+                // Only validate if both fields have values and not currently studying
+                if (startYear.value && startMonth.value && endYear.value && endMonth.value && !currentlyStudying.checked) {
+                    // Convert to comparable values
+                    const startDateValue = new Date(startYear.value, startMonth.value - 1);
+                    const endDateValue = new Date(endYear.value, endMonth.value - 1);
+                    
+                    if (endDateValue < startDateValue) {
+                        endYear.classList.add('is-invalid');
+                        endMonth.classList.add('is-invalid');
+                        isValid = false;
+                        // Show error message
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback end-date-error';
+                        errorDiv.textContent = 'End date cannot be earlier than start date. Please correct your entry.';
+                        endYear.parentNode.appendChild(errorDiv);
+                    } else {
+                        endYear.classList.remove('is-invalid');
+                        endMonth.classList.remove('is-invalid');
+                    }
+                } else {
+                    endYear.classList.remove('is-invalid');
+                    endMonth.classList.remove('is-invalid');
+                }
+            });
+        }
+        
+        // Special validation for work experience - ensure end date is not smaller than start date
+        if (stepNumber === 5) {
+            const experienceEntries = document.querySelectorAll('.experience-entry');
+            experienceEntries.forEach(entry => {
+                const startDate = entry.querySelector('input[name="startDate"]');
+                const endDate = entry.querySelector('input[name="endDate"]');
+                const currentlyWorking = entry.querySelector('.currently-working');
+                
+                // Remove any previous error messages
+                const errorDiv = entry.querySelector('.end-date-error');
+                if (errorDiv) {
+                    errorDiv.remove();
+                }
+                
+                // Validate end date range (up to 2029)
+                if (endDate.value) {
+                    const endYear = parseInt(endDate.value.split('-')[0]);
+                    if (endYear > 2029) {
+                        endDate.classList.add('is-invalid');
+                        isValid = false;
+                        // Show error message
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback end-date-error';
+                        errorDiv.textContent = 'End year cannot be later than 2029.';
+                        endDate.parentNode.appendChild(errorDiv);
+                    } else {
+                        endDate.classList.remove('is-invalid');
+                    }
+                }
+                
+                // Only validate if both fields have values and not currently working
+                if (startDate.value && endDate.value && !currentlyWorking.checked) {
+                    // Convert YYYY-MM format to comparable values
+                    const startDateValue = new Date(startDate.value);
+                    const endDateValue = new Date(endDate.value);
+                    
+                    if (endDateValue < startDateValue) {
+                        endDate.classList.add('is-invalid');
+                        isValid = false;
+                        // Show error message
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback end-date-error';
+                        errorDiv.textContent = 'End date cannot be earlier than start date. Please correct your entry.';
+                        endDate.parentNode.appendChild(errorDiv);
+                    } else {
+                        endDate.classList.remove('is-invalid');
+                    }
+                } else {
+                    endDate.classList.remove('is-invalid');
+                }
+            });
+        }
+        
+        // Special validation for certifications - ensure end date is not smaller than start date
+        if (stepNumber === 7) {
+            const certificationEntries = document.querySelectorAll('.certification-entry');
+            certificationEntries.forEach(entry => {
+                const startDate = entry.querySelector('input[name="certStartDate"]');
+                const endDate = entry.querySelector('input[name="certEndDate"]');
+                const currentlyValid = entry.querySelector('.currently-valid');
+                
+                // Remove any previous error messages
+                const errorDiv = entry.querySelector('.end-date-error');
+                if (errorDiv) {
+                    errorDiv.remove();
+                }
+                
+                // Validate end date range (up to 2029)
+                if (endDate.value) {
+                    const endYear = parseInt(endDate.value.split('-')[0]);
+                    if (endYear > 2029) {
+                        endDate.classList.add('is-invalid');
+                        isValid = false;
+                        // Show error message
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback end-date-error';
+                        errorDiv.textContent = 'End year cannot be later than 2029.';
+                        endDate.parentNode.appendChild(errorDiv);
+                    } else {
+                        endDate.classList.remove('is-invalid');
+                    }
+                }
+                
+                // Only validate if both fields have values and not currently valid
+                if (startDate.value && endDate.value && !currentlyValid.checked) {
+                    // Convert YYYY-MM format to comparable values
+                    const startDateValue = new Date(startDate.value);
+                    const endDateValue = new Date(endDate.value);
+                    
+                    if (endDateValue < startDateValue) {
+                        endDate.classList.add('is-invalid');
+                        isValid = false;
+                        // Show error message
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback end-date-error';
+                        errorDiv.textContent = 'End date cannot be earlier than start date. Please correct your entry.';
+                        endDate.parentNode.appendChild(errorDiv);
+                    } else {
+                        endDate.classList.remove('is-invalid');
+                    }
+                } else {
+                    endDate.classList.remove('is-invalid');
+                }
+            });
+        }
+        
+        return isValid;
+    }
+
+    // User type selection
+    document.querySelectorAll('.user-type-option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.user-type-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            this.classList.add('selected');
+            
+            // Set user type
+            userType = this.getAttribute('data-type');
+            
+            // Hide experience section for freshers
+            const experienceStep = document.getElementById('experienceStep');
+            if (userType === 'fresher') {
+                experienceStep.style.display = 'none';
+            } else {
+                experienceStep.style.display = 'block';
+            }
+        });
+    });
+
+    // Education form enhancements
+    document.addEventListener('change', function(e) {
+        // Handle education start date
+        if (e.target.classList.contains('edu-start-month') || e.target.classList.contains('edu-start-year')) {
+            const entry = e.target.closest('.education-entry');
+            const month = entry.querySelector('.edu-start-month').value;
+            const year = entry.querySelector('.edu-start-year').value;
+            const hiddenInput = entry.querySelector('.edu-start-date');
+            
+            if (month && year) {
+                hiddenInput.value = year + '-' + month;
+            } else {
+                hiddenInput.value = '';
+            }
+        }
+        
+        // Handle education end date
+        if (e.target.classList.contains('edu-end-month') || e.target.classList.contains('edu-end-year')) {
+            const entry = e.target.closest('.education-entry');
+            const month = entry.querySelector('.edu-end-month').value;
+            const year = entry.querySelector('.edu-end-year').value;
+            const hiddenInput = entry.querySelector('.edu-end-date');
+            
+            if (month && year) {
+                hiddenInput.value = year + '-' + month;
+            } else {
+                hiddenInput.value = '';
+            }
+        }
+        
+        // Handle "Other" degree selection
+        if (e.target.classList.contains('degree-select')) {
+            const otherInput = e.target.closest('.education-entry').querySelector('.other-degree-input');
+            if (e.target.value === 'Other') {
+                otherInput.style.display = 'block';
+            } else {
+                otherInput.style.display = 'none';
+            }
+        }
+        
+        // Handle "Currently Studying" checkbox
+        if (e.target.classList.contains('currently-studying')) {
+            const entry = e.target.closest('.education-entry');
+            const monthSelect = entry.querySelector('.edu-end-month');
+            const yearSelect = entry.querySelector('.edu-end-year');
+            const hiddenInput = entry.querySelector('.edu-end-date');
+            
+            if (e.target.checked) {
+                monthSelect.disabled = true;
+                yearSelect.disabled = true;
+                monthSelect.value = '';
+                yearSelect.value = '';
+                hiddenInput.value = '';
+            } else {
+                monthSelect.disabled = false;
+                yearSelect.disabled = false;
+            }
+        }
+        
+        // Handle "Currently Working" checkbox for work experience
+        if (e.target.classList.contains('currently-working')) {
+            const entry = e.target.closest('.experience-entry');
+            const endDateInput = entry.querySelector('input[name="endDate"]');
+            
+            if (e.target.checked) {
+                endDateInput.disabled = true;
+                endDateInput.value = '';
+            } else {
+                endDateInput.disabled = false;
+            }
+        }
+        
+        // Handle "Currently Valid" checkbox for certifications
+        if (e.target.classList.contains('currently-valid')) {
+            const entry = e.target.closest('.certification-entry');
+            const endDateInput = entry.querySelector('input[name="certEndDate"]');
+            
+            if (e.target.checked) {
+                endDateInput.disabled = true;
+                endDateInput.value = '';
+            } else {
+                endDateInput.disabled = false;
+            }
+        }
+    });
+
+    // Add education entry
+    document.getElementById('addEducation').addEventListener('click', function() {
+        const educationEntries = document.querySelector('.education-entries');
+        const newEntry = educationEntries.firstElementChild.cloneNode(true);
+        
+        // Clear inputs
+        newEntry.querySelectorAll('input, select, textarea').forEach(field => {
+            if (field.type === 'checkbox') {
+                field.checked = false;
+            } else {
+                field.value = '';
+            }
+        });
+        
+        // Reset "Other" degree input
+        const otherInput = newEntry.querySelector('.other-degree-input');
+        otherInput.style.display = 'none';
+        
+        // Reset "Currently Studying" effect
+        const monthSelect = newEntry.querySelector('.edu-end-month');
+        const yearSelect = newEntry.querySelector('.edu-end-year');
+        const hiddenInput = newEntry.querySelector('.edu-end-date');
+        monthSelect.disabled = false;
+        yearSelect.disabled = false;
+        
+        // Remove any previous error messages
+        const errorDivs = newEntry.querySelectorAll('.end-date-error');
+        errorDivs.forEach(div => div.remove());
+        
+        // Remove invalid classes
+        const inputs = newEntry.querySelectorAll('input, select');
+        inputs.forEach(input => input.classList.remove('is-invalid'));
+        
+        educationEntries.appendChild(newEntry);
+    });
+
+    // Add experience entry
+    document.getElementById('addExperience').addEventListener('click', function() {
+        const experienceEntries = document.querySelector('.experience-entries');
+        const newEntry = experienceEntries.firstElementChild.cloneNode(true);
+        
+        // Clear inputs
+        newEntry.querySelectorAll('input, select, textarea').forEach(field => {
+            if (field.type === 'checkbox') {
+                field.checked = false;
+            } else {
+                field.value = '';
+            }
+        });
+        
+        // Reset "Currently Working" effect
+        const endDateInput = newEntry.querySelector('input[name="endDate"]');
+        endDateInput.disabled = false;
+        
+        experienceEntries.appendChild(newEntry);
+    });
+
+    // Add project entry
+    document.getElementById('addProject').addEventListener('click', function() {
+        const projectEntries = document.querySelector('.project-entries');
+        const newEntry = projectEntries.firstElementChild.cloneNode(true);
+        
+        // Clear inputs
+        newEntry.querySelectorAll('input, select, textarea').forEach(field => {
+            field.value = '';
+        });
+        
+        projectEntries.appendChild(newEntry);
+    });
+
+    // Add certification entry
+    document.getElementById('addCertification').addEventListener('click', function() {
+        const certificationEntries = document.querySelector('.certification-entries');
+        const newEntry = certificationEntries.firstElementChild.cloneNode(true);
+        
+        // Clear inputs
+        newEntry.querySelectorAll('input, select, textarea').forEach(field => {
+            if (field.type === 'checkbox') {
+                field.checked = false;
+            } else {
+                field.value = '';
+            }
+        });
+        
+        // Reset "Currently Valid" effect
+        const endDateInput = newEntry.querySelector('input[name="certEndDate"]');
+        endDateInput.disabled = false;
+        
+        certificationEntries.appendChild(newEntry);
+    });
+
+    // Template selection
+    document.querySelectorAll('.template-option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.template-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            this.classList.add('selected');
+            selectedTemplate = this.getAttribute('data-template');
+        });
+    });
+
+    // Generate resume
+    document.getElementById('generateResume').addEventListener('click', function() {
+        // Collect all form data
+        const resumeData = collectResumeData();
+        
+        // Validate before sending
+        if (!resumeData) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+        
+        // Send to server to generate PDF
+        fetch('{{ url_for("generate_resume_pdf") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(resumeData)
+        })
+        .then(response => {
+            if (response.ok) {
+                // Trigger download
+                const filename = `resume_${new Date().toISOString().slice(0, 10)}.pdf`;
+                response.blob().then(blob => {
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                    
+                    // Show success message and redirect
+                    alert('Resume generated successfully! The PDF will download shortly.');
+                    window.location.href = '{{ url_for("dashboard") }}';
+                });
+            } else {
+                response.json().then(data => {
+                    alert(data.message || 'Error generating resume. Please try again.');
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error generating resume. Please try again.');
+        });
+    });
+
+    // Collect resume data from form
+    function collectResumeData() {
+        // Validate current step first
+        const currentStep = document.querySelector('.form-step.active');
+        const stepNumber = currentStep.getAttribute('data-step');
+        if (!validateStep(stepNumber)) {
+            return null;
+        }
+        
+        const data = {
+            user_type: userType,
+            template_type: selectedTemplate,
+            personal_details: {
+                full_name: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value,
+                linkedin: document.getElementById('linkedin').value,
+                github: document.getElementById('github').value
+            },
+            education: [],
+            technical_skills: {
+                programming_languages: document.getElementById('programmingLanguages').value,
+                frameworks: document.getElementById('frameworks').value,
+                databases: document.getElementById('databases').value,
+                cloud_technologies: document.getElementById('cloudTechnologies').value,
+                devops_tools: document.getElementById('devopsTools').value,
+                other_technical_skills: document.getElementById('otherTechnicalSkills').value
+            },
+            soft_skills: document.getElementById('softSkills').value.split(',').map(s => s.trim()).filter(s => s),
+            work_experience: [],
+            projects: [],
+            certifications: []
+        };
+        
+        // Collect education entries
+        document.querySelectorAll('.education-entry').forEach(entry => {
+            const degreeSelect = entry.querySelector('.degree-select');
+            const degree = degreeSelect.value === 'Other' ? 
+                entry.querySelector('.other-degree-input').value : 
+                degreeSelect.value;
+                
+            // Extract year from date values
+            const startDate = entry.querySelector('.edu-start-date').value;
+            const endDate = entry.querySelector('.edu-end-date').value;
+            const startYear = startDate ? startDate.split('-')[0] : '';
+            const endYear = endDate ? endDate.split('-')[0] : '';
+                
+            data.education.push({
+                degree: degree,
+                institution: entry.querySelector('input[name="institution"]').value,
+                location: entry.querySelector('input[name="eduLocation"]').value,
+                start_date: startDate,
+                end_date: endDate,
+                start_year: startYear,
+                end_year: endYear,
+                currently_studying: entry.querySelector('.currently-studying').checked
+            });
+        });
+        
+        // Collect experience entries (if not fresher)
+        if (userType !== 'fresher') {
+            document.querySelectorAll('.experience-entry').forEach(entry => {
+                // Only add if there's meaningful data
+                const jobTitle = entry.querySelector('input[name="jobTitle"]').value;
+                const company = entry.querySelector('input[name="company"]').value;
+                if (jobTitle || company) {
+                    data.work_experience.push({
+                        job_title: jobTitle,
+                        company: company,
+                        location: entry.querySelector('input[name="expLocation"]').value,
+                        start_date: entry.querySelector('input[name="startDate"]').value,
+                        end_date: entry.querySelector('input[name="endDate"]').value,
+                        currently_working: entry.querySelector('.currently-working').checked,
+                        bullet_points: entry.querySelector('textarea[name="jobDescription"]').value
+                    });
+                }
+            });
+        }
+        
+        // Collect project entries
+        document.querySelectorAll('.project-entry').forEach(entry => {
+            // Only add if there's meaningful data
+            const projectName = entry.querySelector('input[name="projectName"]').value;
+            if (projectName) {
+                data.projects.push({
+                    project_name: projectName,
+                    technologies_used: entry.querySelector('input[name="technologiesUsed"]').value,
+                    description: entry.querySelector('textarea[name="projectDescription"]').value,
+                    github_link: entry.querySelector('input[name="githubLink"]').value,
+                    demo_link: entry.querySelector('input[name="demoLink"]').value
+                });
+            }
+        });
+        
+        // Collect certification entries
+        document.querySelectorAll('.certification-entry').forEach(entry => {
+            // Only add if there's meaningful data
+            const certName = entry.querySelector('input[name="certificationName"]').value;
+            const organization = entry.querySelector('input[name="organization"]').value;
+            if (certName || organization) {
+                data.certifications.push({
+                    certification_name: certName,
+                    organization: organization,
+                    start_date: entry.querySelector('input[name="certStartDate"]').value,
+                    end_date: entry.querySelector('input[name="certEndDate"]').value,
+                    currently_valid: entry.querySelector('.currently-valid').checked,
+                    certification_id: entry.querySelector('input[name="certificationId"]').value
+                });
+            }
+        });
+        
+        return data;
+    }
+
+    // Skill selection from dropdown
+    document.querySelectorAll('.dropdown-menu a').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const skill = this.getAttribute('data-skill');
+            const inputId = this.closest('.input-group').querySelector('input').id;
+            const currentSkills = document.getElementById(inputId).value;
+            
+            if (currentSkills) {
+                // Check if skill already exists
+                const skillsArray = currentSkills.split(',').map(s => s.trim());
+                if (!skillsArray.includes(skill)) {
+                    document.getElementById(inputId).value = currentSkills + ', ' + skill;
+                }
+            } else {
+                document.getElementById(inputId).value = skill;
+            }
+        });
+    });
+
+    // AI Skill Recommendations
+    document.querySelectorAll('.skill-badge').forEach(badge => {
+        badge.addEventListener('click', function() {
+            const skill = this.getAttribute('data-skill');
+            const currentSkills = document.getElementById('programmingLanguages').value;
+            if (currentSkills) {
+                // Check if skill already exists
+                const skillsArray = currentSkills.split(',').map(s => s.trim());
+                if (!skillsArray.includes(skill)) {
+                    document.getElementById('programmingLanguages').value = currentSkills + ', ' + skill;
+                }
+            } else {
+                document.getElementById('programmingLanguages').value = skill;
+            }
+        });
+    });
+
+    // Initialize the form
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set first step as active
+        showStep(1);
+        
+        // Add validation styling
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                if (this.hasAttribute('required') && this.value.trim()) {
+                    this.classList.remove('is-invalid');
+                }
+            });
+        });
+        
+        // Update progress steps to include certification
+        const progressSteps = document.querySelector('.progress-steps');
+        if (progressSteps) {
+            // Add certification step
+            const certStep = document.createElement('div');
+            certStep.className = 'step';
+            certStep.setAttribute('data-step', '7');
+            certStep.innerHTML = `
+                <div class="step-number">7</div>
+                <div class="step-label">{{ _('Certifications') }}</div>
+            `;
+            // Insert before the review step (which is now step 8)
+            const reviewStep = progressSteps.querySelector('.step[data-step="7"]');
+            if (reviewStep) {
+                progressSteps.insertBefore(certStep, reviewStep);
+            }
+        }
+    });
+</script>
+
+<style>
+    .progress-steps {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+    
+    .progress-steps::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background-color: #e9ecef;
+        z-index: 1;
+    }
+    
+    .step {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .step-number {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    
+    .step-label {
+        font-size: 0.875rem;
+        color: #6c757d;
+        font-weight: 500;
+    }
+    
+    .step.active .step-number {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .step.active .step-label {
+        color: #007bff;
+        font-weight: 600;
+    }
+    
+    .step.completed .step-number {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .form-step {
+        display: none;
+    }
+    
+    .form-step.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-type-option, .template-option {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid #e9ecef;
+    }
+    
+    .user-type-option:hover, .template-option:hover {
+        border-color: #007bff;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+    }
+    
+    .user-type-option.selected, .template-option.selected {
+        border-color: #007bff;
+        background-color: rgba(0,123,255,0.05);
+    }
+    
+    .recommended-skills .badge, .skill-badge {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .recommended-skills .badge:hover, .skill-badge:hover {
+        transform: scale(1.05);
+        background-color: #007bff !important;
+    }
+    
+    .card {
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+    
+    .invalid-feedback {
+        display: block;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 0.875em;
+        color: #dc3545;
+    }
+    
+    .skills-dropdown {
+        max-height: 200px;
+        overflow-y: auto;
+    }
+</style>
+{% endblock %}

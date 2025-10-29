@@ -1,0 +1,95 @@
+{
+  "title": "Career Objective/Summary Generation Logic",
+  "description": "AI logic for generating dynamic career objectives and professional summaries",
+  "user_type_templates": {
+    "fresher": {
+      "technical": {
+        "BCA": "Motivated BCA graduate with a passion for web and software development. Skilled in {primary_skills} and database management, eager to apply theoretical knowledge to real-world software solutions.",
+        "BSc CS": "Recent BSc Computer Science graduate with strong foundations in programming and data structures. Proficient in {primary_skills}, seeking to contribute to innovative software development projects.",
+        "B.Tech": "Detail-oriented B.Tech graduate with hands-on experience in software engineering principles. Experienced in {primary_skills}, looking to leverage technical expertise in a challenging development role.",
+        "MCA": "MCA final-year student with strong programming foundations and hands-on experience in web and AI projects. Seeking to leverage technical expertise in {primary_skills} to develop scalable software solutions.",
+        "M.Tech": "Advanced M.Tech graduate specializing in {specialization} with research experience in cutting-edge technologies. Proficient in {primary_skills}, aiming to contribute to innovative technical solutions.",
+        "Diploma": "Diploma holder in Computer Science with practical skills in software development and problem-solving. Experienced in {primary_skills}, seeking opportunities to grow as a software professional."
+      },
+      "non_technical": {
+        "MBA": "Results-driven MBA graduate with strong leadership and communication skills, aiming to contribute to organizational growth through effective business strategy and data-driven decision-making.",
+        "BBA": "Ambitious BBA graduate with foundational knowledge in business principles and management practices. Eager to apply skills in {primary_skills} to contribute to organizational success.",
+        "B.Com": "Detail-oriented B.Com graduate with strong analytical and financial skills. Seeking to leverage expertise in {primary_skills} to contribute to accounting and financial management processes.",
+        "Other": "Recent graduate with a strong academic background and passion for professional growth. Eager to apply theoretical knowledge and develop practical skills in a dynamic work environment."
+      }
+    },
+    "experienced": {
+      "technical": {
+        "software_engineer": "Results-driven Software Engineer with {years} years of experience in developing scalable applications using {primary_skills}. Proven track record of delivering high-quality software solutions and optimizing system performance.",
+        "data_analyst": "Analytical Data Analyst with {years} years of experience in extracting insights from complex datasets. Proficient in {primary_skills}, with a demonstrated ability to drive data-informed business decisions.",
+        "web_developer": "Experienced Web Developer with {years} years of expertise in creating responsive and user-friendly web applications using {primary_skills}. Committed to delivering exceptional user experiences through clean and efficient code.",
+        "devops_engineer": "Skilled DevOps Engineer with {years} years of experience in CI/CD pipelines and cloud infrastructure. Proficient in {primary_skills}, focused on improving deployment processes and system reliability."
+      },
+      "non_technical": {
+        "marketing_manager": "Strategic Marketing Manager with {years} years of experience in developing and executing successful marketing campaigns. Expert in {primary_skills}, with a proven ability to drive brand awareness and customer engagement.",
+        "sales_manager": "Target-driven Sales Manager with {years} years of experience in leading high-performance sales teams. Skilled in {primary_skills}, consistently exceeding revenue targets and building strong client relationships.",
+        "hr_manager": "People-focused HR Manager with {years} years of experience in talent acquisition and employee development. Proficient in {primary_skills}, committed to creating positive workplace cultures and driving organizational growth.",
+        "project_manager": "Certified Project Manager with {years} years of experience in leading cross-functional teams to deliver projects on time and within budget. Expert in {primary_skills}, with a strong focus on stakeholder management.",
+        "finance_manager": "Detail-oriented Finance Manager with {years} years of experience in financial planning and analysis. Skilled in {primary_skills}, with a proven track record of optimizing financial performance and ensuring regulatory compliance."
+      }
+    }
+  },
+  "summary_components": {
+    "skills": "{primary_skills}",
+    "experience_years": "{years}",
+    "achievements": "{quantifiable_achievements}",
+    "tools_technologies": "{tools_and_technologies}",
+    "industries": "{relevant_industries}",
+    "education": "{highest_degree}",
+    "specialization": "{specialization_area}"
+  },
+  "dynamic_placeholders": {
+    "primary_skills": "Comma-separated list of top 3-5 most relevant skills based on degree and experience",
+    "years": "Years of relevant experience (0 for freshers, actual years for experienced)",
+    "quantifiable_achievements": "Measurable accomplishments (e.g., 'increased efficiency by 30%', 'managed a team of 10')",
+    "tools_and_technologies": "Relevant tools, platforms, and technologies used",
+    "relevant_industries": "Industries the candidate has experience in",
+    "highest_degree": "The most recent or highest degree obtained",
+    "specialization_area": "Specific area of specialization within the field"
+  },
+  "generation_algorithm": {
+    "steps": [
+      "Determine user type (fresher or experienced)",
+      "Identify highest degree/course from education section",
+      "Classify degree as technical or non-technical",
+      "For experienced users, analyze work experience to determine role type",
+      "Select appropriate template based on classification",
+      "Extract relevant skills from user's skill section",
+      "Identify years of experience (0 for freshers)",
+      "Extract quantifiable achievements from experience/projects",
+      "Replace placeholders in template with actual values",
+      "Ensure summary is 3-4 sentences and under 200 words",
+      "Optimize for ATS keywords based on target job roles"
+    ]
+  },
+  "optimization_rules": {
+    "length": "Maximum 200 words, ideally 3-4 sentences",
+    "keywords": "Include industry-standard terms relevant to the target role",
+    "action_verbs": "Use strong action verbs (developed, managed, implemented, optimized)",
+    "measurable_results": "Include quantifiable achievements where possible",
+    "clarity": "Clear, concise, and free of jargon",
+    "customization": "Tailored to the specific role and industry"
+  },
+  "api_endpoints": {
+    "generate_summary": {
+      "method": "POST",
+      "path": "/api/generate-summary",
+      "request_body": {
+        "user_type": "string",
+        "education": "array",
+        "experience": "array",
+        "skills": "array",
+        "projects": "array"
+      },
+      "response": {
+        "summary": "string",
+        "explanation": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,815 @@
+# Translations template for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-10-20 17:09+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: templates/base.html:88
+msgid "Admin Dashboard"
+msgstr ""
+
+#: templates/base.html:93 templates/dashboard.html:3
+msgid "Dashboard"
+msgstr ""
+
+#: templates/base.html:96
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:100
+msgid "Login"
+msgstr ""
+
+#: templates/base.html:103
+msgid "Register"
+msgstr ""
+
+#: templates/base.html:108
+msgid "Language"
+msgstr ""
+
+#: templates/dashboard.html:11
+#, python-format
+msgid "Hello, %(name)s!"
+msgstr ""
+
+#: templates/dashboard.html:12
+msgid "Upload your resume or create a new one to get AI-powered career insights"
+msgstr ""
+
+#: templates/dashboard.html:22
+msgid "Ready to Create Your Professional Resume?"
+msgstr ""
+
+#: templates/dashboard.html:23
+msgid ""
+"Build an ATS-friendly resume that stands out to employers and gets you "
+"noticed!"
+msgstr ""
+
+#: templates/dashboard.html:28
+msgid "ATS-Optimized Templates"
+msgstr ""
+
+#: templates/dashboard.html:32
+msgid "Professional PDF Export"
+msgstr ""
+
+#: templates/dashboard.html:36
+msgid "Real-time Preview"
+msgstr ""
+
+#: templates/dashboard.html:42
+msgid "Guided Step-by-Step Process"
+msgstr ""
+
+#: templates/dashboard.html:46
+msgid "Industry-Standard Format"
+msgstr ""
+
+#: templates/dashboard.html:50
+msgid "Mobile-Friendly Design"
+msgstr ""
+
+#: templates/dashboard.html:58
+msgid "Create Resume Now"
+msgstr ""
+
+#: templates/dashboard.html:60
+msgid "Takes only 10-15 minutes"
+msgstr ""
+
+#: templates/dashboard.html:73
+msgid "Upload Your Resume for AI Analysis"
+msgstr ""
+
+#: templates/dashboard.html:80
+msgid "Drag & Drop your resume here"
+msgstr ""
+
+#: templates/dashboard.html:81
+msgid "or click to browse files"
+msgstr ""
+
+#: templates/dashboard.html:85
+msgid "Supported: PDF, DOC, DOCX (Max 16MB)"
+msgstr ""
+
+#: templates/dashboard.html:88
+msgid "Choose File"
+msgstr ""
+
+#: templates/dashboard.html:100
+msgid "Uploading Resume"
+msgstr ""
+
+#: templates/dashboard.html:101
+msgid "Please wait while we process your file"
+msgstr ""
+
+#: templates/dashboard.html:115
+msgid "Upload Successful!"
+msgstr ""
+
+#: templates/dashboard.html:116
+msgid "Your resume is being analyzed"
+msgstr ""
+
+#: templates/dashboard.html:118
+msgid "Refreshing in 3 seconds..."
+msgstr ""
+
+#: templates/dashboard.html:127
+msgid "Upload Failed"
+msgstr ""
+
+#: templates/dashboard.html:128
+msgid "An error occurred during upload"
+msgstr ""
+
+#: templates/dashboard.html:130
+msgid "Try Again"
+msgstr ""
+
+#: templates/dashboard.html:147
+msgid "Your Generated Resume"
+msgstr ""
+
+#: templates/dashboard.html:153
+msgid "Resume Created"
+msgstr ""
+
+#: templates/dashboard.html:158
+msgid "Download PDF"
+msgstr ""
+
+#: templates/dashboard.html:161
+msgid "Edit Resume"
+msgstr ""
+
+#: templates/dashboard.html:178
+msgid "Your Resume Insights"
+msgstr ""
+
+#: templates/dashboard.html:189
+msgid "Resume Score"
+msgstr ""
+
+#: templates/dashboard.html:206
+msgid "Predicted Job Role"
+msgstr ""
+
+#: templates/dashboard.html:214
+msgid "Keywords Found"
+msgstr ""
+
+#: templates/dashboard.html:227
+msgid "Job Match Analysis"
+msgstr ""
+
+#: templates/dashboard.html:239
+msgid "Matched Skills:"
+msgstr ""
+
+#: templates/dashboard.html:245
+msgid "Missing:"
+msgstr ""
+
+#: templates/dashboard.html:260
+msgid "Skill Gap Analysis for 100% Job Match"
+msgstr ""
+
+#: templates/dashboard.html:264
+msgid "Match"
+msgstr ""
+
+#: templates/dashboard.html:271
+msgid "Critical Skills to Master"
+msgstr ""
+
+#: templates/dashboard.html:283
+msgid "Priority Skills to Learn"
+msgstr ""
+
+#: templates/dashboard.html:295
+msgid "12-Week Learning Path"
+msgstr ""
+
+#: templates/dashboard.html:310
+msgid "Recommended Certifications"
+msgstr ""
+
+#: templates/dashboard.html:325
+msgid "Essential Tools & Platforms"
+msgstr ""
+
+#: templates/dashboard.html:337
+msgid "Action Plan to 100% Match"
+msgstr ""
+
+#: templates/dashboard.html:340
+msgid "Immediate Actions (Week 1-2)"
+msgstr ""
+
+#: templates/dashboard.html:349
+msgid "Short-term Goals (Week 3-8)"
+msgstr ""
+
+#: templates/dashboard.html:358
+msgid "Long-term Goals (Week 9-16)"
+msgstr ""
+
+#: templates/dashboard.html:379
+msgid "X-Y-Z Formula Improvements"
+msgstr ""
+
+#: templates/dashboard.html:384
+msgid "Current:"
+msgstr ""
+
+#: templates/dashboard.html:387
+msgid "Improved:"
+msgstr ""
+
+#: templates/dashboard.html:403
+msgid "ATS-Optimized Content"
+msgstr ""
+
+#: templates/dashboard.html:406
+msgid "Professional Summary"
+msgstr ""
+
+#: templates/dashboard.html:414
+msgid "Skills Section"
+msgstr ""
+
+#: templates/dashboard.html:427
+msgid "Improvement Suggestions"
+msgstr ""
+
+#: templates/dashboard.html:442
+msgid "Try Our Resume Builder"
+msgstr ""
+
+#: templates/dashboard.html:443
+msgid "Get a higher ATS score with our optimized templates and guided builder"
+msgstr ""
+
+#: templates/dashboard.html:446
+msgid "Build Resume"
+msgstr ""
+
+#: templates/dashboard.html:465
+msgid "Job Recommendations"
+msgstr ""
+
+#: templates/dashboard.html:492
+msgid ""
+"No matching jobs found. Upload a resume to get personalized "
+"recommendations."
+msgstr ""
+
+#: templates/dashboard.html:503 templates/dashboard.html:517
+msgid "AI Resume Assistant"
+msgstr ""
+
+#: templates/dashboard.html:523
+msgid "Hello! I'm your AI Resume Assistant. I can help with:"
+msgstr ""
+
+#: templates/dashboard.html:525
+msgid "Suggestions for relevant skills (technical/non-technical)"
+msgstr ""
+
+#: templates/dashboard.html:526
+msgid ""
+"Crafting \"About Me\" sections or summaries for freshers/experienced "
+"professionals"
+msgstr ""
+
+#: templates/dashboard.html:527
+msgid "Tailored advice for your career stage and field"
+msgstr ""
+
+#: templates/dashboard.html:529
+msgid ""
+"Ask me anything, e.g., \"Suggest skills for a software engineer fresher\""
+" or \"Help write a summary for marketing manager.\""
+msgstr ""
+
+#: templates/dashboard.html:535
+msgid "Type your message..."
+msgstr ""
+
+#: templates/dashboard.html:549
+msgid "Leave Feedback"
+msgstr ""
+
+#: templates/dashboard.html:554
+msgid "Help us improve by rating our service!"
+msgstr ""
+
+#: templates/dashboard.html:556
+msgid "Rate our service:"
+msgstr ""
+
+#: templates/dashboard.html:565
+msgid "Suggestions:"
+msgstr ""
+
+#: templates/dashboard.html:566
+msgid "Your feedback helps us improve..."
+msgstr ""
+
+#: templates/dashboard.html:570
+msgid "Close"
+msgstr ""
+
+#: templates/dashboard.html:572
+msgid "Submit Feedback"
+msgstr ""
+
+#: templates/landing.html:3
+msgid "Welcome"
+msgstr ""
+
+#: templates/landing.html:388
+msgid "Generate a Free ATS‑Friendly Resume in Minutes"
+msgstr ""
+
+#: templates/landing.html:389
+msgid ""
+"REZUMI is completely free. Create an ATS‑friendly resume fast, analyze "
+"your resume for improvements and skill gaps, and download your resume "
+"without any charges."
+msgstr ""
+
+#: templates/landing.html:394
+msgid "ATS‑friendly resume generator"
+msgstr ""
+
+#: templates/landing.html:398
+msgid "Free download, no payments"
+msgstr ""
+
+#: templates/landing.html:402
+msgid "Skill gap analyzer"
+msgstr ""
+
+#: templates/landing.html:407
+msgid "Start Free"
+msgstr ""
+
+#: templates/landing.html:450
+msgid "Key Features"
+msgstr ""
+
+#: templates/landing.html:451
+msgid "Core capabilities of REZUMI"
+msgstr ""
+
+#: templates/landing.html:455
+msgid "ATS‑Friendly Resume Builder"
+msgstr ""
+
+#: templates/landing.html:456
+msgid ""
+"Create optimized, ATS‑friendly resumes in minutes with guided sections "
+"and best‑practice tips."
+msgstr ""
+
+#: templates/landing.html:461
+msgid "Skill Gap Analyzer"
+msgstr ""
+
+#: templates/landing.html:462
+msgid ""
+"Identify missing skills for your target roles and get actionable "
+"suggestions to close the gap."
+msgstr ""
+
+#: templates/landing.html:467
+msgid "Free Download"
+msgstr ""
+
+#: templates/landing.html:468
+msgid "Export your resume for free (PDF/DOCX). No payments, no hidden fees—ever."
+msgstr ""
+
+#: templates/landing.html:473
+msgid "Job Role Recommendations"
+msgstr ""
+
+#: templates/landing.html:474
+msgid ""
+"Discover matching roles from boards like LinkedIn, Indeed, and Glassdoor "
+"(with permissions)."
+msgstr ""
+
+#: templates/landing.html:479
+msgid "Recommendation Engine"
+msgstr ""
+
+#: templates/landing.html:480
+msgid ""
+"Considers market trends, skill relevance, and location preferences to "
+"personalize results."
+msgstr ""
+
+#: templates/landing.html:485
+msgid "Multi‑Format Input"
+msgstr ""
+
+#: templates/landing.html:486
+msgid ""
+"Upload PDF, DOCX, or text resumes. We parse and extract skills, "
+"experience, and education."
+msgstr ""
+
+#: templates/landing.html:495
+msgid "What Users Say"
+msgstr ""
+
+#: templates/landing.html:496
+msgid "Real stories from professionals who leveled up with REZUMI"
+msgstr ""
+
+#: templates/landing.html:500
+msgid ""
+"“REZUMI helped me refine my resume and land interviews within two weeks. "
+"The insights were spot on.”"
+msgstr ""
+
+#: templates/landing.html:512
+msgid ""
+"“The job matching saved me hours. I received curated roles that truly fit"
+" my background.”"
+msgstr ""
+
+#: templates/landing.html:524
+msgid ""
+"“Clear, actionable suggestions improved my ATS score dramatically. Highly"
+" recommended.”"
+msgstr ""
+
+#: templates/landing.html:542
+msgid "Frequently Asked Questions"
+msgstr ""
+
+#: templates/landing.html:547
+msgid "How secure is my resume data?"
+msgstr ""
+
+#: templates/landing.html:551
+msgid ""
+"We use secure processing and do not share your resume without your "
+"consent."
+msgstr ""
+
+#: templates/landing.html:557
+msgid "Will REZUMI write my resume for me?"
+msgstr ""
+
+#: templates/landing.html:561
+msgid "We provide actionable guidance and AI suggestions you can apply instantly."
+msgstr ""
+
+#: templates/landing.html:567
+msgid "Do you support all resume formats?"
+msgstr ""
+
+#: templates/landing.html:571
+msgid "Yes, we support common formats including PDF and DOCX."
+msgstr ""
+
+#: templates/landing.html:581
+msgid "Ready to get hired faster?"
+msgstr ""
+
+#: templates/landing.html:582
+msgid "Join thousands of job seekers using REZUMI to stand out"
+msgstr ""
+
+#: templates/landing.html:583
+msgid "Create your account"
+msgstr ""
+
+#: venv/Lib/site-packages/click/_termui_impl.py:608
+#, python-brace-format
+msgid "{editor}: Editing failed"
+msgstr ""
+
+#: venv/Lib/site-packages/click/_termui_impl.py:612
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1104
+#: venv/Lib/site-packages/click/core.py:1141
+#, python-brace-format
+msgid "{text} {deprecated_message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1160
+msgid "Options"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1222
+#, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/core.py:1241
+#, python-brace-format
+msgid "DeprecationWarning: The command {name!r} is deprecated.{extra_message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1425
+msgid "Aborted!"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1799
+msgid "Commands"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1830
+msgid "Missing command."
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:1908
+#, python-brace-format
+msgid "No such command {name!r}."
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2332
+msgid "Value must be an iterable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2355
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/core.py:2505
+#, python-brace-format
+msgid ""
+"DeprecationWarning: The {param_type} {name!r} is "
+"deprecated.{extra_message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2956
+#, python-brace-format
+msgid "env var: {var}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2959
+#, python-brace-format
+msgid "default: {default}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:2963
+msgid "required"
+msgstr ""
+
+#: venv/Lib/site-packages/click/core.py:3023
+msgid "(dynamic)"
+msgstr ""
+
+#: venv/Lib/site-packages/click/decorators.py:465
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr ""
+
+#: venv/Lib/site-packages/click/decorators.py:522
+msgid "Show the version and exit."
+msgstr ""
+
+#: venv/Lib/site-packages/click/decorators.py:548
+msgid "Show this message and exit."
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:50
+#: venv/Lib/site-packages/click/exceptions.py:89
+#, python-brace-format
+msgid "Error: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:81
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:130
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:132
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:190
+msgid "Missing argument"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:192
+msgid "Missing option"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:194
+msgid "Missing parameter"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:196
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:203
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:223
+#, python-brace-format
+msgid "No such option: {name}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:235
+#, python-brace-format
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/exceptions.py:282
+msgid "unknown error"
+msgstr ""
+
+#: venv/Lib/site-packages/click/exceptions.py:289
+#, python-brace-format
+msgid "Could not open file {filename!r}: {message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/formatting.py:156
+msgid "Usage:"
+msgstr ""
+
+#: venv/Lib/site-packages/click/parser.py:199
+#, python-brace-format
+msgid "Argument {name!r} takes {nargs} values."
+msgstr ""
+
+#: venv/Lib/site-packages/click/parser.py:381
+#, python-brace-format
+msgid "Option {name!r} does not take a value."
+msgstr ""
+
+#: venv/Lib/site-packages/click/parser.py:444
+#, python-brace-format
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/shell_completion.py:332
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: venv/Lib/site-packages/click/shell_completion.py:339
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:162
+msgid "Repeat for confirmation"
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:178
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:180
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:191
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:247
+msgid "Error: invalid input"
+msgstr ""
+
+#: venv/Lib/site-packages/click/termui.py:866
+msgid "Press any key to continue..."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:332
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:369
+#, python-brace-format
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/types.py:460
+#, python-brace-format
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: venv/Lib/site-packages/click/types.py:482
+#, python-brace-format
+msgid "{value!r} is not a valid {number_type}."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:538
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:719
+#, python-brace-format
+msgid "{value!r} is not a valid boolean. Recognized values: {states}"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:747
+#, python-brace-format
+msgid "{value!r} is not a valid UUID."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:937
+msgid "file"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:939
+msgid "directory"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:941
+msgid "path"
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:988
+#, python-brace-format
+msgid "{name} {filename!r} does not exist."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:997
+#, python-brace-format
+msgid "{name} {filename!r} is a file."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1005
+#, python-brace-format
+msgid "{name} {filename!r} is a directory."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1014
+#, python-brace-format
+msgid "{name} {filename!r} is not readable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1023
+#, python-brace-format
+msgid "{name} {filename!r} is not writable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1032
+#, python-brace-format
+msgid "{name} {filename!r} is not executable."
+msgstr ""
+
+#: venv/Lib/site-packages/click/types.py:1099
+#, python-brace-format
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] ""
+msgstr[1] ""
+

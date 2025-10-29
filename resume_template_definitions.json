@@ -1,0 +1,311 @@
+{
+  "title": "ATS-Friendly Resume Template Definitions",
+  "description": "Structure definitions for ATS-optimized resume templates",
+  "templates": {
+    "classic": {
+      "name": "Classic Single Column",
+      "description": "Clean layout, bold headings, no graphics, safe fonts - fully ATS compatible",
+      "layout": {
+        "type": "single_column",
+        "margins": {
+          "top": 0.5,
+          "bottom": 0.5,
+          "left": 0.5,
+          "right": 0.5,
+          "units": "inches"
+        },
+        "font": {
+          "family": "Helvetica",
+          "size": 10,
+          "heading_size": 12,
+          "name_size": 16
+        }
+      },
+      "sections": [
+        {
+          "id": "header",
+          "title": "Header",
+          "required": true,
+          "order": 1,
+          "fields": [
+            "full_name",
+            "email",
+            "phone",
+            "location",
+            "linkedin",
+            "github"
+          ]
+        },
+        {
+          "id": "summary",
+          "title": "Professional Summary",
+          "required": false,
+          "order": 2,
+          "conditional": {
+            "show_for_freshers": true,
+            "show_for_experienced": true
+          }
+        },
+        {
+          "id": "skills",
+          "title": "Technical Skills",
+          "required": true,
+          "order": 3,
+          "subsections": [
+            "programming_languages",
+            "frameworks",
+            "databases",
+            "cloud_technologies",
+            "devops_tools",
+            "other_technical_skills"
+          ]
+        },
+        {
+          "id": "experience",
+          "title": "Work Experience",
+          "required": false,
+          "order": 4,
+          "conditional": {
+            "show_for_freshers": false,
+            "show_for_experienced": true
+          }
+        },
+        {
+          "id": "projects",
+          "title": "Projects",
+          "required": false,
+          "order": 5,
+          "conditional": {
+            "show_for_freshers": true,
+            "show_for_experienced": true
+          }
+        },
+        {
+          "id": "education",
+          "title": "Education",
+          "required": true,
+          "order": 6
+        },
+        {
+          "id": "certifications",
+          "title": "Certifications",
+          "required": false,
+          "order": 7
+        },
+        {
+          "id": "achievements",
+          "title": "Achievements",
+          "required": false,
+          "order": 8
+        }
+      ],
+      "formatting_rules": {
+        "headings": {
+          "bold": true,
+          "underline": false,
+          "all_caps": false,
+          "spacing_after": 6
+        },
+        "bullet_points": {
+          "indent": 0.2,
+          "symbol": "•",
+          "spacing": 2
+        },
+        "dates": {
+          "format": "MMM YYYY"
+        },
+        "contact_info": {
+          "separator": " | "
+        }
+      }
+    },
+    "modern": {
+      "name": "Modern Minimal Two-Column",
+      "description": "Subtle accent color, left sidebar for skills/certifications - ATS-safe",
+      "layout": {
+        "type": "two_column",
+        "margins": {
+          "top": 0.5,
+          "bottom": 0.5,
+          "left": 0.5,
+          "right": 0.5,
+          "units": "inches"
+        },
+        "columns": {
+          "main": {
+            "width": 70,
+            "unit": "percent"
+          },
+          "sidebar": {
+            "width": 30,
+            "unit": "percent"
+          }
+        },
+        "font": {
+          "family": "Calibri",
+          "size": 10,
+          "heading_size": 12,
+          "name_size": 16
+        }
+      },
+      "sections": [
+        {
+          "id": "header",
+          "title": "Header",
+          "required": true,
+          "order": 1,
+          "fields": [
+            "full_name",
+            "email",
+            "phone",
+            "location",
+            "linkedin",
+            "github"
+          ]
+        },
+        {
+          "id": "summary",
+          "title": "Professional Summary",
+          "required": false,
+          "order": 2,
+          "conditional": {
+            "show_for_freshers": true,
+            "show_for_experienced": true
+          }
+        },
+        {
+          "id": "experience",
+          "title": "Work Experience",
+          "required": false,
+          "order": 3,
+          "conditional": {
+            "show_for_freshers": false,
+            "show_for_experienced": true
+          },
+          "column": "main"
+        },
+        {
+          "id": "projects",
+          "title": "Projects",
+          "required": false,
+          "order": 4,
+          "conditional": {
+            "show_for_freshers": true,
+            "show_for_experienced": true
+          },
+          "column": "main"
+        },
+        {
+          "id": "education",
+          "title": "Education",
+          "required": true,
+          "order": 5,
+          "column": "main"
+        },
+        {
+          "id": "skills",
+          "title": "Technical Skills",
+          "required": true,
+          "order": 6,
+          "subsections": [
+            "programming_languages",
+            "frameworks",
+            "databases",
+            "cloud_technologies",
+            "devops_tools",
+            "other_technical_skills"
+          ],
+          "column": "sidebar"
+        },
+        {
+          "id": "certifications",
+          "title": "Certifications",
+          "required": false,
+          "order": 7,
+          "column": "sidebar"
+        },
+        {
+          "id": "achievements",
+          "title": "Achievements",
+          "required": false,
+          "order": 8,
+          "column": "sidebar"
+        }
+      ],
+      "formatting_rules": {
+        "headings": {
+          "bold": true,
+          "underline": false,
+          "all_caps": false,
+          "spacing_after": 6
+        },
+        "bullet_points": {
+          "indent": 0.2,
+          "symbol": "•",
+          "spacing": 2
+        },
+        "dates": {
+          "format": "MMM YYYY"
+        },
+        "contact_info": {
+          "separator": " | "
+        }
+      }
+    }
+  },
+  "section_behavior": {
+    "auto_hide": {
+      "enabled": true,
+      "conditions": [
+        {
+          "section": "experience",
+          "hide_when": "user_type == 'fresher'"
+        },
+        {
+          "section": "projects",
+          "hide_when": "projects.length == 0"
+        },
+        {
+          "section": "certifications",
+          "hide_when": "certifications.length == 0"
+        },
+        {
+          "section": "achievements",
+          "hide_when": "achievements.length == 0"
+        }
+      ]
+    }
+  },
+  "pdf_generation_rules": {
+    "fonts": [
+      "Arial",
+      "Calibri",
+      "Helvetica"
+    ],
+    "text_selectable": true,
+    "image_based": false,
+    "metadata": {
+      "title": "Resume - {full_name}",
+      "author": "{full_name}",
+      "subject": "Professional Resume",
+      "keywords": "resume, cv, {full_name}, {primary_skills}"
+    },
+    "compatibility": {
+      "ats_verified": true,
+      "text_extraction_test": true,
+      "unicode_support": true
+    }
+  },
+  "template_customization": {
+    "color_scheme": {
+      "primary": "#2c3e50",
+      "secondary": "#bdc3c7",
+      "accent": "#3498db"
+    },
+    "spacing": {
+      "section_spacing": 12,
+      "subsection_spacing": 6,
+      "line_spacing": 1.15
+    }
+  }
+}

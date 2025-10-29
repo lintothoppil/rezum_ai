@@ -1,0 +1,1086 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Rezum.Ai{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        --dark-bg: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.8);
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --neon-glow: 0 0 20px rgba(102, 126, 234, 0.5);
+        --text-primary: #ffffff;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+    }
+
+    .admin-dashboard {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        min-height: 100vh;
+        color: var(--text-primary);
+    }
+
+    .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        box-shadow: var(--neon-glow);
+        transition: all 0.3s ease;
+        color: var(--text-primary);
+    }
+
+    .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .stats-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        color: var(--text-primary);
+    }
+
+    .stats-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s ease;
+    }
+
+    .stats-card:hover::before {
+        left: 100%;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--neon-glow);
+    }
+
+    .stats-card i {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: var(--primary-gradient);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent; /* Fallback for non-WebKit browsers */
+        display: inline-block;
+    }
+
+    .stats-card h3 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: var(--text-primary); /* Fallback */
+    }
+
+    .stats-card p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+
+    .card-custom {
+        background: var(--card-bg);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        color: var(--text-primary);
+    }
+
+    .card-custom .card-header {
+        background: var(--primary-gradient);
+        border: none;
+        border-radius: 15px 15px 0 0 !important;
+        padding: 1rem 1.5rem;
+        color: var(--text-primary);
+    }
+
+    .card-custom .card-header h5 {
+        color: var(--text-primary) !important;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+
+    .real-time-badge {
+        background: var(--success-gradient);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+
+    .table-custom {
+        background: var(--card-bg);
+        border-radius: 10px;
+        overflow: hidden;
+        color: var(--text-primary);
+    }
+
+    .table-custom thead th {
+        background: var(--primary-gradient);
+        border: none;
+        color: var(--text-primary) !important;
+        font-weight: 600;
+        padding: 1rem;
+    }
+
+    .table-custom tbody td {
+        border-color: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        color: var(--text-secondary) !important;
+        transition: all 0.3s ease;
+    }
+
+    .table-custom tbody tr:hover td {
+        background: rgba(102, 126, 234, 0.1);
+        color: var(--text-primary) !important;
+        transform: scale(1.02);
+    }
+
+    .btn-custom {
+        background: var(--primary-gradient);
+        border: none;
+        color: white !important;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        color: white !important;
+    }
+
+    .notification-bell {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .notification-bell .badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #ef4444;
+        border: 2px solid var(--dark-bg);
+        color: white;
+    }
+
+    .activity-feed {
+        max-height: 400px;
+        overflow-y: auto;
+        color: var(--text-primary);
+    }
+
+    .activity-item {
+        padding: 1rem;
+        border-left: 3px solid #667eea;
+        margin-bottom: 0.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 0 10px 10px 0;
+        transition: all 0.3s ease;
+        color: var(--text-primary);
+    }
+
+    .activity-item strong {
+        color: var(--text-primary) !important;
+    }
+
+    .activity-item small {
+        color: var(--text-muted) !important;
+    }
+
+    .activity-item:hover {
+        background: rgba(102, 126, 234, 0.1);
+        transform: translateX(5px);
+    }
+
+    .performance-metric {
+        text-align: center;
+        padding: 1rem;
+        color: var(--text-primary);
+    }
+
+    .metric-value {
+        font-size: 2rem;
+        font-weight: 700;
+        background: var(--primary-gradient);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: var(--text-primary); /* Fallback */
+    }
+
+    .metric-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+
+    .trend-indicator {
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+        color: var(--text-secondary);
+    }
+
+    .trend-up { color: #10b981; }
+    .trend-down { color: #ef4444; }
+
+    /* Custom scrollbar */
+    .activity-feed::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .activity-feed::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+
+    .activity-feed::-webkit-scrollbar-thumb {
+        background: var(--primary-gradient);
+        border-radius: 3px;
+    }
+
+    /* Loading animations */
+    .skeleton-loader {
+        background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+
+    /* Additional fixes for visibility */
+    .text-white {
+        color: var(--text-primary) !important;
+    }
+
+    .text-muted {
+        color: var(--text-muted) !important;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--text-primary) !important;
+    }
+
+    p {
+        color: var(--text-secondary);
+    }
+
+    .badge {
+        color: white !important;
+    }
+</style>
+
+<div class="admin-dashboard">
+    <div class="container-fluid py-4">
+        <!-- Header with Real-time Stats -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h2 mb-1">Admin Dashboard</h1>
+                        <p class="text-muted mb-0">Real-time analytics and management</p>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="real-time-badge">
+                            <i class="fas fa-circle me-1"></i>
+                            Live Data
+                        </div>
+                        <button class="btn btn-custom" id="btnGenerateReport" title="Generate Admin Report PDF">
+                            <i class="fas fa-file-pdf me-2"></i>Generate Report
+                        </button>
+                        <div class="notification-bell">
+                            <i class="fas fa-bell fa-lg text-muted"></i>
+                            <span class="badge">{{ total_feedback - replied_feedback if total_feedback and replied_feedback else 0 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-users"></i>
+                    <h3>{{ total_users }}</h3>
+                    <p>Total Users</p>
+                    <div class="trend-indicator trend-up">
+                        <i class="fas fa-arrow-up"></i> 12%
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-file-upload"></i>
+                    <h3>{{ total_uploads }}</h3>
+                    <p>Resume Uploads</p>
+                    <div class="trend-indicator trend-up">
+                        <i class="fas fa-arrow-up"></i> 8%
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-star"></i>
+                    <h3>{{ avg_rating }}</h3>
+                    <p>Average Rating</p>
+                    <div class="trend-indicator trend-up">
+                        <i class="fas fa-arrow-up"></i> 5%
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-download"></i>
+                    <h3>{{ total_downloads }}</h3>
+                    <p>Resume Downloads</p>
+                    <div class="trend-indicator trend-up">
+                        <i class="fas fa-arrow-up"></i> 15%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>{{ total_generated_resumes }}</h3>
+                    <p>Generated Resumes</p>
+                    <div class="trend-indicator trend-up">
+                        <i class="fas fa-arrow-up"></i> 10%
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>{{ total_feedback }}</h3>
+                    <p>Total Feedback</p>
+                    <div class="trend-indicator trend-up">
+                        <i class="fas fa-arrow-up"></i> 7%
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-reply"></i>
+                    <h3>{{ replied_feedback }}</h3>
+                    <p>Replied Feedback</p>
+                    <div class="trend-indicator trend-up">
+                        <i class="fas fa-arrow-up"></i> 12%
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>{{ weekly_active_users }}</h3>
+                    <p>Weekly Active Users</p>
+                    <div class="trend-indicator trend-up">
+                        <i class="fas fa-arrow-up"></i> 9%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row mb-4">
+            <div class="col-lg-8 mb-4">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-custom h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 text-white">User Activity</h5>
+                                <span class="real-time-badge">Live</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="loginsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-custom h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0 text-white">Upload Analytics</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-container">
+                                    <canvas id="uploadsChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card card-custom">
+                            <div class="card-header">
+                                <h5 class="mb-0 text-white">Platform Performance</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col-md-3 performance-metric">
+                                        <div class="metric-value">98.7%</div>
+                                        <div class="metric-label">Uptime</div>
+                                    </div>
+                                    <div class="col-md-3 performance-metric">
+                                        <div class="metric-value">2.3s</div>
+                                        <div class="metric-label">Avg Response</div>
+                                    </div>
+                                    <div class="col-md-3 performance-metric">
+                                        <div class="metric-value">{{ monthly_active_users }}</div>
+                                        <div class="metric-label">Monthly Active</div>
+                                    </div>
+                                    <div class="col-md-3 performance-metric">
+                                        <div class="metric-value">99.1%</div>
+                                        <div class="metric-label">Success Rate</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0 text-white">Real-time Activity</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-feed">
+                            {% for login in recent_logins[:5] %}
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between">
+                                    <strong>New user login</strong>
+                                    <small class="text-muted">{{ login[2][:10] }}</small>
+                                </div>
+                                <small class="text-muted">{{ login[1] }} ({{ login[0] }})</small>
+                            </div>
+                            {% endfor %}
+                            {% for upload in recent_uploads[:5] %}
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between">
+                                    <strong>Resume uploaded</strong>
+                                    <small class="text-muted">{{ upload[2][:10] }}</small>
+                                </div>
+                                <small class="text-muted">{{ upload[0] }} by {{ upload[1] }}</small>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Charts -->
+        <div class="row mb-4">
+            <div class="col-lg-4 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0 text-white">Feedback Distribution</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container d-flex justify-content-center">
+                            <canvas id="ratingsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0 text-white">Download Trends</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="downloadsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Feedback Table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-custom">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0 text-white">
+                            <i class="fas fa-comments me-2"></i>User Feedback
+                        </h4>
+                        <span class="badge bg-warning">{{ total_feedback - replied_feedback if total_feedback and replied_feedback else 0 }} pending</span>
+                    </div>
+                    <div class="card-body">
+                        {% if all_feedback %}
+                            <div class="table-responsive">
+                                <table class="table table-hover table-custom">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Rating</th>
+                                            <th>Feedback</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for feedback in all_feedback %}
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-circle bg-primary me-3">
+                                                        {{ feedback[1][0]|upper }}
+                                                    </div>
+                                                    <div>
+                                                        <strong>{{ feedback[1] }}</strong>
+                                                        <br>
+                                                        <small class="text-muted">ID: {{ feedback[0] }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="star-rating">
+                                                    {% for i in range(1, 6) %}
+                                                        <i class="fas fa-star {{ 'text-warning' if i <= feedback[2] else 'text-muted' }}"></i>
+                                                    {% endfor %}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="feedback-preview">
+                                                    {% if feedback[3] %}
+                                                        {{ feedback[3][:60] }}{{ '...' if feedback[3]|length > 60 else '' }}
+                                                    {% else %}
+                                                        <em class="text-muted">No comment provided</em>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="date-display">
+                                                    <strong>{{ feedback[5][:10] }}</strong>
+                                                    <br>
+                                                    <small class="text-muted">{{ feedback[5][11:16] }}</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {% if feedback[4] %}
+                                                    <span class="badge bg-success">
+                                                        <i class="fas fa-check me-1"></i>Replied
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge bg-warning pulse">
+                                                        <i class="fas fa-clock me-1"></i>Pending
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-custom btn-open-reply" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#replyModal"
+                                                            data-id="{{ feedback[0] }}"
+                                                            data-name="{{ feedback[1]|e }}"
+                                                            data-rating="{{ feedback[2] }}"
+                                                            data-feedback="{{ (feedback[3] or '')|e }}"
+                                                            data-reply="{{ (feedback[4] or '')|e }}">
+                                                        <i class="fas fa-reply me-1"></i>
+                                                        {{ 'Update' if feedback[4] else 'Reply' }}
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-light" 
+                                                            onclick="showNotification('Feedback details loaded')">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center text-muted py-5">
+                                <i class="fas fa-inbox fa-4x mb-3 opacity-50"></i>
+                                <h5>No Feedback Yet</h5>
+                                <p>User feedback will appear here once submitted</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reply Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content glass-card">
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white">Reply to User Feedback</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('reply_feedback') }}">
+                <div class="modal-body">
+                    <input type="hidden" name="feedback_id" id="modalFeedbackId">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label text-white"><strong>User Information</strong></label>
+                                <div class="user-info-card p-3 rounded">
+                                    <div id="modalUserName" class="fw-bold text-white"></div>
+                                    <small class="text-muted" id="modalUserEmail"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label text-white"><strong>Rating</strong></label>
+                                <div id="modalRating" class="rating-display"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white"><strong>User Feedback</strong></label>
+                        <div id="modalFeedback" class="feedback-content p-3 bg-dark rounded text-white"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="admin_reply" class="form-label text-white"><strong>Your Response</strong></label>
+                        <textarea class="form-control bg-dark text-white border-0" 
+                                  name="admin_reply" 
+                                  id="modalAdminReply" 
+                                  rows="4" 
+                                  required 
+                                  placeholder="Type your professional response here..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-custom">
+                        <i class="fas fa-paper-plane me-2"></i>Send Response
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Enhanced Chart Configurations
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: { color: '#cbd5e1' }
+            }
+        },
+        scales: {
+            x: { 
+                grid: { color: 'rgba(255,255,255,0.1)' },
+                ticks: { color: '#cbd5e1' }
+            },
+            y: { 
+                grid: { color: 'rgba(255,255,255,0.1)' },
+                ticks: { color: '#cbd5e1' }
+            }
+        }
+    };
+
+    // Refresh charts with live data from backend
+    function refreshCharts(data) {
+        // Update KPI cards if provided
+        if (data.kpis) {
+            const { total_users, total_uploads, avg_rating, total_downloads, total_generated_resumes } = data.kpis;
+            // Update numbers in the DOM if present
+            const kpiEls = [
+                { sel: '.stats-card:nth-child(1) h3', val: total_users },
+                { sel: '.stats-card:nth-child(2) h3', val: total_uploads },
+                { sel: '.stats-card:nth-child(3) h3', val: avg_rating },
+                { sel: '.stats-card:nth-child(4) h3', val: total_downloads },
+                { sel: '.stats-card:nth-child(5) h3', val: total_generated_resumes }
+            ];
+            kpiEls.forEach(k => {
+                const el = document.querySelector(k.sel);
+                if (el && typeof k.val !== 'undefined' && k.val !== null) el.textContent = k.val;
+            });
+        }
+
+        // Update charts
+        if (loginsChartInstance && data.login_labels && data.login_counts) {
+            loginsChartInstance.data.labels = data.login_labels;
+            loginsChartInstance.data.datasets[0].data = data.login_counts;
+            loginsChartInstance.update();
+        }
+        if (uploadsChartInstance && data.upload_labels && data.upload_counts) {
+            uploadsChartInstance.data.labels = data.upload_labels;
+            uploadsChartInstance.data.datasets[0].data = data.upload_counts;
+            uploadsChartInstance.update();
+        }
+        if (ratingsChartInstance && data.rating_labels && data.rating_counts) {
+            ratingsChartInstance.data.labels = data.rating_labels;
+            ratingsChartInstance.data.datasets[0].data = data.rating_counts;
+            ratingsChartInstance.update();
+        }
+        if (downloadsChartInstance && data.download_labels && data.download_counts) {
+            downloadsChartInstance.data.labels = data.download_labels;
+            downloadsChartInstance.data.datasets[0].data = data.download_counts;
+            downloadsChartInstance.update();
+        }
+    }
+
+    // Auto-refresh every 30 seconds
+    function startAutoRefresh() {
+        setInterval(() => {
+            fetch('/admin_metrics')
+                .then(r => r.json())
+                .then(json => { if (json.success) refreshCharts(json.data); })
+                .catch(() => {});
+        }, 30000);
+    }
+
+    // Client-side PDF report generation using chart images
+    function generateAdminReport() {
+        try {
+            const win = window.open('', '_blank');
+            const now = new Date().toLocaleString();
+            const loginImg = loginsChartInstance?.toBase64Image?.() || '';
+            const uploadImg = uploadsChartInstance?.toBase64Image?.() || '';
+            const ratingImg = ratingsChartInstance?.toBase64Image?.() || '';
+            const downloadImg = downloadsChartInstance?.toBase64Image?.() || '';
+            const totalUsers = document.querySelector('.stats-card:nth-child(1) h3')?.textContent || '';
+            const totalUploads = document.querySelector('.stats-card:nth-child(2) h3')?.textContent || '';
+            const avgRating = document.querySelector('.stats-card:nth-child(3) h3')?.textContent || '';
+            const totalDownloads = document.querySelector('.stats-card:nth-child(4) h3')?.textContent || '';
+            const totalGenerated = document.querySelector('.stats-card:nth-child(5) h3')?.textContent || '';
+
+            win.document.write(`
+                <html><head><title>Admin Report</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; }
+                    h1 { margin: 0 0 10px; }
+                    .kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 16px 0; }
+                    .kpi { border: 1px solid #ccc; border-radius: 8px; padding: 12px; }
+                    .charts img { max-width: 100%; border: 1px solid #eee; border-radius: 8px; margin: 10px 0; }
+                    .section { margin-top: 16px; }
+                    @media print { button { display:none; } }
+                </style></head>
+                <body>
+                    <h1>Rezum.Ai - Admin Report</h1>
+                    <div>Generated at: ${now}</div>
+                    <div class="kpis">
+                        <div class="kpi"><strong>Total Users</strong><div>${totalUsers}</div></div>
+                        <div class="kpi"><strong>Resume Uploads</strong><div>${totalUploads}</div></div>
+                        <div class="kpi"><strong>Average Rating</strong><div>${avgRating}</div></div>
+                        <div class="kpi"><strong>Resume Downloads</strong><div>${totalDownloads}</div></div>
+                        <div class="kpi"><strong>Generated Resumes</strong><div>${totalGenerated}</div></div>
+                    </div>
+                    <div class="section charts">
+                        <h3>User Activity</h3>
+                        ${loginImg ? `<img src="${loginImg}"/>` : ''}
+                        <h3>Upload Analytics</h3>
+                        ${uploadImg ? `<img src="${uploadImg}"/>` : ''}
+                        <h3>Feedback Distribution</h3>
+                        ${ratingImg ? `<img src="${ratingImg}"/>` : ''}
+                        <h3>Download Trends</h3>
+                        ${downloadImg ? `<img src="${downloadImg}"/>` : ''}
+                    </div>
+                    <button onclick="window.print()">Print / Save as PDF</button>
+                </body></html>
+            `);
+            win.document.close();
+        } catch (e) {}
+    }
+
+    // Chart instances (global within this script block)
+    let loginsChartInstance, uploadsChartInstance, ratingsChartInstance, downloadsChartInstance;
+
+    // Initialize Charts
+    function initializeCharts() {
+        const loginLabels = JSON.parse('{{ login_labels | safe }}');
+        const loginCounts = JSON.parse('{{ login_counts | safe }}');
+        const uploadLabels = JSON.parse('{{ upload_labels | safe }}');
+        const uploadCounts = JSON.parse('{{ upload_counts | safe }}');
+        const ratingLabels = JSON.parse('{{ rating_labels | safe }}');
+        const ratingCounts = JSON.parse('{{ rating_counts | safe }}');
+        const downloadLabels = JSON.parse('{{ download_labels | safe }}');
+        const downloadCounts = JSON.parse('{{ download_counts | safe }}');
+
+        // Logins Chart
+        loginsChartInstance = new Chart(document.getElementById('loginsChart'), {
+            type: 'line',
+            data: {
+                labels: loginLabels,
+                datasets: [{
+                    label: 'Daily Logins',
+                    data: loginCounts,
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#667eea',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Uploads Chart
+        uploadsChartInstance = new Chart(document.getElementById('uploadsChart'), {
+            type: 'bar',
+            data: {
+                labels: uploadLabels,
+                datasets: [{
+                    label: 'Resume Uploads',
+                    data: uploadCounts,
+                    backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                    borderRadius: 5
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Ratings Chart: replace doughnut with horizontal bar for clearer comparison
+        ratingsChartInstance = new Chart(document.getElementById('ratingsChart'), {
+            type: 'bar',
+            data: {
+                labels: ratingLabels,
+                datasets: [{
+                    data: ratingCounts,
+                    label: 'Ratings Count',
+                    backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                ...chartOptions,
+                indexAxis: 'y'
+            }
+        });
+
+        // Downloads Chart
+        downloadsChartInstance = new Chart(document.getElementById('downloadsChart'), {
+            type: 'line',
+            data: {
+                labels: downloadLabels,
+                datasets: [{
+                    label: 'Resume Downloads',
+                    data: downloadCounts,
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: chartOptions
+        });
+    }
+
+    // Enhanced Modal Function
+    function openReplyModal(feedbackId, userName, rating, feedback, currentReply) {
+        document.getElementById('modalFeedbackId').value = feedbackId;
+        document.getElementById('modalUserName').textContent = userName;
+        document.getElementById('modalUserEmail').textContent = `Feedback #${feedbackId}`;
+        document.getElementById('modalFeedback').textContent = feedback || 'No comment provided';
+        document.getElementById('modalAdminReply').value = currentReply || '';
+
+        const ratingContainer = document.getElementById('modalRating');
+        ratingContainer.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+            const star = document.createElement('i');
+            star.className = `fas fa-star ${i <= rating ? 'text-warning' : 'text-muted'}`;
+            ratingContainer.appendChild(star);
+        }
+    }
+
+    // Notification System
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        notification.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
+    }
+
+    // Real-time Updates
+    function updateRealTimeData() {
+        // Simulate real-time data updates
+        const metrics = document.querySelectorAll('.metric-value');
+        metrics.forEach(metric => {
+            const current = parseInt(metric.textContent);
+            const change = Math.floor(Math.random() * 10) - 2;
+            metric.textContent = current + change;
+        });
+    }
+
+    // Auto-refresh every 30 seconds
+    setInterval(updateRealTimeData, 30000);
+
+    // Initialize everything when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeCharts();
+        startAutoRefresh();
+        document.getElementById('btnGenerateReport')?.addEventListener('click', generateAdminReport);
+        
+        // Add loading animation to cards
+        const cards = document.querySelectorAll('.glass-card');
+        cards.forEach(card => {
+            card.classList.add('skeleton-loader');
+            setTimeout(() => card.classList.remove('skeleton-loader'), 1000);
+        });
+    });
+
+    // Enhanced table interactions
+    document.querySelectorAll('.table-custom tbody tr').forEach(row => {
+        row.addEventListener('click', function(e) {
+            if (!e.target.closest('button')) {
+                this.classList.toggle('table-active');
+            }
+        });
+    });
+</script>
+
+<style>
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        background: #667eea !important;
+    }
+
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+
+    .feedback-preview {
+        max-width: 200px;
+        line-height: 1.4;
+        color: var(--text-secondary);
+    }
+
+    .date-display {
+        line-height: 1.2;
+    }
+
+    .date-display strong {
+        color: var(--text-primary);
+    }
+
+    .user-info-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+    }
+
+    .feedback-content {
+        border-left: 4px solid #667eea;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-secondary);
+    }
+
+    .rating-display {
+        font-size: 1.2rem;
+    }
+
+    .table-active {
+        background: rgba(102, 126, 234, 0.2) !important;
+    }
+
+    .btn-group .btn {
+        margin: 0 2px;
+    }
+
+    .btn-outline-light {
+        color: var(--text-secondary) !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .btn-outline-light:hover {
+        color: var(--text-primary) !important;
+        background: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .star-rating i {
+        color: inherit !important;
+    }
+
+    .text-warning {
+        color: #f59e0b !important;
+    }
+
+    .bg-primary {
+        background-color: #667eea !important;
+    }
+
+    .bg-success {
+        background-color: #10b981 !important;
+    }
+
+    .bg-warning {
+        background-color: #f59e0b !important;
+    }
+
+    em {
+        color: var(--text-muted) !important;
+    }
+
+    .opacity-50 {
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,302 @@
+[
+  {
+    "title": "Python Developer",
+    "sector": "Technology",
+    "company": "Tech Solutions Inc",
+    "location": "Bangalore, India",
+    "salary": "₹8-15 LPA",
+    "description": "Develop and maintain Python applications, work with Django/Flask frameworks, and collaborate with cross-functional teams.",
+    "skills": ["python", "django", "flask", "sql", "rest api", "git", "aws", "docker"],
+    "url": "https://example.com/jobs/python-developer"
+  },
+  {
+    "title": "Frontend Developer",
+    "sector": "Technology",
+    "company": "Web Innovations Ltd",
+    "location": "Hyderabad, India",
+    "salary": "₹6-12 LPA",
+    "description": "Create responsive web applications using modern JavaScript frameworks and ensure excellent user experience.",
+    "skills": ["javascript", "react", "html", "css", "typescript", "git", "responsive design", "ui/ux"],
+    "url": "https://example.com/jobs/frontend-developer"
+  },
+  {
+    "title": "Data Scientist",
+    "sector": "Technology",
+    "company": "Data Insights Corp",
+    "location": "Pune, India",
+    "salary": "₹10-18 LPA",
+    "description": "Apply machine learning algorithms to solve complex business problems and derive insights from large datasets.",
+    "skills": ["python", "machine learning", "statistics", "sql", "pandas", "numpy", "data analysis", "ai"],
+    "url": "https://example.com/jobs/data-scientist"
+  },
+  {
+    "title": "Sales Executive",
+    "sector": "Sales",
+    "company": "SalesForce India",
+    "location": "Mumbai, India",
+    "salary": "₹4-8 LPA + Commission",
+    "description": "Drive sales growth by identifying new business opportunities and maintaining client relationships.",
+    "skills": ["sales", "communication", "negotiation", "customer service", "relationship building", "marketing"],
+    "url": "https://example.com/jobs/sales-executive"
+  },
+  {
+    "title": "Digital Marketing Specialist",
+    "sector": "Marketing",
+    "company": "Digital Boost Agency",
+    "location": "Delhi, India",
+    "salary": "₹5-9 LPA",
+    "description": "Develop and implement digital marketing strategies across various platforms to drive brand awareness and engagement.",
+    "skills": ["digital marketing", "seo", "social media", "google analytics", "content writing", "email marketing"],
+    "url": "https://example.com/jobs/digital-marketing-specialist"
+  },
+  {
+    "title": "AI/ML Engineer",
+    "sector": "Technology",
+    "company": "AI Innovations Pvt Ltd",
+    "location": "Bangalore, India",
+    "salary": "₹12-20 LPA",
+    "description": "Design and implement AI/ML solutions, work with neural networks, and deploy machine learning models.",
+    "skills": ["python", "machine learning", "deep learning", "pytorch", "tensorflow", "nlp", "ai", "data science"],
+    "url": "https://example.com/jobs/ai-ml-engineer"
+  },
+  {
+    "title": "Software Engineer",
+    "sector": "Technology",
+    "company": "SoftTech Solutions",
+    "location": "Chennai, India",
+    "salary": "₹7-14 LPA",
+    "description": "Develop scalable software solutions, write clean code, and participate in full software development lifecycle.",
+    "skills": ["java", "python", "javascript", "sql", "git", "rest api", "agile", "problem solving"],
+    "url": "https://example.com/jobs/software-engineer"
+  },
+  {
+    "title": "Data Analyst",
+    "sector": "Technology",
+    "company": "Analytics Pro",
+    "location": "Gurgaon, India",
+    "salary": "₹6-11 LPA",
+    "description": "Analyze complex datasets, create reports and dashboards, and provide data-driven insights to stakeholders.",
+    "skills": ["sql", "excel", "data analysis", "statistics", "python", "tableau", "power bi", "reporting"],
+    "url": "https://example.com/jobs/data-analyst"
+  },
+  {
+    "title": "Marketing Manager",
+    "sector": "Marketing",
+    "company": "Brand Builders",
+    "location": "Mumbai, India",
+    "salary": "₹9-16 LPA",
+    "description": "Lead marketing campaigns, manage brand strategy, and oversee digital and traditional marketing efforts.",
+    "skills": ["marketing", "leadership", "strategy", "digital marketing", "brand management", "team management"],
+    "url": "https://example.com/jobs/marketing-manager"
+  },
+  {
+    "title": "Sales Manager",
+    "sector": "Sales",
+    "company": "Enterprise Sales Corp",
+    "location": "Delhi, India",
+    "salary": "₹10-18 LPA + Incentives",
+    "description": "Manage sales team, develop sales strategies, and drive revenue growth through effective team leadership.",
+    "skills": ["sales management", "leadership", "team management", "strategy", "negotiation", "business development"],
+    "url": "https://example.com/jobs/sales-manager"
+  },
+  {
+    "title": "Backend Developer",
+    "sector": "Technology",
+    "company": "ServerSide Tech",
+    "location": "Pune, India",
+    "salary": "₹8-15 LPA",
+    "description": "Build robust backend systems, work with databases, and ensure high performance of server-side applications.",
+    "skills": ["node.js", "python", "java", "sql", "mongodb", "rest api", "docker", "aws"],
+    "url": "https://example.com/jobs/backend-developer"
+  },
+  {
+    "title": "UX/UI Designer",
+    "sector": "Technology",
+    "company": "Design Studio Pro",
+    "location": "Bangalore, India",
+    "salary": "₹6-12 LPA",
+    "description": "Create intuitive user interfaces and engaging user experiences for web and mobile applications.",
+    "skills": ["ui/ux", "figma", "adobe xd", "wireframing", "prototyping", "user research", "design thinking"],
+    "url": "https://example.com/jobs/ui-ux-designer"
+  },
+  {
+    "title": "Human Resources Specialist",
+    "sector": "HR",
+    "company": "HR Solutions",
+    "location": "Hyderabad, India",
+    "salary": "₹5-9 LPA",
+    "description": "Manage recruitment processes, employee relations, and implement HR policies and procedures.",
+    "skills": ["hr", "recruitment", "employee relations", "communication", "hiring", "hr policies", "teamwork"],
+    "url": "https://example.com/jobs/hr-specialist"
+  },
+  {
+    "title": "Project Manager",
+    "sector": "Management",
+    "company": "ManageIt Solutions",
+    "location": "Chennai, India",
+    "salary": "₹10-17 LPA",
+    "description": "Oversee project lifecycle, manage resources, and ensure timely delivery of projects within budget.",
+    "skills": ["project management", "leadership", "communication", "agile", "scrum", "risk management", "team coordination"],
+    "url": "https://example.com/jobs/project-manager"
+  },
+  {
+    "title": "Content Writer",
+    "sector": "Marketing",
+    "company": "WriteWell Media",
+    "location": "Remote, India",
+    "salary": "₹4-8 LPA",
+    "description": "Create engaging content for various platforms including blogs, social media, and marketing materials.",
+    "skills": ["content writing", "seo", "creative writing", "research", "communication", "social media", "blogging"],
+    "url": "https://example.com/jobs/content-writer"
+  },
+  {
+    "title": "Social Media Manager",
+    "sector": "Marketing",
+    "company": "AdSphere Digital",
+    "location": "Mumbai, India",
+    "salary": "₹5-10 LPA",
+    "description": "Manage social media presence, create content strategies, and engage with online communities.",
+    "skills": ["social media", "content creation", "digital marketing", "analytics", "community management", "branding"],
+    "url": "https://example.com/jobs/social-media-manager"
+  },
+  {
+    "title": "Account Manager",
+    "sector": "Sales",
+    "company": "BizGrowth Partners",
+    "location": "Delhi, India",
+    "salary": "₹8-14 LPA + Commission",
+    "description": "Maintain client relationships, identify upsell opportunities, and ensure customer satisfaction.",
+    "skills": ["account management", "client relations", "sales", "communication", "customer service", "negotiation"],
+    "url": "https://example.com/jobs/account-manager"
+  },
+  {
+    "title": "DevOps Engineer",
+    "sector": "Technology",
+    "company": "CloudOps Technologies",
+    "location": "Bangalore, India",
+    "salary": "₹11-19 LPA",
+    "description": "Implement CI/CD pipelines, manage cloud infrastructure, and ensure system reliability and scalability.",
+    "skills": ["aws", "docker", "kubernetes", "jenkins", "ci/cd", "linux", "python", "terraform"],
+    "url": "https://example.com/jobs/devops-engineer"
+  },
+  {
+    "title": "Cybersecurity Analyst",
+    "sector": "Technology",
+    "company": "SecureNet Systems",
+    "location": "Gurgaon, India",
+    "salary": "₹9-16 LPA",
+    "description": "Monitor security systems, conduct vulnerability assessments, and implement security measures.",
+    "skills": ["cybersecurity", "network security", "vulnerability assessment", "siem", "incident response", "python"],
+    "url": "https://example.com/jobs/cybersecurity-analyst"
+  },
+  {
+    "title": "Cloud Solutions Architect",
+    "sector": "Technology",
+    "company": "CloudWorks India",
+    "location": "Pune, India",
+    "salary": "₹15-25 LPA",
+    "description": "Design cloud infrastructure solutions, provide technical guidance, and ensure cloud security best practices.",
+    "skills": ["aws", "azure", "cloud architecture", "solution design", "security", "microservices", "docker"],
+    "url": "https://example.com/jobs/cloud-architect"
+  },
+  {
+    "title": "IT Project Manager",
+    "sector": "Technology",
+    "company": "TechManage Solutions",
+    "location": "Hyderabad, India",
+    "salary": "₹12-20 LPA",
+    "description": "Manage IT projects, coordinate with technical teams, and ensure successful project delivery.",
+    "skills": ["project management", "agile", "scrum", "it management", "leadership", "communication", "jira"],
+    "url": "https://example.com/jobs/it-project-manager"
+  },
+  {
+    "title": "Full Stack Developer",
+    "sector": "Technology",
+    "company": "StackMasters Inc",
+    "location": "Bangalore, India",
+    "salary": "₹9-16 LPA",
+    "description": "Develop end-to-end web applications, working on both frontend and backend technologies.",
+    "skills": ["javascript", "react", "node.js", "python", "mongodb", "sql", "aws", "docker"],
+    "url": "https://example.com/jobs/full-stack-developer"
+  },
+  {
+    "title": "Mobile App Developer",
+    "sector": "Technology",
+    "company": "AppCraft Studios",
+    "location": "Chennai, India",
+    "salary": "₹7-13 LPA",
+    "description": "Develop cross-platform mobile applications using React Native/Flutter and native technologies.",
+    "skills": ["react native", "flutter", "javascript", "mobile development", "ios", "android", "api integration"],
+    "url": "https://example.com/jobs/mobile-developer"
+  },
+  {
+    "title": "Business Analyst",
+    "sector": "Business",
+    "company": "BizAnalytica",
+    "location": "Mumbai, India",
+    "salary": "₹8-14 LPA",
+    "description": "Analyze business requirements, create functional specifications, and bridge gap between business and IT teams.",
+    "skills": ["business analysis", "requirements gathering", "documentation", "sql", "excel", "communication", "uml"],
+    "url": "https://example.com/jobs/business-analyst"
+  },
+  {
+    "title": "Product Manager",
+    "sector": "Management",
+    "company": "ProductLabs India",
+    "location": "Bangalore, India",
+    "salary": "₹14-22 LPA",
+    "description": "Define product vision, create roadmaps, and work with cross-functional teams to deliver successful products.",
+    "skills": ["product management", "strategy", "market research", "agile", "leadership", "analytics", "user stories"],
+    "url": "https://example.com/jobs/product-manager"
+  },
+  {
+    "title": "QA Engineer",
+    "sector": "Technology",
+    "company": "QualityFirst Tech",
+    "location": "Pune, India",
+    "salary": "₹5-10 LPA",
+    "description": "Design and execute test cases, automate testing processes, and ensure software quality standards.",
+    "skills": ["testing", "automation", "selenium", "python", "java", "test cases", "quality assurance", "jira"],
+    "url": "https://example.com/jobs/qa-engineer"
+  },
+  {
+    "title": "Database Administrator",
+    "sector": "Technology",
+    "company": "DataSystems Ltd",
+    "location": "Hyderabad, India",
+    "salary": "₹8-15 LPA",
+    "description": "Manage database systems, optimize performance, and ensure data security and integrity.",
+    "skills": ["sql", "oracle", "mysql", "database administration", "performance tuning", "backup recovery", "nosql"],
+    "url": "https://example.com/jobs/dba"
+  },
+  {
+    "title": "Network Engineer",
+    "sector": "Technology",
+    "company": "NetConnect Solutions",
+    "location": "Delhi, India",
+    "salary": "₹7-12 LPA",
+    "description": "Design, implement and maintain network infrastructure, troubleshoot network issues, and ensure network security.",
+    "skills": ["networking", "ccna", "tcp/ip", "firewall", "vpn", "routing", "switching", "network security"],
+    "url": "https://example.com/jobs/network-engineer"
+  },
+  {
+    "title": "Technical Support Engineer",
+    "sector": "Technology",
+    "company": "SupportPlus India",
+    "location": "Gurgaon, India",
+    "salary": "₹4-7 LPA",
+    "description": "Provide technical support to customers, troubleshoot issues, and ensure customer satisfaction.",
+    "skills": ["technical support", "troubleshooting", "customer service", "communication", "windows", "linux", "networking"],
+    "url": "https://example.com/jobs/technical-support"
+  },
+  {
+    "title": "SEO Specialist",
+    "sector": "Marketing",
+    "company": "SearchRank Experts",
+    "location": "Mumbai, India",
+    "salary": "₹5-9 LPA",
+    "description": "Optimize websites for search engines, conduct keyword research, and improve organic search rankings.",
+    "skills": ["seo", "keyword research", "google analytics", "content optimization", "link building", "technical seo"],
+    "url": "https://example.com/jobs/seo-specialist"
+  }
+]

@@ -1,0 +1,267 @@
+{
+  "title": "ATS-Friendly Resume Builder Schema",
+  "description": "JSON schema for the AI-powered ATS-friendly resume builder",
+  "type": "object",
+  "properties": {
+    "user_type": {
+      "type": "string",
+      "enum": ["fresher", "experienced"],
+      "description": "User type identification to determine which sections to show"
+    },
+    "personal_details": {
+      "type": "object",
+      "properties": {
+        "full_name": {
+          "type": "string",
+          "description": "Full name of the candidate"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number"
+        },
+        "location": {
+          "type": "string",
+          "description": "Current location"
+        },
+        "linkedin": {
+          "type": "string",
+          "format": "uri",
+          "description": "LinkedIn profile URL"
+        },
+        "github": {
+          "type": "string",
+          "format": "uri",
+          "description": "GitHub profile URL"
+        }
+      },
+      "required": ["full_name", "email"]
+    },
+    "professional_summary": {
+      "type": "string",
+      "description": "AI-generated professional summary based on user type, course, and experience"
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "degree": {
+            "type": "string",
+            "enum": [
+              "BCA",
+              "BSc CS",
+              "B.Tech",
+              "M.Tech",
+              "MCA",
+              "MBA",
+              "BBA",
+              "B.Com",
+              "Diploma",
+              "Other"
+            ],
+            "description": "Course name from predefined list or custom entry"
+          },
+          "custom_degree": {
+            "type": "string",
+            "description": "Custom degree name when 'Other' is selected"
+          },
+          "institution": {
+            "type": "string",
+            "description": "Name of the educational institution"
+          },
+          "location": {
+            "type": "string",
+            "description": "Location of the institution"
+          },
+          "start_year": {
+            "type": "integer",
+            "minimum": 1950,
+            "maximum": 2030,
+            "description": "Year when the course started"
+          },
+          "end_year": {
+            "type": "integer",
+            "minimum": 1950,
+            "maximum": 2030,
+            "description": "Year when the course is expected to end"
+          },
+          "currently_studying": {
+            "type": "boolean",
+            "description": "Whether the user is currently studying this course"
+          }
+        },
+        "required": ["degree", "institution", "start_year"]
+      }
+    },
+    "technical_skills": {
+      "type": "object",
+      "properties": {
+        "programming_languages": {
+          "type": "string",
+          "description": "Programming languages the user knows"
+        },
+        "frameworks": {
+          "type": "string",
+          "description": "Frameworks and libraries the user knows"
+        },
+        "databases": {
+          "type": "string",
+          "description": "Databases the user has experience with"
+        },
+        "cloud_technologies": {
+          "type": "string",
+          "description": "Cloud platforms and technologies"
+        },
+        "devops_tools": {
+          "type": "string",
+          "description": "DevOps tools and practices"
+        },
+        "other_technical_skills": {
+          "type": "string",
+          "description": "Other technical skills not covered above"
+        }
+      }
+    },
+    "soft_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Soft skills of the candidate"
+    },
+    "work_experience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "job_title": {
+            "type": "string",
+            "description": "Job title"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company name"
+          },
+          "location": {
+            "type": "string",
+            "description": "Work location"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Start date in YYYY-MM format"
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date",
+            "description": "End date in YYYY-MM format"
+          },
+          "currently_working": {
+            "type": "boolean",
+            "description": "Whether the user is currently working in this role"
+          },
+          "bullet_points": {
+            "type": "string",
+            "description": "Bullet points describing responsibilities and achievements"
+          }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "project_name": {
+            "type": "string",
+            "description": "Name of the project"
+          },
+          "description": {
+            "type": "string",
+            "description": "Brief description of the project"
+          },
+          "technologies_used": {
+            "type": "string",
+            "description": "Technologies used in the project"
+          },
+          "github_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Link to the project repository"
+          },
+          "demo_link": {
+            "type": "string",
+            "format": "uri",
+            "description": "Link to the project demo"
+          },
+          "bullet_points": {
+            "type": "string",
+            "description": "Bullet points describing project responsibilities and achievements"
+          }
+        }
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "certification_name": {
+            "type": "string",
+            "description": "Name of the certification"
+          },
+          "organization": {
+            "type": "string",
+            "description": "Issuing organization"
+          },
+          "completion_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date of completion"
+          },
+          "credential_id": {
+            "type": "string",
+            "description": "Credential ID if applicable"
+          },
+          "credential_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to verify the certification"
+          }
+        }
+      }
+    },
+    "achievements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the achievement"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the achievement"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date of the achievement"
+          }
+        }
+      }
+    },
+    "template_type": {
+      "type": "string",
+      "enum": ["classic", "modern"],
+      "description": "Selected resume template type"
+    }
+  },
+  "required": ["user_type", "personal_details", "education"]
+}

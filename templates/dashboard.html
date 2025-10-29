@@ -1,0 +1,2466 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Dashboard') }} - Rezum.Ai{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Header -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-10">
+            <div class="text-center mb-4">
+                <h2 class="brand-gradient mb-2">{{ _('Hello, %(name)s!', name=session.user_name) }}</h2>
+                <p class="text-muted">{{ _('Upload your resume or create a new one to get AI-powered career insights') }}</p>
+            </div>
+            
+
+            <!-- Enlarged Upload Resume Card -->
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="card upload-card shadow-sm">
+                        <div class="card-header bg-transparent">
+                            <h4 class="mb-0"><i class="fas fa-upload me-2"></i>{{ _('Upload Your Resume for AI Analysis') }}</h4>
+                        </div>
+                        <div class="card-body p-5">
+                            <div class="upload-area-large" id="uploadArea">
+                                <div class="upload-icon-large">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <h4>{{ _('Drag & Drop your resume here') }}</h4>
+                                <p class="text-muted mb-4">{{ _('or click to browse files') }}</p>
+                                <p class="upload-hint-large">
+                                    <i class="fas fa-file-pdf me-2"></i>
+                                    <i class="fas fa-file-word me-2"></i>
+                                    {{ _('Supported: PDF, DOC, DOCX (Max 16MB)') }}
+                                </p>
+                                <button class="btn btn-primary btn-choose-file-large">
+                                    <i class="fas fa-folder-open me-2"></i>{{ _('Choose File') }}
+                                </button>
+                                <input type="file" id="resumeFile" accept=".pdf,.doc,.docx" style="display: none;">
+                            </div>
+
+                            <!-- Upload States -->
+                            <div class="upload-states" id="uploadStates" style="display:none;">
+                                <!-- Uploading State -->
+                                <div class="upload-state" id="uploadingState">
+                                    <div class="state-icon uploading">
+                                        <div class="spinner"></div>
+                                    </div>
+                                    <h4>{{ _('Uploading Resume') }}</h4>
+                                    <p class="text-muted">{{ _('Please wait while we process your file') }}</p>
+                                    <div class="progress-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="progressFill"></div>
+                                        </div>
+                                        <span class="progress-text" id="progressText">0%</span>
+                                    </div>
+                                </div>
+
+                                <!-- Success State -->
+                                <div class="upload-state success-state" id="successState" style="display:none;">
+                                    <div class="state-icon success">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <h4>{{ _('Upload Successful!') }}</h4>
+                                    <p class="text-muted">{{ _('Your resume is being analyzed') }}</p>
+                                    <div class="countdown">
+                                        <span id="countdownText">{{ _('Refreshing in 3 seconds...') }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Error State -->
+                                <div class="upload-state error-state" id="errorState" style="display:none;">
+                                    <div class="state-icon error">
+                                        <i class="fas fa-times"></i>
+                                    </div>
+                                    <h4>{{ _('Upload Failed') }}</h4>
+                                    <p class="text-muted" id="errorMessage">{{ _('An error occurred during upload') }}</p>
+                                    <button class="btn btn-outline-primary" onclick="resetUpload()">
+                                        <i class="fas fa-redo me-2"></i>{{ _('Try Again') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resume Builder Banner -->
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="card resume-builder-banner shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                                <div class="d-flex align-items-center mb-3 mb-md-0">
+                                    <div class="resume-builder-icon me-3">
+                                        <i class="fas fa-file-alt fa-2x text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="mb-1">{{ _('Create a Professional Resume') }}</h4>
+                                        <p class="text-muted mb-0">{{ _('Build an ATS-friendly resume with our easy-to-use resume builder') }}</p>
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('resume_builder') }}" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-magic me-2"></i>{{ _('Build My Resume') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generated Resume Section -->
+    {% if generated_resume %}
+    <div class="row mt-4">
+        <div class="col-lg-12 mb-4">
+            <div class="card generated-resume-card shadow-sm">
+                <div class="card-header bg-transparent">
+                    <h4 class="mb-0"><i class="fas fa-file-pdf me-2"></i>{{ _('Your Generated Resume') }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="generated-resume-info">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h6 class="mb-1">{{ _('Resume Created') }}</h6>
+                                <p class="text-muted mb-0">{{ generated_resume.created_at }}</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <a href="{{ url_for('download_resume_pdf', resume_id=generated_resume.id) }}" class="btn btn-success">
+                                    <i class="fas fa-download me-2"></i>{{ _('Download PDF') }}
+                                </a>
+                                <a href="{{ url_for('resume_builder') }}" class="btn btn-outline-primary ms-2">
+                                    <i class="fas fa-edit me-2"></i>{{ _('Edit Resume') }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Resume Insights -->
+    {% if last_analysis %}
+    <div class="row mt-4">
+        <div class="col-lg-12 mb-4">
+            <div class="card insights-card shadow-sm">
+                <div class="card-header bg-transparent">
+                    <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i>{{ _('Your Resume Insights') }}</h4>
+                </div>
+                <div class="card-body">
+                    <div id="analysisContent">
+                        <div class="row g-4">
+                            <!-- Resume Score -->
+                            <div class="col-md-3">
+                                <div class="metric-card score-card">
+                                    <div class="metric-icon">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <h5>{{ _('Resume Score') }}</h5>
+                                    <div class="score-display">
+                                        <span class="score">{{ last_analysis.resume_score }}</span>
+                                        <span class="score-max">/ 100</span>
+                                    </div>
+                                    <span class="score-badge {{ 'excellent' if last_analysis.recommendation_label in ['Good ✅', 'Great 🌟'] else ('good' if last_analysis.recommendation_label == 'Can be Better 🔧' else 'poor') }}">
+                                        {{ last_analysis.recommendation_label }}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Predicted Role -->
+                            <div class="col-md-3">
+                                <div class="metric-card role-card">
+                                    <div class="metric-icon">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                    <h5>{{ _('Predicted Job Role') }}</h5>
+                                    <p class="role-text">{{ last_analysis.predicted_role }}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Keywords -->
+                            <div class="col-md-6">
+                                <div class="metric-card keywords-card">
+                                    <h5><i class="fas fa-tags me-2"></i>{{ _('Keywords Found') }}</h5>
+                                    <div class="keywords-container">
+                                        {% for kw in last_analysis.keywords %}
+                                            <span class="keyword-tag">{{ kw }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Advanced Job Matches -->
+                            {% if last_analysis.job_matches %}
+                            <div class="col-12">
+                                <div class="metric-card job-matches-card">
+                                    <h5><i class="fas fa-briefcase me-2"></i>{{ _('Job Match Analysis') }}</h5>
+                                    <div class="job-matches-grid">
+                                        {% for match in last_analysis.job_matches %}
+                                        <div class="job-match-item">
+                                            <div class="job-match-header">
+                                                <h6>{{ match.role }}</h6>
+                                                <div class="match-percentage {{ 'excellent' if match.match_percentage > 80 else ('good' if match.match_percentage > 60 else 'fair') }}">
+                                                    {{ match.match_percentage }}%
+                                                </div>
+                                            </div>
+                                            <div class="matched-skills">
+                                                <small class="text-success">
+                                                    <strong>{{ _('Matched Skills:') }}</strong> {{ match.matched_skills|join(', ') }}
+                                                </small>
+                                            </div>
+                                            {% if match.missing_skills %}
+                                            <div class="missing-skills">
+                                                <small class="text-warning">
+                                                    <strong>{{ _('Missing:') }}</strong> {{ match.missing_skills[:3]|join(', ') }}
+                                                </small>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Comprehensive Skill Gap Analysis -->
+                            {% if last_analysis.skill_gaps %}
+                            <div class="col-12">
+                                <div class="metric-card skill-gap-analysis-card">
+                                    <h5><i class="fas fa-target me-2"></i>{{ _('Skill Gap Analysis for 100% Job Match') }}</h5>
+                                    {% for role, gap_data in last_analysis.skill_gaps.items() %}
+                                    <div class="skill-gap-role">
+                                        <div class="role-header">
+                                            <h6>{{ role }} - {{ gap_data.match_percentage }}% {{ _('Match') }}</h6>
+                                            <span class="priority-badge {{ gap_data.priority_level.lower() }}">{{ gap_data.priority_level }} Priority</span>
+                                        </div>
+                                        
+                                        <!-- Critical Gaps with Severity Levels -->
+                                        {% if gap_data.critical_gaps %}
+                                        <div class="gap-section critical-gaps">
+                                            <h6><i class="fas fa-exclamation-triangle text-danger me-2"></i>{{ _('Critical Skills to Master') }}</h6>
+                                            <div class="skills-grid">
+                                                {% for skill in gap_data.critical_gaps[:5] %}
+                                                {% set severity = gap_data.gap_severity.get(skill, 'Medium') %}
+                                                {% if severity == 'High' %}
+                                                    <span class="skill-badge critical" title="High Priority">
+                                                        <i class="fas fa-exclamation-circle me-1"></i>{{ skill }}
+                                                    </span>
+                                                {% elif severity == 'Medium' %}
+                                                    <span class="skill-badge recommended" title="Medium Priority">
+                                                        <i class="fas fa-exclamation-triangle me-1"></i>{{ skill }}
+                                                    </span>
+                                                {% else %}
+                                                    <span class="skill-badge tool" title="Low Priority">
+                                                        <i class="fas fa-info-circle me-1"></i>{{ skill }}
+                                                    </span>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Detailed Gap Analysis -->
+                                        {% if gap_data.gap_analysis.recommendations %}
+                                        <div class="gap-section gap-recommendations">
+                                            <h6><i class="fas fa-lightbulb text-warning me-2"></i>{{ _('Priority Recommendations') }}</h6>
+                                            <div class="recommendations-list">
+                                                {% for recommendation in gap_data.gap_analysis.recommendations %}
+                                                <div class="recommendation-item">
+                                                    {{ recommendation|safe }}
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Recommended Skills -->
+                                        {% if gap_data.recommended_skills %}
+                                        <div class="gap-section recommended-skills">
+                                            <h6><i class="fas fa-star text-warning me-2"></i>{{ _('Priority Skills to Learn') }}</h6>
+                                            <div class="skills-grid">
+                                                {% for skill in gap_data.recommended_skills[:8] %}
+                                                <span class="skill-badge recommended">{{ skill }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Learning Path -->
+                                        {% if gap_data.learning_path %}
+                                        <div class="gap-section learning-path">
+                                            <h6><i class="fas fa-road text-info me-2"></i>{{ _('12-Week Learning Path') }}</h6>
+                                            <div class="learning-timeline">
+                                                {% for milestone in gap_data.learning_path %}
+                                                <div class="timeline-item">
+                                                    <i class="fas fa-check-circle text-success"></i>
+                                                    <span>{{ milestone }}</span>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Certifications -->
+                                        {% if gap_data.certifications %}
+                                        <div class="gap-section certifications">
+                                            <h6><i class="fas fa-certificate text-primary me-2"></i>{{ _('Recommended Certifications') }}</h6>
+                                            <div class="certifications-list">
+                                                {% for cert in gap_data.certifications[:4] %}
+                                                <div class="certification-item">
+                                                    <i class="fas fa-award"></i>
+                                                    <span>{{ cert }}</span>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Recommended Courses -->
+                                        {% if gap_data.recommended_courses %}
+                                        <div class="gap-section courses">
+                                            <h6><i class="fas fa-graduation-cap text-success me-2"></i>{{ _('Recommended Courses') }}</h6>
+                                            <div class="courses-list">
+                                                {% for course in gap_data.recommended_courses[:5] %}
+                                                <div class="course-item">
+                                                    <i class="fas fa-external-link-alt"></i>
+                                                    <span>{{ course.skill }}</span>
+                                                    <a href="{{ course.url }}" target="_blank" class="btn btn-sm btn-outline-light ms-2" rel="noopener">{{ _('Join on') }} {{ course.provider }}</a>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Tools & Platforms -->
+                                        {% if gap_data.tools_platforms %}
+                                        <div class="gap-section tools-platforms">
+                                            <h6><i class="fas fa-tools text-secondary me-2"></i>{{ _('Essential Tools & Platforms') }}</h6>
+                                            <div class="skills-grid">
+                                                {% for tool in gap_data.tools_platforms[:6] %}
+                                                <span class="skill-badge tool">{{ tool }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Action Plan -->
+                                        {% if gap_data.action_plan %}
+                                        <div class="gap-section action-plan">
+                                            <h6><i class="fas fa-clipboard-list text-success me-2"></i>{{ _('Action Plan to 100% Match') }}</h6>
+                                            <div class="action-plan-timeline">
+                                                <div class="action-phase immediate">
+                                                    <h6>{{ _('Immediate Actions (Week 1-2)') }}</h6>
+                                                    {% for action in gap_data.action_plan.immediate_actions[:3] %}
+                                                    <div class="action-item">
+                                                        <i class="fas fa-bolt text-warning"></i>
+                                                        <span>{{ action }}</span>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="action-phase short-term">
+                                                    <h6>{{ _('Short-term Goals (Week 3-8)') }}</h6>
+                                                    {% for goal in gap_data.action_plan.short_term_goals[:3] %}
+                                                    <div class="action-item">
+                                                        <i class="fas fa-calendar-week text-info"></i>
+                                                        <span>{{ goal }}</span>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                                <div class="action-phase long-term">
+                                                    <h6>{{ _('Long-term Goals (Week 9-16)') }}</h6>
+                                                    {% for goal in gap_data.action_plan.long_term_goals[:3] %}
+                                                    <div class="action-item">
+                                                        <i class="fas fa-trophy text-success"></i>
+                                                        <span>{{ goal }}</span>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Quantified Suggestions -->
+                            {% if last_analysis.quantified_suggestions %}
+                            <div class="col-12">
+                                <div class="metric-card quantified-suggestions-card">
+                                    <h5><i class="fas fa-chart-line me-2"></i>{{ _('X-Y-Z Formula Improvements') }}</h5>
+                                    <div class="suggestions-list">
+                                        {% for suggestion in last_analysis.quantified_suggestions[:3] %}
+                                        <div class="suggestion-comparison">
+                                            <div class="weak-example">
+                                                <strong>{{ _('Current:') }}</strong> {{ suggestion.weak_example }}
+                                            </div>
+                                            <div class="strong-example">
+                                                <strong>{{ _('Improved:') }}</strong> {{ suggestion.strong_example }}
+                                            </div>
+                                            <div class="formula-explanation">
+                                                <small class="text-info">{{ suggestion.formula_explanation }}</small>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- ATS Summary & Skills Suggestions -->
+                            {% if last_analysis.summary_suggestions or last_analysis.skills_suggestions %}
+                            <div class="col-12">
+                                <div class="metric-card ats-optimized-card">
+                                    <h5><i class="fas fa-magic me-2"></i>{{ _('ATS-Optimized Content') }}</h5>
+                                    {% if last_analysis.summary_suggestions %}
+                                    <div class="summary-suggestion mb-3">
+                                        <h6><i class="fas fa-user-tie me-2"></i>{{ _('Professional Summary') }}</h6>
+                                        <div class="suggestion-content">
+                                            {{ last_analysis.summary_suggestions }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if last_analysis.skills_suggestions %}
+                                    <div class="skills-suggestion">
+                                        <h6><i class="fas fa-tools me-2"></i>{{ _('Skills Section') }}</h6>
+                                        <div class="suggestion-content">
+                                            {{ last_analysis.skills_suggestions }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Improvement Suggestions -->
+                            <div class="col-12">
+                                <div class="metric-card suggestions-card">
+                                    <h5><i class="fas fa-tools me-2"></i>{{ _('Improvement Suggestions') }}</h5>
+                                    <div class="suggestions-list">
+                                        {% for tip in last_analysis.improvement_feedback %}
+                                            <div class="suggestion-item">
+                                                {% if '✅' in tip %}
+                                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                                {% elif '🔍' in tip %}
+                                                    <i class="fas fa-search text-info me-2"></i>
+                                                {% elif '📊' in tip %}
+                                                    <i class="fas fa-chart-bar text-primary me-2"></i>
+                                                {% elif '💪' in tip %}
+                                                    <i class="fas fa-dumbbell text-warning me-2"></i>
+                                                {% elif '📄' in tip %}
+                                                    <i class="fas fa-file-alt text-secondary me-2"></i>
+                                                {% elif '📋' in tip %}
+                                                    <i class="fas fa-clipboard-list text-info me-2"></i>
+                                                {% elif '🎯' in tip %}
+                                                    <i class="fas fa-bullseye text-danger me-2"></i>
+                                                {% elif '🎉' in tip %}
+                                                    <i class="fas fa-trophy text-warning me-2"></i>
+                                                {% else %}
+                                                    <i class="fas fa-lightbulb text-warning me-2"></i>
+                                                {% endif %}
+                                                <span>{{ tip|safe }}</span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <!-- Resume Builder Recommendation for Low Scores -->
+                                    {% if last_analysis.resume_score < 70 %}
+                                    <div class="resume-builder-recommendation mt-3 p-3 bg-light rounded">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-magic text-primary me-3 fa-2x"></i>
+                                            <div>
+                                                <h6 class="mb-1">{{ _('Try Our Resume Builder') }}</h6>
+                                                <p class="mb-0 text-muted">{{ _('Get a higher ATS score with our optimized templates and guided builder') }}</p>
+                                            </div>
+                                            <a href="{{ url_for('resume_builder') }}" class="btn btn-primary btn-sm ms-auto">
+                                                <i class="fas fa-rocket me-1"></i>{{ _('Build Resume') }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Job Recommendations -->
+    <div class="row mt-4">
+        <div class="col-lg-12 mb-4">
+            <div class="card jobs-card shadow-sm">
+                <div class="card-header bg-transparent">
+                    <h4 class="mb-0"><i class="fas fa-briefcase me-2"></i>{{ _('Job Recommendations') }}</h4>
+                </div>
+                <div class="card-body">
+                    {% if last_analysis.jobs %}
+                        <div class="jobs-list">
+                            {% for job in last_analysis.jobs %}
+                            <a href="{{ job.url }}" target="_blank" class="job-item">
+                                <div class="job-info">
+                                    <h6 class="job-title">{{ job.title }}</h6>
+                                    <p class="job-company">{{ job.company_name }}</p>
+                                    <p class="job-location"><i class="fas fa-map-marker-alt me-1"></i>{{ job.location }}</p>
+                                    {% if job.salary %}
+                                    <p class="job-salary"><i class="fas fa-rupee-sign me-1"></i>{{ job.salary }}</p>
+                                    {% endif %}
+                                    {% if job.match_score %}
+                                    <div class="match-score">
+                                        <small class="text-muted">Match: {{ job.match_score }}%</small>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="job-action">
+                                    <i class="fas fa-search me-1"></i> Find Jobs
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <p class="text-muted">{{ _('No matching jobs found. Upload a resume to get personalized recommendations.') }}</p>
+                            <p class="text-muted mt-2">{{ _('You can also search for jobs on popular job sites:') }}</p>
+                            <div class="job-search-links mt-2">
+                                <a href="https://www.naukri.com" target="_blank" class="btn btn-outline-primary btn-sm me-2">Naukri.com</a>
+                                <a href="https://www.linkedin.com/jobs" target="_blank" class="btn btn-outline-primary btn-sm me-2">LinkedIn Jobs</a>
+                                <a href="https://www.shine.com" target="_blank" class="btn btn-outline-primary btn-sm me-2">Shine.com</a>
+                                <a href="https://www.freshersworld.com" target="_blank" class="btn btn-outline-primary btn-sm">Freshersworld</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Chart.js for visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Job Role Probability Chart
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if we have job roles data
+    var jobRolesData = [];
+    
+    // Safely parse job roles data from data attribute
+    var chartElement = document.getElementById('jobRoleChart');
+    if (chartElement && chartElement.dataset.jobRoles) {
+        try {
+            jobRolesData = JSON.parse(chartElement.dataset.jobRoles);
+        } catch (e) {
+            console.error('Error parsing job roles data:', e);
+        }
+    }
+    
+    // If no data or invalid data, provide a default message
+    if (!jobRolesData || jobRolesData.length === 0 || 
+        (jobRolesData.length === 1 && jobRolesData[0].role === 'Upload Resume' && jobRolesData[0].match_percentage === 0)) {
+        jobRolesData = [{
+            role: 'Upload Resume',
+            match_percentage: 30
+        }];
+    }
+    
+    // Check if we have meaningful data or need to show a message
+    var hasMeaningfulData = jobRolesData.length > 0 && 
+                          !(jobRolesData.length === 1 && jobRolesData[0].role === 'Upload Resume' && jobRolesData[0].match_percentage < 10);
+    
+    if (hasMeaningfulData) {
+        // Prepare data for Chart.js
+        var labels = jobRolesData.map(function(item) { return item.role; });
+        var data = jobRolesData.map(function(item) { return item.match_percentage; });
+        
+        // Get chart container
+        var ctx = document.getElementById('jobRoleChart').getContext('2d');
+        
+        // Create gradient
+        var gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(102, 126, 234, 0.8)');
+        gradient.addColorStop(1, 'rgba(118, 75, 162, 0.8)');
+        
+        // Create chart
+        var jobRoleChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Match Probability',
+                    data: data,
+                    backgroundColor: gradient,
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)',
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.7)',
+                            maxRotation: 45,
+                            minRotation: 45
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.7)'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y + '% match';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        // Show placeholder if no data
+        if (chartElement) {
+            var message = jobRolesData.length > 0 && jobRolesData[0].role === 'Upload Resume' ? 
+                         'Upload a resume to see job role match probabilities.' : 
+                         'No job role matches found. Upload a resume to get personalized insights.';
+            
+            chartElement.parentElement.innerHTML = 
+                '<div class="chart-placeholder">' +
+                '<div class="text-center">' +
+                '<i class="fas fa-file-upload fa-3x mb-3"></i>' +
+                '<p>' + message + '</p>' +
+                '<button class="btn btn-primary mt-3" onclick="document.querySelector(\'#uploadArea\').scrollIntoView({behavior: \'smooth\'});">Upload Resume</button>' +
+                '</div>' +
+                '</div>';
+        }
+    }
+});
+</script>
+
+<!-- AI Chatbot Toggle Button -->
+<button id="chatToggle" class="chat-toggle" title="{{ _('AI Resume Assistant') }}">
+    <i class="fas fa-comments"></i>
+</button>
+
+<!-- Feedback Button -->
+<div class="feedback-floating">
+    <button class="btn btn-primary btn-feedback" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+</div>
+
+<!-- AI Chatbot Sidebar -->
+<div class="chat-sidebar" id="chatSidebar">
+    <div class="chat-header">
+        <h5><i class="fas fa-robot me-2"></i>{{ _('AI Resume Assistant') }}</h5>
+        <button class="btn-close" id="closeChat">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot-message">
+            <div class="message-bubble">
+                <p>{{ _("Hello! I'm your AI Resume Assistant. I can help with:") }}</p>
+                <ul>
+                    <li>{{ _('Suggestions for relevant skills (technical/non-technical)') }}</li>
+                    <li>{{ _("Crafting \"About Me\" sections or summaries for freshers/experienced professionals") }}</li>
+                    <li>{{ _('Tailored advice for your career stage and field') }}</li>
+                </ul>
+                <p>{{ _("Ask me anything, e.g., \"Suggest skills for a software engineer fresher\" or \"Help write a summary for marketing manager.\"") }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="chat-input-container">
+        <div class="input-group">
+            <input type="text" class="form-control" id="chatInput" placeholder="{{ _('Type your message...') }}">
+            <button class="btn btn-primary" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Chat Overlay -->
+<div class="chat-overlay" id="chatOverlay"></div>
+
+<!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ _('Leave Feedback') }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('submit_feedback') }}">
+                <div class="modal-body">
+                    <p class="text-muted">{{ _('Help us improve by rating our service!') }}</p>
+                    <div class="mb-3">
+                        <label class="form-label">{{ _('Rate our service:') }}</label>
+                        <div class="star-rating">
+                            {% for i in range(1, 6) %}
+                            <i class="fas fa-star star" data-rating="{{ i }}"></i>
+                            {% endfor %}
+                        </div>
+                        <input type="hidden" name="rating" id="ratingInput" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="suggestion" class="form-label">{{ _('Suggestions:') }}</label>
+                        <textarea class="form-control" name="suggestion" id="suggestion" rows="3" placeholder="{{ _('Your feedback helps us improve...') }}"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Close') }}</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i>{{ _('Submit Feedback') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Upload functionality
+    const uploadArea = document.getElementById('uploadArea');
+    const uploadStates = document.getElementById('uploadStates');
+    const uploadingState = document.getElementById('uploadingState');
+    const successState = document.getElementById('successState');
+    const errorState = document.getElementById('errorState');
+    const fileInput = document.getElementById('resumeFile');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const errorMessage = document.getElementById('errorMessage');
+    const countdownText = document.getElementById('countdownText');
+
+    let countdownInterval;
+
+    uploadArea.addEventListener('click', () => fileInput.click());
+    
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) {
+            handleFileUpload(e.dataTransfer.files[0]);
+        }
+    });
+    
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleFileUpload(e.target.files[0]);
+        }
+    });
+
+    function handleFileUpload(file) {
+        // Validate file
+        const allowedTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        
+        if (!allowedTypes.includes(file.type)) {
+            showError('Please upload a PDF, DOC, or DOCX file.');
+            return;
+        }
+        
+        if (file.size > 16 * 1024 * 1024) {
+            showError('File size must be less than 16MB.');
+            return;
+        }
+
+        // Show uploading state
+        uploadArea.style.display = 'none';
+        uploadStates.style.display = 'block';
+        uploadingState.style.display = 'block';
+        successState.style.display = 'none';
+        errorState.style.display = 'none';
+
+        // Upload file
+        const formData = new FormData();
+        formData.append('resume', file);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/upload_resume', true);
+
+        // Progress tracking
+        xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable) {
+                const percent = Math.round((e.loaded / e.total) * 100);
+                progressFill.style.width = percent + '%';
+                progressText.textContent = percent + '%';
+            }
+        };
+
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        showSuccess();
+                    } else {
+                        showError(response.message || 'Upload failed. Please try again.');
+                    }
+                } catch (e) {
+                    showError('Failed to process server response.');
+                }
+            } else {
+                showError('Upload failed. Please try again.');
+            }
+        };
+
+        xhr.onerror = () => {
+            showError('Network error. Please check your connection and try again.');
+        };
+
+        xhr.send(formData);
+    }
+
+    function showSuccess() {
+        uploadingState.style.display = 'none';
+        successState.style.display = 'block';
+        
+        let countdown = 3;
+        countdownText.textContent = `Refreshing in ${countdown} seconds...`;
+        
+        countdownInterval = setInterval(() => {
+            countdown--;
+            countdownText.textContent = `Refreshing in ${countdown} seconds...`;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                window.location.reload();
+            }
+        }, 1000);
+    }
+
+    function showError(message) {
+        uploadingState.style.display = 'none';
+        errorState.style.display = 'block';
+        errorMessage.textContent = message;
+    }
+
+    function resetUpload() {
+        uploadStates.style.display = 'none';
+        uploadArea.style.display = 'flex';
+        fileInput.value = '';
+        progressFill.style.width = '0%';
+        progressText.textContent = '0%';
+        clearInterval(countdownInterval);
+    }
+
+    // Star rating functionality
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('ratingInput');
+    let currentRating = 0;
+
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            currentRating = parseInt(this.dataset.rating);
+            ratingInput.value = currentRating;
+            updateStars();
+        });
+        
+        star.addEventListener('mouseover', function() {
+            const rating = parseInt(this.dataset.rating);
+            highlightStars(rating);
+        });
+    });
+
+    document.querySelector('.star-rating').addEventListener('mouseleave', updateStars);
+
+    function updateStars() {
+        stars.forEach((star, index) => {
+            if (index < currentRating) {
+                star.classList.add('active');
+            } else {
+                star.classList.remove('active');
+            }
+        });
+    }
+
+    function highlightStars(rating) {
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.add('hover');
+            } else {
+                star.classList.remove('hover');
+            }
+        });
+    }
+
+    // AI Chatbot Functionality
+    const chatToggle = document.getElementById('chatToggle');
+    const chatSidebar = document.getElementById('chatSidebar');
+    const closeChat = document.getElementById('closeChat');
+    const chatOverlay = document.getElementById('chatOverlay');
+    const chatInput = document.getElementById('chatInput');
+    const sendMessage = document.getElementById('sendMessage');
+    const chatMessages = document.getElementById('chatMessages');
+
+    // Toggle chat sidebar
+    if (chatToggle) {
+        chatToggle.addEventListener('click', () => {
+            chatSidebar.classList.toggle('active');
+            chatOverlay.classList.toggle('active');
+        });
+    }
+
+    if (closeChat) {
+        closeChat.addEventListener('click', () => {
+            chatSidebar.classList.remove('active');
+            chatOverlay.classList.remove('active');
+        });
+    }
+
+    if (chatOverlay) {
+        chatOverlay.addEventListener('click', () => {
+            chatSidebar.classList.remove('active');
+            chatOverlay.classList.remove('active');
+        });
+    }
+
+    // Send message
+    if (sendMessage) {
+        sendMessage.addEventListener('click', sendChatMessage);
+    }
+    if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+    }
+
+    function sendChatMessage() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Add user message
+        addMessage(message, 'user');
+        chatInput.value = '';
+
+        // Show typing indicator
+        const typingIndicator = document.createElement('div');
+        typingIndicator.className = 'message bot-message typing';
+        typingIndicator.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+        chatMessages.appendChild(typingIndicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Send to backend chat endpoint for AI response
+        fetch('/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Remove typing indicator
+            if (typingIndicator.parentNode) {
+                chatMessages.removeChild(typingIndicator);
+            }
+
+            // Add bot response
+            if (data.success) {
+                addMessage(data.response, 'bot');
+            } else {
+                addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+            }
+        })
+        .catch(error => {
+            if (typingIndicator.parentNode) {
+                chatMessages.removeChild(typingIndicator);
+            }
+            addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+        });
+    }
+
+    function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        messageDiv.innerHTML = `<div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>`;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+</script>
+
+<style>
+    /* Resume Builder Banner Styles */
+    .resume-builder-banner {
+        background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .resume-builder-banner:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .resume-builder-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        background: rgba(59, 130, 246, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .resume-builder-banner .btn {
+        min-width: 200px;
+    }
+    
+    @media (max-width: 768px) {
+        .resume-builder-banner .btn {
+            width: 100%;
+        }
+    }
+
+    /* Minimal white/black/blue overrides (non-destructive) */
+    :root {
+        --blue-900: #1E3A8A; /* headings, accents */
+        --blue-500: #3B82F6; /* hovers */
+        --black: #000000;
+        --white: #FFFFFF;
+        --muted: rgba(0,0,0,0.6);
+        --border: rgba(0,0,0,0.12);
+        --shadow-soft: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    body { background: var(--white) !important; color: var(--black); }
+    .text-muted { color: var(--muted) !important; }
+    .card, .metric-card, .jobs-card, .insights-card { box-shadow: var(--shadow-soft) !important; border: 1px solid var(--border) !important; }
+
+    /* Buttons mapped to blue */
+    .btn-primary, .btn-success, .btn-warning { background-color: var(--blue-900) !important; border-color: var(--blue-900) !important; color: var(--white) !important; }
+    .btn-outline-primary { color: var(--blue-900) !important; border-color: var(--blue-900) !important; }
+    .btn-outline-primary:hover { background-color: var(--blue-500) !important; border-color: var(--blue-500) !important; color: var(--white) !important; }
+
+    /* Headings and emphasis */
+    h1, h2, h3, h4, h5, h6, .card-header, .brand-gradient { color: var(--blue-900) !important; background: none !important; -webkit-text-fill-color: initial !important; }
+
+    /* Resume banner -> minimal */
+    .resume-builder-banner { background: var(--white) !important; color: var(--black) !important; border: 1px solid var(--border) !important; }
+    .resume-builder-banner .lead, .features-list { color: var(--muted) !important; }
+    .resume-builder-banner .btn-warning { background: var(--blue-900) !important; color: var(--white) !important; border: 1px solid var(--blue-900) !important; border-radius: 10px !important; }
+    .resume-builder-banner .btn-warning:hover { background: var(--blue-500) !important; border-color: var(--blue-500) !important; }
+
+    /* Upload area */
+    .upload-card { background: var(--white) !important; }
+    .upload-area-large { background: var(--white) !important; border-color: var(--border) !important; }
+    .upload-area-large:hover, .upload-area-large.dragover { background: rgba(59,130,246,0.05) !important; border-color: var(--blue-500) !important; box-shadow: var(--shadow-soft) !important; }
+
+    /* KPI cards */
+    .metric-card { background: var(--white) !important; }
+    .metric-icon { background: transparent !important; color: var(--blue-900) !important; border: 1px solid var(--border) !important; }
+    .score { color: var(--blue-900) !important; }
+    .score-badge { background: var(--white) !important; color: var(--blue-900) !important; border: 1px solid var(--blue-500) !important; }
+
+    /* Chips / tags */
+    .keyword-tag { background: var(--white) !important; border: 1px solid var(--blue-500) !important; color: var(--blue-900) !important; }
+
+    /* Analysis and jobs sections */
+    .job-matches-card, .quantified-suggestions-card, .ats-optimized-card, .skill-gap-analysis-card, .generated-resume-card { background: var(--white) !important; color: var(--black) !important; border: 1px solid var(--border) !important; box-shadow: var(--shadow-soft) !important; }
+    .job-match-item, .suggestion-comparison, .gap-section, .certification-item, .timeline-item, .action-phase, .action-item { background: var(--white) !important; color: var(--black) !important; border: 1px solid var(--border) !important; }
+    .matched-skills small, .missing-skills small, .formula-explanation { color: var(--muted) !important; }
+    .priority-badge { background: var(--white) !important; color: var(--blue-900) !important; border: 1px solid var(--blue-500) !important; }
+    
+    /* ATS-Optimized Content - Ensure text is visible */
+    .ats-optimized-card .suggestion-content { 
+        color: var(--black) !important; 
+        background: transparent !important;
+    }
+    .ats-optimized-card .suggestion-content div,
+    .ats-optimized-card .suggestion-content p,
+    .ats-optimized-card .suggestion-content span,
+    .ats-optimized-card .suggestion-content strong,
+    .ats-optimized-card .suggestion-content ul,
+    .ats-optimized-card .suggestion-content li {
+        color: var(--black) !important;
+    }
+
+    /* Jobs list */
+    .job-item { background: var(--white) !important; border-color: var(--border) !important; }
+    .job-item:hover { background: rgba(59,130,246,0.05) !important; border-color: var(--blue-500) !important; }
+    .job-title { color: var(--black) !important; }
+    .job-company, .match-score small { color: var(--muted) !important; }
+
+    /* Chat UI */
+    .chat-toggle { background: var(--blue-900) !important; color: var(--white) !important; box-shadow: var(--shadow-soft) !important; }
+    .chat-toggle:hover { background: var(--blue-500) !important; }
+    .chat-header { background: var(--blue-900) !important; color: var(--white) !important; }
+    .chat-messages { background: var(--white) !important; }
+    .user-message .message-bubble { background: var(--blue-900) !important; color: var(--white) !important; }
+    .bot-message .message-bubble, .typing-dots { background: var(--white) !important; color: var(--black) !important; }
+    .typing-dots span { background: var(--blue-900) !important; }
+    .chat-input-container input:focus { border-color: var(--blue-500) !important; box-shadow: 0 0 0 0.2rem rgba(59,130,246,0.15) !important; }
+    .chat-input-container button { background: var(--blue-900) !important; border-color: var(--blue-900) !important; }
+    .chat-input-container button:hover { background: var(--blue-500) !important; border-color: var(--blue-500) !important; }
+
+    /* Misc */
+    .resume-builder-recommendation { background: var(--white) !important; border-left: 4px solid var(--blue-500) !important; }
+    .empty-icon { color: var(--muted) !important; }
+
+    /* Navbar from base kept dark; dashboard internals simplified */
+    .card-header { background: var(--white) !important; border-bottom: 1px solid var(--border) !important; }
+
+    /* Brand Colors - Consistent Gradient for Cohesion */
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        --danger-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        --dark-bg: #1a1a2e;
+        --light-bg: #f8f9fa;
+        --text-primary: #2c3e50;
+        --text-muted: #6c757d;
+        --border-color: #dee2e6;
+    }
+
+    body {
+        background: var(--light-bg);
+        color: var(--text-primary);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .brand-gradient {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+    }
+
+    /* Resume Builder Banner */
+    .resume-builder-banner {
+        background: var(--primary-gradient);
+        color: white;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+    }
+
+    .resume-builder-banner h2 {
+        color: white;
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
+    .resume-builder-banner .lead {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.25rem;
+    }
+
+    .resume-builder-banner .features-list {
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    .resume-builder-banner .btn-warning {
+        background: var(--warning-gradient);
+        border: 2px solid transparent;
+        color: #212529;
+        font-size: 1.2rem;
+        padding: 15px 30px;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        font-weight: 700;
+    }
+
+    .resume-builder-banner .btn-warning:hover {
+        background: linear-gradient(135deg, #ffca2c 0%, #ff9a9e 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4);
+    }
+
+    .feature-item {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Enlarged Upload Card */
+    .upload-card {
+        border: none;
+        border-radius: 20px;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .upload-area-large {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem;
+        border: 3px dashed var(--border-color);
+        border-radius: 15px;
+        background: var(--light-bg);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-height: 300px;
+    }
+
+    .upload-area-large:hover,
+    .upload-area-large.dragover {
+        border-color: #667eea;
+        background: #e3f2fd;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+    }
+
+    .upload-icon-large {
+        font-size: 4rem;
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
+    }
+
+    .upload-area-large h4 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+    }
+
+    .upload-hint-large {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+    }
+
+    .btn-choose-file-large {
+        padding: 1rem 3rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        background: var(--primary-gradient);
+        border: none;
+        color: white;
+    }
+
+    .btn-choose-file-large:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Upload States */
+    .upload-states {
+        text-align: center;
+    }
+
+    .upload-state {
+        padding: 3rem;
+    }
+
+    .state-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 2rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+    }
+
+    .state-icon.uploading {
+        border: 4px solid #e3f2fd;
+        position: relative;
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .state-icon.success {
+        background: var(--success-gradient);
+        color: white;
+        border: 4px solid rgba(79, 172, 254, 0.3);
+    }
+
+    .state-icon.error {
+        background: var(--danger-gradient);
+        color: white;
+        border: 4px solid rgba(255, 154, 158, 0.3);
+    }
+
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255,255,255,0.3);
+        border-top: 5px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .progress-container {
+        max-width: 400px;
+        margin: 2rem auto;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 12px;
+        background: var(--border-color);
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: var(--primary-gradient);
+        border-radius: 6px;
+        transition: width 0.3s ease;
+        width: 0%;
+    }
+
+    .progress-text {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        font-weight: 600;
+    }
+
+    .countdown {
+        margin-top: 1.5rem;
+    }
+
+    /* Generated Resume Card */
+    .generated-resume-card {
+        border: none;
+        border-radius: 15px;
+        background: var(--success-gradient);
+        color: white;
+        box-shadow: 0 4px 20px rgba(79, 172, 254, 0.2);
+    }
+
+    .generated-resume-card .text-muted {
+        color: rgba(255,255,255,0.8) !important;
+    }
+
+    .generated-resume-info {
+        padding: 1rem 0;
+    }
+
+    /* Metric Cards */
+    .insights-card,
+    .jobs-card {
+        border: none;
+        border-radius: 15px;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .metric-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        height: 100%;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+    }
+
+    .metric-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        color: white;
+        font-size: 1.5rem;
+    }
+
+    .score-display {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        margin: 1rem 0;
+    }
+
+    .score {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    .score-max {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        margin-left: 0.25rem;
+    }
+
+    .score-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .score-badge.excellent {
+        background: var(--success-gradient);
+        color: white;
+    }
+
+    .score-badge.good {
+        background: var(--warning-gradient);
+        color: white;
+    }
+
+    .score-badge.poor {
+        background: var(--danger-gradient);
+        color: white;
+    }
+
+    .role-text {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 1rem 0 0 0;
+        text-align: center;
+    }
+
+    .keywords-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .keyword-tag {
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .keyword-tag:hover {
+        background: var(--primary-gradient);
+        color: white;
+        transform: scale(1.05);
+    }
+
+    /* Job Matches Analysis */
+    .job-matches-card {
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .job-matches-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .job-match-item {
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .job-match-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+
+    .job-match-header h6 {
+        margin: 0;
+        color: white;
+        font-weight: 600;
+    }
+
+    .match-percentage {
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .match-percentage.excellent {
+        background: var(--success-gradient);
+        color: white;
+    }
+
+    .match-percentage.good {
+        background: var(--warning-gradient);
+        color: white;
+    }
+
+    .match-percentage.fair {
+        background: rgba(255,255,255,0.2);
+        color: white;
+    }
+
+    .matched-skills, .missing-skills {
+        margin-bottom: 0.5rem;
+    }
+
+    .matched-skills small, .missing-skills small {
+        color: rgba(255,255,255,0.9);
+    }
+
+    /* Quantified Suggestions */
+    .quantified-suggestions-card {
+        background: var(--secondary-gradient);
+        color: white;
+    }
+
+    .suggestion-comparison {
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-left: 4px solid rgba(255,255,255,0.3);
+    }
+
+    .weak-example {
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 0.5rem;
+        font-style: italic;
+    }
+
+    .strong-example {
+        color: white;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .formula-explanation {
+        color: rgba(255,255,255,0.7);
+        font-size: 0.85rem;
+    }
+
+    /* Comprehensive Skill Gap Analysis */
+    .skill-gap-analysis-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        margin-top: 2rem;
+    }
+
+    .skill-gap-role {
+        background: rgba(255,255,255,0.1);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .role-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .role-header h6 {
+        color: white;
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .priority-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .priority-badge.high {
+        background: #ff4757;
+        color: white;
+    }
+
+    .priority-badge.medium {
+        background: #ffa502;
+        color: white;
+    }
+
+    .priority-badge.low {
+        background: #2ed573;
+        color: white;
+    }
+
+    .gap-section {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        border-left: 4px solid rgba(255,255,255,0.3);
+    }
+
+    .gap-section h6 {
+        color: white;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .skills-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+    }
+
+    .skill-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .skill-badge.critical {
+        background: rgba(255, 71, 87, 0.3);
+        color: white;
+        border-color: #ff4757;
+    }
+
+    .skill-badge.recommended {
+        background: rgba(255, 165, 2, 0.3);
+        color: white;
+        border-color: #ffa502;
+    }
+
+    .skill-badge.tool {
+        background: rgba(46, 213, 115, 0.3);
+        color: white;
+        border-color: #2ed573;
+    }
+
+    .learning-timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .timeline-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 6px;
+    }
+
+    .timeline-item i {
+        color: #2ed573;
+        font-size: 1rem;
+    }
+
+    .timeline-item span {
+        color: rgba(255,255,255,0.9);
+        font-size: 0.9rem;
+    }
+
+    .certifications-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .certification-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 6px;
+        border-left: 3px solid #ffa502;
+    }
+
+    .certification-item i {
+        color: #ffa502;
+        font-size: 1rem;
+    }
+
+    .certification-item span {
+        color: rgba(255,255,255,0.9);
+        font-size: 0.9rem;
+    }
+
+    .action-plan-timeline {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    .action-phase {
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        padding: 1rem;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .action-phase h6 {
+        color: white;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .action-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        padding: 0.5rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 4px;
+    }
+
+    .action-item i {
+        margin-top: 0.2rem;
+        font-size: 0.9rem;
+    }
+
+    .action-item span {
+        color: rgba(255,255,255,0.9);
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+    /* ATS Optimized Content */
+    .ats-optimized-card {
+        background: var(--success-gradient);
+        color: white;
+    }
+
+    .summary-suggestion, .skills-suggestion {
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .summary-suggestion h6, .skills-suggestion h6 {
+        color: white;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+    }
+
+    .suggestion-content {
+        color: rgba(255,255,255,0.9);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+
+    /* Skill Gap Analysis */
+    .skillgap-card {
+        background: var(--warning-gradient);
+        color: white;
+    }
+
+    .skillgap-card .text-success {
+        color: rgba(255,255,255,0.9) !important;
+    }
+
+    .skillgap-item {
+        padding: 0.75rem;
+        border-left: 3px solid rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.1);
+        margin-bottom: 0.5rem;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    /* Course Recommendations */
+    .courses-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .course-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: rgba(255,255,255,0.05);
+        border-radius: 6px;
+        border-left: 3px solid #28a745;
+        color: var(--black) !important;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .course-item i {
+        color: #28a745;
+        font-size: 1rem;
+    }
+    
+    .course-item span {
+        color: var(--black) !important;
+        font-size: 0.9rem;
+        flex: 1;
+    }
+    
+    .course-item .btn-outline-light {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        color: var(--black) !important;
+        border-color: var(--blue-500) !important;
+    }
+    
+    .course-item .btn-outline-light:hover {
+        background: rgba(59,130,246,0.1) !important;
+        color: var(--black) !important;
+    }
+
+    .suggestions-list {
+        margin-top: 1rem;
+    }
+
+    .suggestion-item {
+        padding: 0.75rem;
+        border-left: 3px solid rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.1);
+        margin-bottom: 0.5rem;
+        border-radius: 0 8px 8px 0;
+    }
+
+    .resume-builder-recommendation {
+        border-left: 4px solid rgba(255,255,255,0.5);
+        background: rgba(255,255,255,0.2);
+    }
+
+    /* Jobs List */
+    .jobs-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .job-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .job-item:hover {
+        background: var(--light-bg);
+        border-color: #667eea;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+    }
+
+    .job-info {
+        flex: 1;
+    }
+
+    .job-title {
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.25rem;
+    }
+
+    .job-company {
+        color: var(--text-muted);
+        margin: 0;
+        font-size: 0.9rem;
+    }
+    
+    .job-location, .job-salary {
+        color: var(--text-muted);
+        margin: 0.25rem 0 0 0;
+        font-size: 0.85rem;
+    }
+
+    .match-score {
+        margin-top: 0.25rem;
+    }
+
+    .job-action {
+        color: #667eea;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        background: rgba(102, 126, 234, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .job-action:hover {
+        background: rgba(102, 126, 234, 0.2);
+        transform: translateY(-1px);
+    }
+
+    /* Empty States */
+    .empty-state {
+        text-align: center;
+        padding: 3rem 2rem;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+    }
+
+    /* Feedback */
+    .feedback-floating {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 1000;
+    }
+
+    .btn-feedback {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        background: var(--secondary-gradient);
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-feedback:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 25px rgba(240, 147, 251, 0.4);
+    }
+
+    .star-rating {
+        display: flex;
+        gap: 0.5rem;
+        margin: 1rem 0;
+    }
+
+    .star-rating .star {
+        font-size: 2rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .star-rating .star.active,
+    .star-rating .star.hover {
+        color: #ffc107;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .upload-area-large {
+            padding: 2rem 1rem;
+            min-height: 250px;
+        }
+        
+        .upload-icon-large {
+            font-size: 3rem;
+        }
+        
+        .metric-card {
+            margin-bottom: 1rem;
+        }
+        
+        .btn-feedback {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .resume-builder-banner .card-body {
+            padding: 2rem !important;
+        }
+        
+        .resume-builder-banner .btn-warning {
+            font-size: 1.1rem;
+            padding: 12px 25px;
+        }
+        
+        .resume-builder-banner h2 {
+            font-size: 1.5rem;
+        }
+    }
+
+    /* AI Chatbot Styles - Enhanced for Better Alignment and Colors */
+    .chat-toggle {
+        position: fixed;
+        bottom: 5rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border: none;
+        border-radius: 50%;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1001;
+        box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        animation: jump 2s infinite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .chat-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    @keyframes jump {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+        60% { transform: translateY(-5px); }
+    }
+
+    .chat-sidebar {
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 400px;
+        height: 100vh;
+        background: white;
+        box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+        z-index: 1002;
+        transition: right 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid var(--border-color);
+    }
+
+    .chat-sidebar.active {
+        right: 0;
+    }
+
+    .chat-header {
+        padding: 1rem;
+        background: var(--primary-gradient);
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .chat-header h5 {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .chat-header .btn-close {
+        color: rgba(255,255,255,0.8);
+        opacity: 0.8;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .chat-header .btn-close:hover {
+        opacity: 1;
+        background: rgba(255,255,255,0.2);
+        transform: rotate(90deg);
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 1rem;
+        overflow-y: auto;
+        background: var(--light-bg);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message {
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: flex-start; /* Default for bot */
+        align-items: flex-end;
+    }
+
+    .user-message {
+        justify-content: flex-end; /* User on opposite side (right) */
+    }
+
+    .message-bubble {
+        max-width: 80%;
+        padding: 1rem;
+        border-radius: 18px;
+        line-height: 1.4;
+        word-wrap: break-word;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        position: relative;
+    }
+
+    .user-message .message-bubble {
+        background: var(--primary-gradient);
+        color: white;
+        margin-left: auto;
+        text-align: right;
+        border-bottom-right-radius: 4px;
+    }
+
+    .bot-message .message-bubble {
+        background: white;
+        color: var(--text-primary);
+        border-bottom-left-radius: 4px;
+    }
+
+    .typing {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .typing-dots {
+        display: flex;
+        gap: 0.25rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 18px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-bottom-left-radius: 4px;
+    }
+
+    .typing-dots span {
+        width: 8px;
+        height: 8px;
+        background: var(--primary-gradient);
+        border-radius: 50%;
+        animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes typing {
+        0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+        40% { transform: scale(1); opacity: 1; }
+    }
+
+    .chat-input-container {
+        padding: 1rem;
+        border-top: 1px solid var(--border-color);
+        background: white;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+
+    .chat-input-container .input-group {
+        display: flex;
+    }
+
+    .chat-input-container input {
+        border-radius: 25px 0 0 25px;
+        border: 1px solid var(--border-color);
+        padding: 0.75rem 1rem;
+        flex: 1;
+        outline: none;
+    }
+
+    .chat-input-container input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .chat-input-container button {
+        border-radius: 0 25px 25px 0;
+        padding: 0.75rem 1rem;
+        border: 1px solid #667eea;
+        background: var(--primary-gradient);
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .chat-input-container button:hover {
+        background: linear-gradient(135deg, #5a67d8, #6b46c1);
+        transform: translateX(2px);
+    }
+
+    .chat-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+    }
+
+    .chat-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Responsive for Chat */
+    @media (max-width: 768px) {
+        .chat-sidebar {
+            width: 100%;
+            right: -100%;
+        }
+
+        .chat-toggle,
+        .btn-feedback {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+        }
+
+        .chat-toggle {
+            bottom: 4rem;
+        }
+
+        .feedback-floating {
+            bottom: 1rem;
+        }
+
+        .message-bubble {
+            max-width: 90%;
+        }
+    }
+    
+    /* Final visibility fixes: ensure readable black/blue text */
+    .generated-resume-card .text-muted { color: var(--muted) !important; }
+    .insights-card p, .jobs-card p, .metric-card p, .generated-resume-card p { color: var(--muted) !important; }
+    .insights-card h5, .jobs-card h4, .metric-card h5 { color: var(--blue-900) !important; }
+    .summary-suggestion h6, .skills-suggestion h6 { color: var(--blue-900) !important; }
+    .suggestion-comparison, .job-match-item, .gap-section, .certification-item, .timeline-item, .action-phase, .action-item { color: var(--black) !important; }
+    .star-rating .star.active, .star-rating .star.hover { color: var(--blue-500) !important; }
+    /* Fix deeply nested spans that were forced to white earlier */
+    .action-item span { color: var(--black) !important; }
+    .certification-item span { color: var(--black) !important; }
+    .timeline-item span { color: var(--black) !important; }
+    .job-match-header h6 { color: var(--blue-900) !important; }
+    /* Quantified suggestions text colors */
+    .weak-example { color: var(--muted) !important; }
+    .strong-example { color: var(--black) !important; }
+    /* Match badges */
+    .match-percentage { background: var(--white) !important; color: var(--blue-900) !important; border: 1px solid var(--blue-500) !important; }
+    /* Keyword tags hover should remain readable */
+    .keyword-tag:hover { background: rgba(59,130,246,0.05) !important; color: var(--blue-900) !important; }
+    
+    /* Priority Skills to Learn (remove pink/orange/green, use blue/black/white) */
+    .skill-badge.recommended { background: var(--white) !important; color: var(--blue-900) !important; border-color: var(--blue-500) !important; }
+    .skill-badge.critical { background: var(--white) !important; color: var(--blue-900) !important; border-color: var(--blue-500) !important; }
+    .skill-badge.tool { background: var(--white) !important; color: var(--blue-900) !important; border-color: var(--blue-500) !important; }
+    .gap-section h6 i, .certification-item i, .timeline-item i, .action-item i { color: var(--blue-900) !important; }
+    .gap-section { border-left-color: var(--blue-500) !important; }
+    .role-header { border-bottom-color: var(--border) !important; }
+    
+    /* Layout normalization: make cards consistent in size */
+    .metric-card { min-height: 180px !important; display: flex; flex-direction: column; }
+    .metric-card .score-display, .metric-card .keywords-container { margin-top: auto; }
+    
+    .job-matches-grid .job-match-item { min-height: 160px !important; display: flex; flex-direction: column; }
+    .job-matches-grid .job-match-header { margin-bottom: 0.75rem; }
+    .job-matches-grid .matched-skills, .job-matches-grid .missing-skills { margin-top: auto; }
+    
+    .action-plan-timeline { align-items: stretch; }
+    .action-plan-timeline .action-phase { min-height: 220px !important; display: flex; flex-direction: column; }
+    .action-plan-timeline .action-item:last-child { margin-bottom: 0; }
+    
+    .skill-gap-role { min-height: 140px; }
+    
+    /* General cards unify radius/shadow for visual coherence */
+    .card, .generated-resume-card, .insights-card, .jobs-card { border-radius: 12px !important; box-shadow: var(--shadow-soft) !important; }
+    
+    /* AI Feedback Generator Styles */
+    .ai-feedback-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+    }
+    
+    .ai-feedback-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .ai-feedback-header i {
+        font-size: 1.5rem;
+        margin-right: 0.75rem;
+    }
+    
+    .feedback-summary {
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid rgba(255,255,255,0.3);
+    }
+    
+    .feedback-summary p {
+        color: rgba(255,255,255,0.9);
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+    
+    .job-role-chart-container {
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid rgba(255,255,255,0.3);
+    }
+    
+    .chart-placeholder {
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255,255,255,0.7);
+    }
+    
+    .strengths-improvements {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .strength-item, .improvement-item {
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .strength-item i, .improvement-item i {
+        font-size: 1.2rem;
+        margin-right: 0.75rem;
+    }
+    
+    .strength-item i {
+        color: #2ed573;
+    }
+    
+    .improvement-item i {
+        color: #ffa502;
+    }
+    
+</style>
+
+<!-- AI Feedback Generator -->
+{% if last_analysis %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card ai-feedback-card shadow-sm">
+            <div class="card-header bg-transparent border-0">
+                <h4 class="mb-0 text-white"><i class="fas fa-robot me-2"></i>{{ _('AI Career Insights') }}</h4>
+            </div>
+            <div class="card-body">
+                <!-- AI Summary -->
+                <div class="ai-feedback-header">
+                    <i class="fas fa-comment-dots"></i>
+                    <h5 class="mb-0">{{ _('Executive Summary') }}</h5>
+                </div>
+                <div class="feedback-summary">
+                    <p>{{ last_analysis.ai_executive_summary }}</p>
+                </div>
+                
+                <!-- Job Role Probability Chart -->
+                <div class="ai-feedback-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h5 class="mb-0">{{ _('Job Role Match Probabilities') }}</h5>
+                </div>
+                <div class="job-role-chart-container">
+                    <canvas id="jobRoleChart" width="400" height="300" data-job-roles="{{ last_analysis.job_roles_data | tojson if last_analysis and last_analysis.job_roles_data else '[]' }}"></canvas>
+                </div>
+                
+                <!-- Key Strengths and Improvement Areas -->
+                <div class="ai-feedback-header">
+                    <i class="fas fa-lightbulb"></i>
+                    <h5 class="mb-0">{{ _('Key Insights') }}</h5>
+                </div>
+                <div class="strengths-improvements">
+                    <div class="strength-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>{{ _('Top Strength') }}</strong>
+                            <div class="mt-1">{{ last_analysis.top_strength }}</div>
+                        </div>
+                    </div>
+                    <div class="improvement-item">
+                        <i class="fas fa-arrow-up"></i>
+                        <div>
+                            <strong>{{ _('Key Improvement') }}</strong>
+                            <div class="mt-1">{{ last_analysis.key_improvement }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

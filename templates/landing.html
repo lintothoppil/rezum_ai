@@ -1,0 +1,635 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Welcome') }} - REZUMI{% endblock %}
+
+{% block head %}
+<style>
+    /* -------------------- */
+    /* GLOBAL STYLES & RESET */
+    /* -------------------- */
+    :root {
+        --color-primary: #4361ee;
+        --color-secondary: #3a0ca3;
+        --color-accent: #4cc9f0;
+        --color-success: #4ade80;
+        --color-warning: #f59e0b;
+        --color-light: #f8fafc;
+        --color-dark: #1e293b;
+        --color-gray: #64748b;
+        --gradient-primary: linear-gradient(135deg, #4361ee, #3a0ca3);
+        --gradient-secondary: linear-gradient(135deg, #4cc9f0, #4361ee);
+        --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+        --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+        --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+        --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+        --border-radius: 12px;
+        --border-radius-lg: 20px;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: var(--color-light);
+        color: var(--color-dark);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow-x: hidden;
+        line-height: 1.6;
+    }
+
+    /* -------------------- */
+    /* NAVBAR & NAVIGATION */
+    /* -------------------- */
+    .navbar {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+        padding: 1rem 0;
+    }
+
+    .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        background: var(--gradient-primary);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .nav-link {
+        color: var(--color-dark) !important;
+        font-weight: 500;
+        margin: 0 0.5rem;
+        padding: 0.5rem 1rem !important;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: var(--color-primary) !important;
+        background: rgba(67, 97, 238, 0.05);
+    }
+
+    .btn-primary {
+        background: var(--gradient-primary);
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* -------------------- */
+    /* LANDING SECTIONS */
+    /* -------------------- */
+    .landing-section {
+        padding: 100px 0;
+        position: relative;
+    }
+
+    .section-title {
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        font-weight: 800;
+        color: var(--color-dark);
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .section-subtitle {
+        font-size: 1.25rem;
+        color: var(--color-gray);
+        margin-bottom: 3rem;
+        max-width: 600px;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        background: 
+            radial-gradient(ellipse at top right, rgba(67, 97, 238, 0.1) 0%, transparent 50%),
+            radial-gradient(ellipse at bottom left, rgba(76, 201, 240, 0.1) 0%, transparent 50%);
+        position: relative;
+        overflow: hidden;
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        text-align: left;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-section h1 {
+        font-size: clamp(3rem, 8vw, 4.5rem);
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--color-dark), var(--color-primary));
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+    }
+
+    .hero-description {
+        font-size: 1.25rem;
+        color: var(--color-gray);
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+    }
+
+    /* CTA Button */
+    .cta-button {
+        background: var(--gradient-primary);
+        border: none;
+        border-radius: 50px;
+        color: white;
+        font-weight: 700;
+        padding: 1rem 2.5rem;
+        font-size: 1.1rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: var(--shadow-lg);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-xl);
+        color: white;
+    }
+
+    /* Services Grid */
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .service-card {
+        background: white;
+        border-radius: var(--border-radius-lg);
+        padding: 2.5rem;
+        box-shadow: var(--shadow-md);
+        transition: all 0.4s ease;
+        text-align: center;
+        border: 1px solid rgba(0,0,0,0.03);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--gradient-primary);
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .service-card i {
+        font-size: 3rem;
+        background: var(--gradient-primary);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+        transition: all 0.4s ease;
+    }
+
+    .service-card:hover i {
+        transform: scale(1.1);
+    }
+
+    .service-card h5 {
+        color: var(--color-dark);
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+    }
+
+    .service-card p {
+        color: var(--color-gray);
+        line-height: 1.6;
+    }
+
+    /* Contact Card */
+    .contact-card {
+        background: white;
+        border-radius: var(--border-radius-lg);
+        padding: 3rem;
+        box-shadow: var(--shadow-lg);
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .contact-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .contact-info {
+        list-style: none;
+        padding: 0;
+        margin: 2rem 0 0 0;
+    }
+
+    .contact-info li {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        color: var(--color-gray);
+    }
+
+    .contact-info i {
+        color: var(--color-primary);
+        font-size: 1.25rem;
+    }
+
+    /* Logos strip */
+    .logos-strip {
+        padding: 50px 0;
+        background: white;
+        border-top: 1px solid rgba(0,0,0,0.05);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .logos-wrap {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 2rem;
+        align-items: center;
+        opacity: 0.85;
+    }
+    .logos-wrap img {
+        max-height: 36px;
+        width: auto;
+        filter: grayscale(100%);
+        opacity: 0.8;
+        transition: opacity 0.2s ease;
+    }
+    .logos-wrap img:hover { opacity: 1; }
+
+    /* How it works */
+    .how-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+    .how-card {
+        background: white;
+        border-radius: var(--border-radius-lg);
+        padding: 1.75rem;
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(0,0,0,0.04);
+        text-align: left;
+    }
+    .how-card .step {
+        font-weight: 800;
+        color: var(--color-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    /* Testimonials */
+    .testimonials {
+        background: #f8fafc;
+        padding: 80px 0;
+    }
+    .testimonial-card {
+        background: white;
+        border-radius: var(--border-radius-lg);
+        padding: 2rem;
+        box-shadow: var(--shadow-md);
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.04);
+    }
+    .testimonial-user {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--gradient-secondary);
+        display: inline-block;
+    }
+
+    /* Pricing */
+    .pricing {
+        padding: 80px 0;
+        background: white;
+    }
+    .price-card {
+        background: white;
+        border-radius: var(--border-radius-lg);
+        padding: 2rem;
+        box-shadow: var(--shadow-md);
+        text-align: center;
+        border: 1px solid rgba(0,0,0,0.05);
+        height: 100%;
+    }
+    .price {
+        font-size: 2.25rem;
+        font-weight: 800;
+        margin: 0.5rem 0 1rem;
+    }
+    .price-features { text-align: left; list-style: none; padding: 0; margin: 1rem 0; }
+    .price-features li { display: flex; align-items: center; gap: 0.5rem; margin: 0.5rem 0; color: var(--color-gray); }
+    .popular { border-color: rgba(67,97,238,0.25); box-shadow: 0 10px 20px rgba(67,97,238,0.12); position: relative; }
+    .popular::after { content: 'Most Popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--gradient-primary); color: #fff; font-size: 0.75rem; padding: 4px 10px; border-radius: 999px; }
+
+    /* FAQ */
+    .faq { background: #f8fafc; padding: 80px 0; }
+
+    /* Newsletter */
+    .newsletter { padding: 80px 0; background: linear-gradient(135deg, #f8fafc, #e2e8f0); }
+    .newsletter-card { background: #fff; border-radius: var(--border-radius-lg); padding: 2rem; box-shadow: var(--shadow-lg); border: 1px solid rgba(0,0,0,0.04); }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <!-- Hero Section -->
+    <header class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="fade-in">{{ _('Generate a Free ATS‑Friendly Resume in Minutes') }}</h1>
+                        <p class="hero-description fade-in">{{ _("REZUMI is completely free. Create an ATS‑friendly resume fast, analyze your resume for improvements and skill gaps, and download your resume without any charges.") }}</p>
+                        
+                        <div class="mb-4 fade-in">
+                            <div class="feature-highlight">
+                                <i class="fas fa-check-circle"></i>
+                                <span>{{ _('ATS‑friendly resume generator') }}</span>
+                            </div>
+                            <div class="feature-highlight">
+                                <i class="fas fa-check-circle"></i>
+                                <span>{{ _('Free download, no payments') }}</span>
+                            </div>
+                            <div class="feature-highlight">
+                                <i class="fas fa-check-circle"></i>
+                                <span>{{ _('Skill gap analyzer') }}</span>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ url_for('register') }}" class="btn cta-button fade-in">
+                            {{ _('Start Free') }} <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center fade-in">
+                        <div style="background: var(--gradient-secondary); border-radius: 20px; padding: 2rem; display: inline-block; box-shadow: var(--shadow-xl);">
+                            <i class="fas fa-robot" style="font-size: 8rem; color: white;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Resumes Analyzed</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">User Satisfaction</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">5K+</div>
+                    <div class="stat-label">Job Matches</div>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">AI Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- How It Works -->
+    <section class="landing-section" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title text-center fade-in">{{ _('Key Features') }}</h2>
+            <p class="section-subtitle text-center fade-in">{{ _('Core capabilities of REZUMI') }}</p>
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <i class="fas fa-search"></i>
+                    <h5>{{ _('ATS‑Friendly Resume Builder') }}</h5>
+                    <p>{{ _('Create optimized, ATS‑friendly resumes in minutes with guided sections and best‑practice tips.') }}</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <i class="fas fa-lightbulb"></i>
+                    <h5>{{ _('Skill Gap Analyzer') }}</h5>
+                    <p>{{ _('Identify missing skills for your target roles and get actionable suggestions to close the gap.') }}</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <i class="fas fa-download"></i>
+                    <h5>{{ _('Free Download') }}</h5>
+                    <p>{{ _('Export your resume for free (PDF/DOCX). No payments, no hidden fees—ever.') }}</p>
+                </div>
+                
+                <div class="service-card fade-in">
+                    <i class="fas fa-briefcase"></i>
+                    <h5>{{ _('Job Role Recommendations') }}</h5>
+                    <p>{{ _('Discover matching roles from boards like LinkedIn, Indeed, and Glassdoor (with permissions).') }}</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <i class="fas fa-compass"></i>
+                    <h5>{{ _('Recommendation Engine') }}</h5>
+                    <p>{{ _('Considers market trends, skill relevance, and location preferences to personalize results.') }}</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <i class="fas fa-file-alt"></i>
+                    <h5>{{ _('Multi‑Format Input') }}</h5>
+                    <p>{{ _('Upload PDF, DOCX, or text resumes. We parse and extract skills, experience, and education.') }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title text-center fade-in">{{ _('What Users Say') }}</h2>
+            <p class="section-subtitle text-center fade-in">{{ _('Real stories from professionals who leveled up with REZUMI') }}</p>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card fade-in testimonial-item active">
+                        <p>{{ _('“REZUMI helped me refine my resume and land interviews within two weeks. The insights were spot on.”') }}</p>
+                        <div class="testimonial-user">
+                            <span class="avatar"></span>
+                            <div>
+                                <div style="font-weight:700">Ayesha K.</div>
+                                <div style="color:var(--color-gray)">Product Manager</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card fade-in testimonial-item">
+                        <p>{{ _('“The job matching saved me hours. I received curated roles that truly fit my background.”') }}</p>
+                        <div class="testimonial-user">
+                            <span class="avatar"></span>
+                            <div>
+                                <div style="font-weight:700">Rahul S.</div>
+                                <div style="color:var(--color-gray)">Data Analyst</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card fade-in testimonial-item">
+                        <p>{{ _('“Clear, actionable suggestions improved my ATS score dramatically. Highly recommended.”') }}</p>
+                        <div class="testimonial-user">
+                            <span class="avatar"></span>
+                            <div>
+                                <div style="font-weight:700">Emily R.</div>
+                                <div style="color:var(--color-gray)">Software Engineer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title text-center fade-in">{{ _('Frequently Asked Questions') }}</h2>
+            <div class="accordion fade-in" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="q1h">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1" aria-expanded="true" aria-controls="q1">
+                            {{ _('How secure is my resume data?') }}
+                        </button>
+                    </h2>
+                    <div id="q1" class="accordion-collapse collapse show" aria-labelledby="q1h" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">{{ _('We use secure processing and do not share your resume without your consent.') }}</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="q2h">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2" aria-expanded="false" aria-controls="q2">
+                            {{ _('Will REZUMI write my resume for me?') }}
+                        </button>
+                    </h2>
+                    <div id="q2" class="accordion-collapse collapse" aria-labelledby="q2h" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">{{ _('We provide actionable guidance and AI suggestions you can apply instantly.') }}</div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="q3h">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3" aria-expanded="false" aria-controls="q3">
+                            {{ _('Do you support all resume formats?') }}
+                        </button>
+                    </h2>
+                    <div id="q3" class="accordion-collapse collapse" aria-labelledby="q3h" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">{{ _('Yes, we support common formats including PDF and DOCX.') }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="landing-section" id="cta">
+        <div class="container text-center">
+            <h2 class="section-title fade-in">{{ _('Ready to get hired faster?') }}</h2>
+            <p class="section-subtitle fade-in">{{ _('Join thousands of job seekers using REZUMI to stand out') }}</p>
+            <a href="{{ url_for('register') }}" class="btn cta-button fade-in">{{ _('Create your account') }}</a>
+        </div>
+    </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Intersection Observer for Fade-in Animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Navbar background on scroll
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            navbar.style.boxShadow = 'var(--shadow-md)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.boxShadow = 'var(--shadow-sm)';
+        }
+    });
+
+    // Simple Testimonials Auto-Rotation
+    (function() {
+        const items = Array.from(document.querySelectorAll('.testimonial-item'));
+        if (!items.length) return;
+        let idx = items.findIndex(el => el.classList.contains('active'));
+        if (idx < 0) idx = 0;
+        setInterval(() => {
+            items[idx].classList.remove('active');
+            idx = (idx + 1) % items.length;
+            items[idx].classList.add('active');
+        }, 4000);
+    })();
+</script>
+{% endblock %}

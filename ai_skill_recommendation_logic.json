@@ -1,0 +1,230 @@
+{
+  "title": "AI Skill Recommendation System Logic",
+  "description": "Logic for recommending skills based on degree/course and career goals",
+  "skill_categories": {
+    "technical": {
+      "programming_languages": [
+        "Python",
+        "Java",
+        "JavaScript",
+        "C++",
+        "C#",
+        "PHP",
+        "Ruby",
+        "Go",
+        "Rust",
+        "Swift"
+      ],
+      "web_technologies": [
+        "HTML",
+        "CSS",
+        "React",
+        "Angular",
+        "Vue.js",
+        "Node.js",
+        "Express",
+        "Django",
+        "Flask",
+        "ASP.NET"
+      ],
+      "databases": [
+        "SQL",
+        "MySQL",
+        "PostgreSQL",
+        "MongoDB",
+        "Oracle",
+        "SQLite",
+        "Redis",
+        "Firebase"
+      ],
+      "cloud_platforms": [
+        "AWS",
+        "Azure",
+        "Google Cloud",
+        "Heroku",
+        "DigitalOcean"
+      ],
+      "devops_tools": [
+        "Docker",
+        "Kubernetes",
+        "Jenkins",
+        "Git",
+        "GitHub",
+        "GitLab",
+        "Terraform",
+        "Ansible"
+      ],
+      "data_science": [
+        "Pandas",
+        "NumPy",
+        "Matplotlib",
+        "Scikit-learn",
+        "TensorFlow",
+        "PyTorch",
+        "Jupyter Notebook",
+        "R"
+      ],
+      "mobile_development": [
+        "React Native",
+        "Flutter",
+        "Android",
+        "iOS",
+        "Xamarin",
+        "Ionic"
+      ]
+    },
+    "non_technical": {
+      "business": [
+        "Business Analytics",
+        "Market Research",
+        "Strategic Planning",
+        "Project Management",
+        "Business Development",
+        "Product Management"
+      ],
+      "marketing": [
+        "Digital Marketing",
+        "SEO",
+        "SEM",
+        "Social Media Marketing",
+        "Content Marketing",
+        "Email Marketing",
+        "Google Analytics"
+      ],
+      "finance": [
+        "Financial Analysis",
+        "Budgeting",
+        "Forecasting",
+        "Risk Management",
+        "Investment Analysis",
+        "Financial Modeling"
+      ],
+      "hr": [
+        "Recruitment",
+        "Employee Relations",
+        "Training and Development",
+        "Performance Management",
+        "HR Policies",
+        "Compensation and Benefits"
+      ],
+      "sales": [
+        "Sales Strategy",
+        "Lead Generation",
+        "Customer Relationship Management",
+        "Negotiation",
+        "Salesforce",
+        "Client Acquisition"
+      ]
+    },
+    "soft_skills": [
+      "Communication",
+      "Team Collaboration",
+      "Problem Solving",
+      "Leadership",
+      "Time Management",
+      "Adaptability",
+      "Critical Thinking",
+      "Creativity",
+      "Emotional Intelligence",
+      "Decision Making"
+    ]
+  },
+  "degree_skill_mapping": {
+    "BCA": {
+      "primary": ["programming_languages", "web_technologies", "databases"],
+      "secondary": ["devops_tools", "cloud_platforms"],
+      "soft": ["Communication", "Problem Solving", "Team Collaboration"]
+    },
+    "BSc CS": {
+      "primary": ["programming_languages", "data_science", "databases"],
+      "secondary": ["web_technologies", "cloud_platforms"],
+      "soft": ["Analytical Thinking", "Problem Solving", "Attention to Detail"]
+    },
+    "B.Tech": {
+      "primary": ["programming_languages", "web_technologies", "databases"],
+      "secondary": ["devops_tools", "cloud_platforms", "mobile_development"],
+      "soft": ["Engineering Mindset", "Problem Solving", "Team Collaboration"]
+    },
+    "M.Tech": {
+      "primary": ["programming_languages", "data_science", "cloud_platforms"],
+      "secondary": ["devops_tools", "web_technologies"],
+      "soft": ["Research Skills", "Innovation", "Leadership"]
+    },
+    "MCA": {
+      "primary": ["programming_languages", "web_technologies", "databases", "data_science"],
+      "secondary": ["devops_tools", "cloud_platforms"],
+      "soft": ["Analytical Thinking", "Problem Solving", "Adaptability"]
+    },
+    "MBA": {
+      "primary": ["business", "marketing", "finance"],
+      "secondary": ["sales", "hr"],
+      "soft": ["Leadership", "Communication", "Strategic Thinking"]
+    },
+    "BBA": {
+      "primary": ["business", "marketing", "sales"],
+      "secondary": ["finance", "hr"],
+      "soft": ["Communication", "Team Collaboration", "Entrepreneurship"]
+    },
+    "B.Com": {
+      "primary": ["finance", "business"],
+      "secondary": ["marketing", "hr"],
+      "soft": ["Attention to Detail", "Analytical Thinking", "Communication"]
+    },
+    "Diploma": {
+      "primary": ["programming_languages", "web_technologies"],
+      "secondary": ["databases", "cloud_platforms"],
+      "soft": ["Practical Skills", "Problem Solving", "Hands-on Learning"]
+    }
+  },
+  "recommendation_algorithm": {
+    "steps": [
+      "Identify user's degree/course from education section",
+      "Map degree to relevant skill categories using degree_skill_mapping",
+      "Select top 5-7 skills from primary categories",
+      "Select 3-5 skills from secondary categories",
+      "Include 3-4 relevant soft skills",
+      "Adjust recommendations based on user_type (fresher vs experienced)",
+      "For experienced users, prioritize skills matching their work experience",
+      "For freshers, emphasize foundational skills in their field",
+      "Allow user to accept, reject, or modify suggested skills",
+      "Store user's custom skills alongside AI recommendations"
+    ],
+    "weighting_factors": {
+      "degree_relevance": 0.4,
+      "user_type": 0.2,
+      "experience_match": 0.25,
+      "market_demand": 0.15
+    }
+  },
+  "skill_balance_rules": {
+    "fresher": {
+      "technical": 60,
+      "non_technical": 25,
+      "soft": 15,
+      "description": "Higher emphasis on technical skills for freshers"
+    },
+    "experienced": {
+      "technical": 50,
+      "non_technical": 30,
+      "soft": 20,
+      "description": "Balanced distribution for experienced professionals"
+    }
+  },
+  "api_endpoints": {
+    "get_skills": {
+      "method": "POST",
+      "path": "/api/skill-recommendations",
+      "request_body": {
+        "degree": "string",
+        "user_type": "string",
+        "experience": "array",
+        "custom_skills": "array"
+      },
+      "response": {
+        "recommended_skills": "array",
+        "skill_categories": "object",
+        "explanation": "string"
+      }
+    }
+  }
+}

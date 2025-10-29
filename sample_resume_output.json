@@ -1,0 +1,286 @@
+{
+  "title": "Sample Output Structure for Generated Resumes",
+  "description": "Example structure and content for ATS-optimized generated resumes",
+  "fresher_resume": {
+    "template": "classic",
+    "personal_details": {
+      "full_name": "Linto Mathew Joy",
+      "email": "lintothoppiljoy@gmail.com",
+      "phone": "+91 9876543210",
+      "location": "Kottayam, Kerala",
+      "linkedin": "linkedin.com/in/linto-mathew-joy",
+      "github": "github.com/lintojoy"
+    },
+    "professional_summary": "Motivated MCA final-year student with strong programming foundations and hands-on experience in web and AI projects. Seeking to leverage technical expertise in Python, Django, and data analytics to develop scalable software solutions.",
+    "education": [
+      {
+        "degree": "MCA",
+        "institution": "St. Joseph's College of Engineering and Technology",
+        "location": "Palai",
+        "start_year": 2024,
+        "end_year": 2026,
+        "currently_studying": true
+      },
+      {
+        "degree": "BCA",
+        "institution": "Bishop Vayalil Memorial Holy Cross College",
+        "location": "Cherpunkal",
+        "start_year": 2021,
+        "end_year": 2024,
+        "currently_studying": false
+      },
+      {
+        "degree": "Higher Secondary",
+        "institution": "Emmanuel's Higher Secondary School",
+        "location": "Kothanalloor",
+        "start_year": 2019,
+        "end_year": 2021,
+        "currently_studying": false
+      }
+    ],
+    "technical_skills": {
+      "programming_languages": "Python, JavaScript, SQL",
+      "web_technologies": "Django, HTML, CSS, Flask, Bootstrap",
+      "databases": "MySQL, SQLite",
+      "data_science": "Pandas, NumPy, Matplotlib",
+      "devops_tools": "GitHub",
+      "cloud_platforms": "",
+      "other_technical_skills": "Git"
+    },
+    "soft_skills": [
+      "Team Collaboration",
+      "Analytical Thinking",
+      "Time Management",
+      "Communication"
+    ],
+    "projects": [
+      {
+        "project_name": "AI-Powered Resume Screening Tool",
+        "description": "Built using Python, NLP (spaCy, Hugging Face), SQLite",
+        "technologies_used": "Python, spaCy, Hugging Face, SQLite",
+        "github_link": "https://github.com/lintojoy/resume-screener",
+        "bullet_points": "• Developed an NLP-based resume screening tool that parses and analyzes resumes\n• Implemented keyword matching and similarity scoring algorithms\n• Created a web interface using Flask for user interaction"
+      },
+      {
+        "project_name": "Non-Teaching Staff Salary Management System",
+        "description": "Web application for managing salary calculations and reports",
+        "technologies_used": "PHP, HTML, CSS, MySQL",
+        "github_link": "https://github.com/lintojoy/salary-management",
+        "bullet_points": "• Designed and developed a complete salary management system\n• Implemented complex salary calculation algorithms\n• Generated detailed reports for administrative review"
+      },
+      {
+        "project_name": "Gym Management System",
+        "description": "Comprehensive solution for gym member and equipment management",
+        "technologies_used": "Django, HTML, CSS, MySQL",
+        "github_link": "https://github.com/lintojoy/gym-management",
+        "bullet_points": "• Built a full-featured gym management system with membership tracking\n• Implemented payment processing and billing functionality\n• Created responsive UI for both admin and member portals"
+      }
+    ],
+    "certifications": [
+      {
+        "certification_name": "Introduction to Data Science",
+        "organization": "Cisco",
+        "completion_date": "2023-12-15"
+      },
+      {
+        "certification_name": "Industry 4.0 and Industrial IoT",
+        "organization": "NPTEL",
+        "completion_date": "2024-05-20",
+        "status": "Ongoing"
+      }
+    ],
+    "achievements": [
+      {
+        "title": "NASA Space Apps Challenge 2025",
+        "description": "Top 10 Team - Exoplanet Classifier Project",
+        "date": "2025-10-05"
+      }
+    ]
+  },
+  "experienced_resume": {
+    "template": "modern",
+    "personal_details": {
+      "full_name": "Sarah Johnson",
+      "email": "sarah.johnson@example.com",
+      "phone": "+1 (555) 123-4567",
+      "location": "San Francisco, CA",
+      "linkedin": "linkedin.com/in/sarahjohnson",
+      "github": "github.com/sarahjdev"
+    },
+    "professional_summary": "Results-driven Software Engineer with 5 years of experience in developing scalable web applications using Python and JavaScript. Proven track record of delivering high-quality software solutions and optimizing system performance by 40%.",
+    "education": [
+      {
+        "degree": "M.S. Computer Science",
+        "institution": "Stanford University",
+        "location": "Stanford, CA",
+        "start_year": 2015,
+        "end_year": 2017
+      },
+      {
+        "degree": "B.S. Computer Engineering",
+        "institution": "University of California",
+        "location": "Berkeley, CA",
+        "start_year": 2011,
+        "end_year": 2015
+      }
+    ],
+    "technical_skills": {
+      "programming_languages": "Python, JavaScript, Java, TypeScript",
+      "web_technologies": "React, Node.js, Express, Django, Flask",
+      "databases": "PostgreSQL, MongoDB, Redis",
+      "cloud_platforms": "AWS, Docker, Kubernetes",
+      "devops_tools": "Jenkins, GitLab CI/CD, Terraform",
+      "data_science": "Pandas, Scikit-learn",
+      "other_technical_skills": "REST APIs, Microservices"
+    },
+    "soft_skills": [
+      "Leadership",
+      "Problem Solving",
+      "Communication",
+      "Team Collaboration",
+      "Project Management"
+    ],
+    "work_experience": [
+      {
+        "job_title": "Senior Software Engineer",
+        "company": "Tech Innovations Inc.",
+        "location": "San Francisco, CA",
+        "start_date": "2020-03-01",
+        "end_date": null,
+        "currently_working": true,
+        "bullet_points": "• Led development of microservices architecture serving 1M+ users, improving system scalability by 60%\n• Implemented CI/CD pipelines reducing deployment time from 2 hours to 15 minutes\n• Mentored junior developers and conducted technical interviews for new hires"
+      },
+      {
+        "job_title": "Software Engineer",
+        "company": "Digital Solutions LLC",
+        "location": "San Jose, CA",
+        "start_date": "2017-06-01",
+        "end_date": "2020-02-28",
+        "currently_working": false,
+        "bullet_points": "• Developed RESTful APIs serving 500K+ daily requests with 99.9% uptime\n• Optimized database queries improving application response time by 40%\n• Collaborated with UX team to implement responsive frontend features using React"
+      }
+    ],
+    "projects": [
+      {
+        "project_name": "Real-time Analytics Dashboard",
+        "description": "Interactive dashboard for business intelligence and data visualization",
+        "technologies_used": "React, Node.js, PostgreSQL, D3.js",
+        "github_link": "https://github.com/sarahjdev/analytics-dashboard",
+        "demo_link": "https://analytics-demo.example.com",
+        "bullet_points": "• Built real-time analytics dashboard processing 10K+ events per second\n• Integrated with multiple data sources using custom ETL pipelines\n• Implemented role-based access control for enterprise clients"
+      }
+    ],
+    "certifications": [
+      {
+        "certification_name": "AWS Certified Solutions Architect",
+        "organization": "Amazon Web Services",
+        "completion_date": "2021-08-15",
+        "credential_id": "AWS123456789",
+        "credential_url": "https://www.credly.com/aws-certification"
+      },
+      {
+        "certification_name": "Certified Kubernetes Administrator",
+        "organization": "Cloud Native Computing Foundation",
+        "completion_date": "2020-11-30"
+      }
+    ],
+    "achievements": [
+      {
+        "title": "Innovation Award",
+        "description": "Recognized for outstanding contribution to company's core product",
+        "date": "2022-05-01"
+      },
+      {
+        "title": "Open Source Contributor",
+        "description": "Top 10 contributor to popular React library with 20K+ stars",
+        "date": "2021-01-15"
+      }
+    ]
+  },
+  "ats_optimization_features": {
+    "keywords_included": [
+      "Python",
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Django",
+      "Flask",
+      "AWS",
+      "Docker",
+      "Kubernetes",
+      "REST API",
+      "Microservices",
+      "PostgreSQL",
+      "MongoDB",
+      "CI/CD",
+      "Agile",
+      "Scrum"
+    ],
+    "action_verbs_used": [
+      "Developed",
+      "Implemented",
+      "Optimized",
+      "Led",
+      "Mentored",
+      "Collaborated",
+      "Integrated",
+      "Built",
+      "Improved",
+      "Served"
+    ],
+    "quantifiable_achievements": [
+      "Serving 1M+ users",
+      "Improving system scalability by 60%",
+      "Reducing deployment time from 2 hours to 15 minutes",
+      "Serving 500K+ daily requests with 99.9% uptime",
+      "Improving application response time by 40%",
+      "Processing 10K+ events per second"
+    ],
+    "ats_friendly_formatting": {
+      "fonts": ["Arial", "Calibri", "Helvetica"],
+      "section_headings": [
+        "Professional Summary",
+        "Technical Skills",
+        "Work Experience",
+        "Projects",
+        "Education",
+        "Certifications",
+        "Achievements"
+      ],
+      "format_compliance": "Text-based PDF with selectable content"
+    }
+  },
+  "pdf_output_specifications": {
+    "file_format": "PDF",
+    "page_size": "Letter (8.5 x 11 inches)",
+    "margins": {
+      "top": 0.5,
+      "bottom": 0.5,
+      "left": 0.5,
+      "right": 0.5,
+      "units": "inches"
+    },
+    "fonts": {
+      "header": {
+        "family": "Helvetica",
+        "size": 16,
+        "style": "bold"
+      },
+      "section_headings": {
+        "family": "Helvetica",
+        "size": 12,
+        "style": "bold"
+      },
+      "body_text": {
+        "family": "Helvetica",
+        "size": 10,
+        "style": "normal"
+      }
+    },
+    "accessibility": {
+      "text_selectable": true,
+      "unicode_support": true,
+      "metadata_included": true
+    }
+  }
+}

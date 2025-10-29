@@ -1,0 +1,7 @@
+Flask==2.3.3
+Werkzeug==2.3.7
+pdfminer.six==20231228
+python-docx==0.8.11
+reportlab==4.0.4
+pdfplumber==0.11.4
+Flask-Babel==3.1.0
